@@ -1,9 +1,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:default_app_flutter/contract/login/login_contract.dart';
+import 'package:default_app_flutter/presenter/login/login_presenter.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 import '../../strings.dart';
+import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({this.loginCallback});
@@ -28,7 +31,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   bool _isLoginForm;
   bool _isLoading;
 
-  //ProgressDialog pr;
+  ProgressDialog pr;
 
   @override
   void initState() {
@@ -36,8 +39,8 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     _errorMessage = "";
     _isLoading = false;
     _isLoginForm = true;
-    //pr = ProgressDialog(context);
-    //presenter = LoginPresenter(this);
+    pr = ProgressDialog(context);
+    presenter = LoginPresenter(this);
   }
 
   @override
@@ -48,17 +51,17 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   @override
   hideProgress() {
-    //pr.dismiss();
+    pr.dismiss();
   }
 
   @override
   showProgress() {
-    //pr.show();
+    pr.show();
   }
 
   @override
   onFailure(String error) {
-    //pr.dismiss();
+    hideProgress();
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(error),
       backgroundColor: Colors.red,
@@ -103,7 +106,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
         children: <Widget>[
           _shapeRound(),
           textOU(),
-          googleButton(),
+          //googleButton(),
           //googleButton2(),
           showSecondaryButton(),
         ],
@@ -373,13 +376,13 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             ),
           ),
           onPressed: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                  builder: (context) {
-//                    return SignUpPage();
-//                  }
-//              ),
-//            );
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) {
+                    return SignUpPage();
+                  }
+              ),
+            );
           },
         ),
       ),
@@ -435,10 +438,10 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
       _isLoading = true;
     });
 
-    CollectionReference _collection = Firestore.instance.collection("teste");
-    _collection.document("cassio").delete();
+    //showProgress();
+    //CollectionReference _collection = Firestore.instance.collection("teste");
+    //_collection.document("cassio").delete();
 
-    //_loginError();
     if (validateAndSave()) {
       presenter.signIn(_email, _password);
     }

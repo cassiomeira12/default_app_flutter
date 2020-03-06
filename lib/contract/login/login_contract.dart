@@ -1,4 +1,6 @@
 
+import 'package:default_app_flutter/model/base_user.dart';
+
 abstract class ContractProgress {
   showProgress();
   hideProgress();
@@ -19,7 +21,7 @@ abstract class LoginContractPresenter {
 
 abstract class LoginContractRepository {
 
-  //Future<BaseUser> signIn(String email, String password);
+  Future<BaseUser> signIn(String email, String password);
   //Future<BaseUser> signInWithGoogle();
 
 }
