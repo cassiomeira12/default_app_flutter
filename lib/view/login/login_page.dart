@@ -263,7 +263,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   Widget textOU() {
     return Text(
-      "--------------------- $OU ---------------------",
+      "--- $OU ---",
       style: TextStyle(
         fontSize: 18,
         color: Colors.black38,
@@ -299,7 +299,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black54,
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
               ),
             ],
