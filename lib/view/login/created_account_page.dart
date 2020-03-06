@@ -1,3 +1,4 @@
+import 'package:default_app_flutter/contract/login/create_account_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,15 @@ class CreatedAccountPage extends StatefulWidget {
   State<StatefulWidget> createState() => _CreatedAccountPageState();
 }
 
-class _CreatedAccountPageState extends State<CreatedAccountPage>{
+class _CreatedAccountPageState extends State<CreatedAccountPage> implements CreateAccountContractView {
+
+  CreateAccountContractPresenter presenter;
+
+  @override
+  void initState() {
+    super.initState();
+    //presenter;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +58,30 @@ class _CreatedAccountPageState extends State<CreatedAccountPage>{
         ],
       ),
     );
+  }
+
+  @override
+  hideProgress() {
+    // TODO: implement hideProgress
+    return null;
+  }
+
+  @override
+  onFailure(String error) {
+    // TODO: implement onFailure
+    return null;
+  }
+
+  @override
+  onSuccess() {
+    // TODO: implement onSuccess
+    return null;
+  }
+
+  @override
+  showProgress() {
+    // TODO: implement showProgress
+    return null;
   }
 
 
