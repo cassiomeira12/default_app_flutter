@@ -1,6 +1,6 @@
-//import 'package:default_app_flutter/contract/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/strings.dart';
+import 'package:default_app_flutter/view/login/created_account_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +13,6 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage>{
   final _formKey = new GlobalKey<FormState>();
-
-  //final UserContract userContract = new UserContract();
 
   String _name;
   String _email;
@@ -87,12 +85,6 @@ class _SignUpPageState extends State<SignUpPage>{
             passwordInput(),
             confirmPasswordInput(),
             createAccountButton(),
-//            showLogo(),
-//            showEmailInput(),
-//            showPasswordInput(),
-//            showForgotPasswordButton(),
-//            showPrimaryButton(),
-//            showErrorMessage(),
           ],
         ),
       ),
@@ -221,9 +213,20 @@ class _SignUpPageState extends State<SignUpPage>{
 
   void createAccount() {
     if (validateData()) {
-      //userContract.read(createBaseUser());
-      //userContract.delete(createBaseUser());
-      //userContract.update(createBaseUser());
+      var user = createBaseUser();
+      print(user.name);
+      print(user.email);
+      print(user.password);
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (context) {
+              return CreatedAccountPage(
+                user: user,
+              );
+            }
+        ),
+      );
     }
   }
 
