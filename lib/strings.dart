@@ -14,5 +14,7 @@ const LOGIN = "Login";
 const LOGAR = "Logar";
 const OU = "OU";
 const LOGAR_COM_GOOGLE = "Logar com Google";
+const ENVIAR = "Enviar";
+const FORGOT_PASSWORD_TEXT = "Será enviado um e-mail para recuperar a sua senha, verifique sua caixa de entrada e spam.";
 
 const CRIAR_CONTA = "Criar conta";

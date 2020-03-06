@@ -2,10 +2,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
+import 'package:default_app_flutter/view/widgets/background_card.dart';
+import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import '../../strings.dart';
+import 'forgot_password_page.dart';
 import 'signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -46,7 +49,6 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   @override
@@ -84,7 +86,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-            backgroudCard(),
+            BackgroundCard(),
             bodyAppScrollView(),
           ],
         ),
@@ -92,43 +94,18 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     );
   }
 
-  Widget backgroudCard() {
-    return Container(
-      width: double.infinity,
-      height: 300,
-      color: Colors.greenAccent,
-    );
-  }
-
   Widget bodyAppScrollView() {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _shapeRound(),
+          ShapeRound(
+            _showForm()
+          ),
           textOU(),
-          //googleButton(),
-          //googleButton2(),
+          googleButton(),
           showSecondaryButton(),
         ],
       ),
-    );
-  }
-
-  Widget _shapeRound() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 20),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            width: 1,
-            color: Colors.black12,
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          )
-      ),
-      child: _showForm(),
     );
   }
 
@@ -164,16 +141,28 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   }
 
   Widget showLogo() {
-    return new Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset("assets/logo_app.png"),
+    return Column(
+      children: <Widget>[
+        Hero(
+          tag: 'hero',
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 48.0,
+              child: Image.asset("assets/logo_app.png"),
+            ),
+          ),
         ),
-      ),
+        SizedBox(height: 10),
+        Text(
+          APP_NAME,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black87,
+          ),
+        ),
+      ],
     );
   }
 
@@ -226,13 +215,13 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             ),
           ),
           onPressed: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                  builder: (context) {
-//                    return ForgotPasswordPage();
-//                  }
-//              ),
-//            );
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) {
+                    return ForgotPasswordPage();
+                  }
+              ),
+            );
           },
         ),
       ),
@@ -276,7 +265,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   Widget googleButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(80.0, 12.0, 80.0, 0.0),
+      padding: EdgeInsets.fromLTRB(60.0, 12.0, 60.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 42.0,
@@ -308,65 +297,29 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             ],
           ),
           onPressed: () {
-            //presenter.signInWithGoogle();
-//            setState(() {
-//              _isLoading = true;
-//            });
-//            Scaffold.of(context).showSnackBar(new SnackBar(
-//                content: new Text("asdf")
-//            ));
-//            widget.auth.signInWithGoogle().whenComplete(() {
-//              Navigator.of(context).push(
-//                MaterialPageRoute(
-//                  builder: (context) {
-//                    return Home();
-//                  }
-//                ),
-//              );
-//            });
+            _scaffoldKey.currentState.showSnackBar(SnackBar(
+              content: Text("Recurso indisponível"),
+              backgroundColor: Colors.redAccent,
+            ));
           },
         ),
       ),
     );
   }
 
-//  Widget googleButton2() {
-//    return OutlineButton(
-//      splashColor: Colors.grey,
-//      onPressed: () {},
-//      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//      highlightElevation: 0,
-//      borderSide: BorderSide(color: Colors.grey),
-//      child: Padding(
-//        padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
-//        child: Row(
-//          mainAxisSize: MainAxisSize.min,
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Image(image: AssetImage("assets/google_logo.png"), height: 28.0),
-//            Padding(
-//              padding: EdgeInsets.only(left: 10),
-//              child: Text(
-//                LOGAR_COM_GOOGLE,
-//                style: TextStyle(
-//                  fontSize: 14,
-//                  color: Colors.grey,
-//                ),
-//              ),
-//            )
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-
   Widget showSecondaryButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(80.0, 12.0, 80.0, 16.0),
+      padding: EdgeInsets.fromLTRB(60.0, 12.0, 60.0, 16.0),
       child: SizedBox(
         width: double.infinity,
         height: 42.0,
-        child: FlatButton(
+        child: RaisedButton(
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(color: Colors.black12),
+          ),
+          color: Colors.white,
           child: Text(
             CRIAR_CONTA,
             style: new TextStyle(

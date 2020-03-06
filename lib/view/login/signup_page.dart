@@ -1,9 +1,10 @@
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/login/created_account_page.dart';
+import 'package:default_app_flutter/view/widgets/background_card.dart';
+import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 class SignUpPage extends StatefulWidget {
 
@@ -28,47 +29,15 @@ class _SignUpPageState extends State<SignUpPage>{
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-            backgroudCard(),
-            bodyAppScrollView(),
+            BackgroundCard(),
+            SingleChildScrollView(
+              child: ShapeRound(
+                  _showForm()
+              ),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget backgroudCard() {
-    return Container(
-      width: double.infinity,
-      height: 300,
-      color: Colors.greenAccent,
-    );
-  }
-
-  Widget bodyAppScrollView() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _shapeRound(),
-        ],
-      ),
-    );
-  }
-
-  Widget _shapeRound() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 20),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            width: 1,
-            color: Colors.black12,
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          )
-      ),
-      child: _showForm(),
     );
   }
 
