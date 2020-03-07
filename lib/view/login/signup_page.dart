@@ -183,10 +183,6 @@ class _SignUpPageState extends State<SignUpPage>{
   void createAccount() {
     if (validateData()) {
       var user = createBaseUser();
-      print(user.name);
-      print(user.email);
-      print(user.password);
-
       Navigator.of(context).push(
         MaterialPageRoute(
             builder: (context) {

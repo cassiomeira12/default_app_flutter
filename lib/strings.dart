@@ -18,3 +18,4 @@ const ENVIAR = "Enviar";
 const FORGOT_PASSWORD_TEXT = "Será enviado um e-mail para recuperar a sua senha, verifique sua caixa de entrada e spam.";
 
 const CRIAR_CONTA = "Criar conta";
+const CRIANDO_CONTA = "Criando conta";

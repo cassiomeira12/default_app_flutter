@@ -15,6 +15,6 @@ abstract class CreateAccountContractPresenter {
 
 abstract class CreateAccountContractRepository {
 
-  createAccount(BaseUser user);
+  Future<BaseUser> createAccount(BaseUser user);
 
 }
