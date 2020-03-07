@@ -1,3 +1,5 @@
+import 'package:default_app_flutter/contract/login/forgot_password_contract.dart';
+import 'package:default_app_flutter/presenter/login/forgot_password_presenter.dart';
 import 'package:default_app_flutter/view/login/login_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
@@ -12,14 +14,25 @@ class ForgotPasswordPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ForgotPasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPasswordPage>{
+class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPasswordContractView {
   final _formKey = new GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  ForgotPasswordContractPresenter presenter;
 
   String _email;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    presenter = ForgotPasswordPresenter(this);
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -48,7 +61,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage>{
             textTitle(),
             emailInput(),
             textMensagem(),
-            sendButton(),
+            _isLoading ? showCircularProgress() : sendButton()
           ],
         ),
       ),
@@ -100,6 +113,13 @@ class _ForgotPasswordState extends State<ForgotPasswordPage>{
     );
   }
 
+  Widget showCircularProgress() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 12.0),
+      child: CircularProgressIndicator(),
+    );
+  }
+
   Widget sendButton() {
     return new Padding(
       padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 16.0),
@@ -118,11 +138,55 @@ class _ForgotPasswordState extends State<ForgotPasswordPage>{
             style: new TextStyle(fontSize: 18.0, color: Colors.white),
           ),
           onPressed: () {
-            //createAccount();
+            if (validateAndSave()) {
+              setState(() {
+                _isLoading = true;
+              });
+              presenter.sendEmail(_email);
+            }
           },
         ),
       ),
     );
+  }
+
+  bool validateAndSave() {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  hideProgress() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  showProgress() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  @override
+  onFailure(String error) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(error),
+      backgroundColor: Colors.redAccent,
+    ));
+  }
+
+  @override
+  onSuccess() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text("Email enviado com sucesso!"),
+      backgroundColor: Colors.green,
+    ));
   }
 
 }

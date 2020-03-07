@@ -1,5 +1,3 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';

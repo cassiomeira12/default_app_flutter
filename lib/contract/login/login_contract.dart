@@ -1,15 +1,9 @@
-
 import 'package:default_app_flutter/model/base_user.dart';
 
-abstract class ContractProgress {
-  showProgress();
-  hideProgress();
-}
+import 'base_progress_contract.dart';
 
+abstract class LoginContractView extends BaseProgressContract {
 
-abstract class LoginContractView extends ContractProgress {
-  onFailure(String error);
-  onSuccess();
 }
 
 abstract class LoginContractPresenter {
