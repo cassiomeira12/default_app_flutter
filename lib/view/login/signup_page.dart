@@ -53,6 +53,7 @@ class _SignUpPageState extends State<SignUpPage>{
             emailInput(),
             passwordInput(),
             confirmPasswordInput(),
+            textData(),
             createAccountButton(),
           ],
         ),
@@ -134,6 +135,23 @@ class _SignUpPageState extends State<SignUpPage>{
         ),
         validator: (value) => value.isEmpty ? REPITA_SENHA : null,
         onSaved: (value) => _confirmPassword = value.trim(),
+      ),
+    );
+  }
+
+  Widget textData() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+      child: Center(
+        child: Text(
+          TEXT_DADOS,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black38,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

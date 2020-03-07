@@ -1,5 +1,7 @@
 import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
+import 'package:default_app_flutter/view/home/home_page.dart';
+import 'package:default_app_flutter/view/tabs_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +77,13 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
       content: Text("Sucesso"),
       backgroundColor: Colors.blue,
     ));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) {
+            return TabsPage();
+          }
+      ),
+    );
   }
 
   @override
@@ -394,7 +403,8 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     //_collection.document("cassio").delete();
 
     if (validateAndSave()) {
-      presenter.signIn(_email, _password);
+      //presenter.signIn(_email, _password);
+      onSuccess();
     }
 
 //    if (validateAndSave()) {

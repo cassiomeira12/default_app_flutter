@@ -2,13 +2,13 @@ import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
+class ComandaPage extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => _HomePageState();
+  State<StatefulWidget> createState() => _ComandaPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ComandaPageState extends State<ComandaPage> {
   final _formKey = new GlobalKey<FormState>();
 
   @override
@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Comanda"),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(

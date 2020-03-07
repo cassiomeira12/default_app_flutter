@@ -1,6 +1,7 @@
 import 'package:default_app_flutter/contract/login/create_account_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/presenter/login/create_account_presenter.dart';
+import 'package:default_app_flutter/view/home/home_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
@@ -132,11 +133,19 @@ class _CreatedAccountPageState extends State<CreatedAccountPage> implements Crea
   }
 
   @override
-  onSuccess() {
+  onSuccess() async {
     setState(() {
       _imgURL = "assets/sucesso.png";
       _textMessage = "Sua conta foi criada com sucesso!";
     });
+    await new Future.delayed(const Duration(seconds: 2));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) {
+            return HomePage();
+          }
+      ),
+    );
   }
 
   @override

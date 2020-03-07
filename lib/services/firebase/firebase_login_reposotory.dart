@@ -5,17 +5,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseLoginRepository extends LoginContractRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  FirebaseLoginRepository(LoginContractPresenter presenter) : super(presenter);
   //final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   Future<BaseUser> signIn(String email, String password) async {
-    AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-
-    var user = BaseUser();
-    user.name = result.user.displayName;
-    user.email = result.user.email;
-
-    return user;
+    _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).then((AuthResult result) {
+      //var user = BaseUser();
+      //user.name = result.user.displayName;
+      //user.email = result.user.email;
+      presenter.onSuccess(null);
+    }).catchError((error) {
+      presenter.onFailure(error.toString());
+    });
   }
 
 //  @override
