@@ -82,8 +82,8 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
 
   Widget emailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+      child: TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
@@ -98,7 +98,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
 
   Widget textMensagem() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: Center(
         child: Text(
           FORGOT_PASSWORD_TEXT,

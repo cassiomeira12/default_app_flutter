@@ -1,5 +1,10 @@
 const APP_NAME = "Default App Flutter";
 
+const HONE = "Mapa";
+const NOTIFICATIONS = "Promoções";
+const HISTORICO = "Histórico";
+const SETTINGS = "Ajustes";
+
 const EMAIL = "Email";
 const SENHA = "Senha";
 const NOME = "Nome";

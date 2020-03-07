@@ -1,6 +1,7 @@
 import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
 import 'package:default_app_flutter/view/home/home_page.dart';
+import 'package:default_app_flutter/view/tabs2_page.dart';
 import 'package:default_app_flutter/view/tabs_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
@@ -80,7 +81,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     Navigator.of(context).push(
       MaterialPageRoute(
           builder: (context) {
-            return TabsPage();
+            return Tabs2Page();
           }
       ),
     );
@@ -403,8 +404,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     //_collection.document("cassio").delete();
 
     if (validateAndSave()) {
-      //presenter.signIn(_email, _password);
-      onSuccess();
+      presenter.signIn(_email, _password);
     }
 
 //    if (validateAndSave()) {
