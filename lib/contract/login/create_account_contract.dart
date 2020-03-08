@@ -8,13 +8,15 @@ abstract class CreateAccountContractView extends BaseProgressContract {
 }
 
 abstract class CreateAccountContractPresenter {
-
   createAccount(BaseUser user);
 
+  onFailure(String error);
+  onSuccess(BaseUser user);
 }
 
 abstract class CreateAccountContractRepository {
+  final CreateAccountContractPresenter presenter;
+  CreateAccountContractRepository(this.presenter);
 
   Future<BaseUser> createAccount(BaseUser user);
-
 }

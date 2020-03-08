@@ -1,4 +1,5 @@
 import 'package:default_app_flutter/contract/login/login_contract.dart';
+import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
 import 'package:default_app_flutter/view/home/home_page.dart';
 import 'package:default_app_flutter/view/tabs2_page.dart';
@@ -15,7 +16,6 @@ import 'signup_page.dart';
 class LoginPage extends StatefulWidget {
   LoginPage({this.loginCallback});
 
-  //final BaseAuth auth;
   final VoidCallback loginCallback;
 
   @override
@@ -78,13 +78,15 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
       content: Text("Sucesso"),
       backgroundColor: Colors.blue,
     ));
-    Navigator.of(context).push(
-      MaterialPageRoute(
-          builder: (context) {
-            return Tabs2Page();
-          }
-      ),
-    );
+    //Navigator.pop(context);
+    widget.loginCallback();
+//    Navigator.of(context).push(
+//      MaterialPageRoute(
+//          builder: (context) {
+//            return Tabs2Page();
+//          }
+//      ),
+//    );
   }
 
   @override
@@ -111,7 +113,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
           ),
           textOU(),
           googleButton(),
-          showSecondaryButton(),
+          signupButton(),
         ],
       ),
     );
@@ -128,7 +130,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             showEmailInput(),
             showPasswordInput(),
             showForgotPasswordButton(),
-            showPrimaryButton(),
+            loginButton(),
             showErrorMessage(),
           ],
         ),
@@ -236,7 +238,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     );
   }
 
-  Widget showPrimaryButton() {
+  Widget loginButton() {
     return new Padding(
       padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 16.0),
         child: SizedBox(
@@ -315,7 +317,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     );
   }
 
-  Widget showSecondaryButton() {
+  Widget signupButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(60.0, 12.0, 60.0, 16.0),
       child: SizedBox(

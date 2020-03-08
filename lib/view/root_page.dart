@@ -1,3 +1,8 @@
+import 'package:default_app_flutter/contract/login/user_contract.dart';
+import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/model/singleton/singleton_user.dart';
+import 'package:default_app_flutter/presenter/login/user_presenter.dart';
+import 'package:default_app_flutter/view/tabs2_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,29 +15,21 @@ enum AuthStatus {
 }
 
 class RootPage extends StatefulWidget {
-  //RootPage({this.auth});
-
-  //final BaseAuth auth;
 
   @override
   State<StatefulWidget> createState() => new _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {
-  AuthStatus authStatus = AuthStatus.NOT_LOGGED_IN;
-  String _userId = "";
+class _RootPageState extends State<RootPage> implements UserContractView {
+  AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
+
+  UserContractPresenter presenter;
 
   @override
   void initState() {
     super.initState();
-    //widget.auth.getCurrentUser().then((user) {
-      //setState(() {
-//        if (user != null) {
-//          _userId = user?.uid;
-//        }
-//        authStatus = user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
-//      });
-//    });
+    presenter = UserPresenter(this);
+    presenter.currentUser();
   }
 
   @override
@@ -42,15 +39,10 @@ class _RootPageState extends State<RootPage> {
         return buildWaitingScreen();
         break;
       case AuthStatus.NOT_LOGGED_IN:
-        return new LoginPage(
-          loginCallback: loginCallback,
-        );
+        return new LoginPage(loginCallback: loginCallback,);
         break;
       case AuthStatus.LOGGED_IN:
-        //return new RecuperarSenha();
-        return new LoginPage(
-          loginCallback: loginCallback,
-        );
+        return Tabs2Page(logoutCallback: logoutCallback,);
         break;
       default:
         return buildWaitingScreen();
@@ -67,20 +59,29 @@ class _RootPageState extends State<RootPage> {
   }
 
   void loginCallback() {
-//    widget.auth.getCurrentUser().then((user) {
-//      setState(() {
-//        //_userId = user.uid.toString();
-//      });
-//    });
-//    setState(() {
-//      authStatus = AuthStatus.LOGGED_IN;
-//    });
+    setState(() {
+      authStatus = AuthStatus.LOGGED_IN;
+    });
   }
 
   void logoutCallback() {
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
-      _userId = "";
+    });
+  }
+
+  @override
+  onFailure(String error) {
+    setState(() {
+      authStatus = AuthStatus.NOT_LOGGED_IN;
+    });
+  }
+
+  @override
+  onSuccess(BaseUser user) {
+    SingletonUser.instance.update(user);
+    setState(() {
+      authStatus = AuthStatus.LOGGED_IN;
     });
   }
 

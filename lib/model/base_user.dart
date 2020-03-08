@@ -1,12 +1,12 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:default_app_flutter/model/status.dart';
 
 import 'base_model.dart';
 
 class BaseUser implements BaseModel {
-  String uId;
+  String _uId;
   String notificationToken;
   String avatarURL;
-  //Status status;
+  Status status;
   String name;
   String email;
   bool emailVerified;
@@ -16,22 +16,24 @@ class BaseUser implements BaseModel {
 
   BaseUser();
 
-//  BaseUser.fromMap(DocumentSnapshot document) {
-//    uId = document.data["uId"];
-//    notificationToken = document.data["notificationToken"];
-//    avatarURL = document.data["avatarURL"];
-//    name = document.data["name"];
-//    email = document.data["email"];
-//    emailVerified = document.data["emailVerified"];
-//    password = document.data["password"];
-//    createAt = document.data["createAt"];
-//    updateAt = document.data["updateAt"];
-//  }
+  update(BaseUser user) {
+    _uId = user.getUid();
+    notificationToken = user.notificationToken;
+    avatarURL = user.avatarURL;
+    status = user.status;
+    name = user.name;
+    email = user.email;
+    emailVerified = user.emailVerified;
+    password = user.password;
+    createAt = user.createAt;
+    updateAt = user.updateAt;
+  }
 
   BaseUser.fromMap(Map<String, dynamic>  map) {
-    uId = map["uId"];
+    _uId = map["uId"];
     notificationToken = map["notificationToken"];
     avatarURL = map["avatarURL"];
+    status = map["status"];
     name = map["name"];
     email = map["email"];
     emailVerified = map["emailVerified"];
@@ -42,9 +44,10 @@ class BaseUser implements BaseModel {
 
   toMap() {
     var map = new Map<String, dynamic>();
-    map["uId"] = uId;
+    map["uId"] = _uId;
     map["notificationToken"] = notificationToken;
     map["avatarURL"] = avatarURL;
+    map["status"] = status.toString();
     map["name"] = name;
     map["email"] = email;
     map["emailVerified"] = emailVerified;
@@ -56,9 +59,10 @@ class BaseUser implements BaseModel {
 
   toJson() {
     return {
-      "uId": uId,
+      "uId": _uId,
       "notificationToken": notificationToken,
       "avatarURL": avatarURL,
+      "status": status,
       "name": name,
       "email": email,
       "emailVerified": emailVerified,
@@ -75,12 +79,12 @@ class BaseUser implements BaseModel {
 
   @override
   String getUid() {
-    return uId;
+    return _uId;
   }
 
   @override
   void setUid(String uId) {
-    this.uId = uId;
+    this._uId = uId;
   }
 
 }

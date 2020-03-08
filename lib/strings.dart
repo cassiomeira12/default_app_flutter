@@ -32,3 +32,9 @@ const TERMOS_USO = "termos de uso";
 const POLITICA_PRIVACIDADE = "política de privacidade";
 const POLITICA_DADOS = "política de dados";
 const TEXT_DADOS = "Ao me cadastrar eu estou de acordo com os $TERMOS_USO, a $POLITICA_PRIVACIDADE e a $POLITICA_DADOS do $APP_NAME.";
+
+const PERFIL = "Perfil";
+const ABOUT = "Sobre";
+const TERMOS = "Termos";
+const DISABLE_ACCOUNT = "Desativar conta";
+const SIGNOUT = "Sair";

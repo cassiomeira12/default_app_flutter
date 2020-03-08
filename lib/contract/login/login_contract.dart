@@ -17,7 +17,6 @@ abstract class LoginContractPresenter {
 
 abstract class LoginContractRepository {
   final LoginContractPresenter presenter;
-
   LoginContractRepository(this.presenter);
 
   Future<BaseUser> signIn(String email, String password);
