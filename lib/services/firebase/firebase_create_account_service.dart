@@ -6,11 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../crud.dart';
 
-class FirebaseCreateAccountService extends CreateAccountContractRepository {
+class FirebaseCreateAccountService extends CreateAccountContractService {
   FirebaseCreateAccountService(CreateAccountContractPresenter presenter) : super(presenter);
 
   @override
-  Future<BaseUser> createAccount(BaseUser user) async {
+  createAccount(BaseUser user) async {
     FirebaseAuth.instance.createUserWithEmailAndPassword(email: user.email, password: user.password).then((AuthResult result) async {
       Crud<BaseUser> crud = FirebaseUserService();
       BaseUser result = await crud.create(user);
@@ -19,6 +19,5 @@ class FirebaseCreateAccountService extends CreateAccountContractRepository {
       presenter.onFailure(error.toString());
     });
   }
-
 
 }

@@ -6,13 +6,16 @@ abstract class UserContractView {
   onSuccess(BaseUser user);
 }
 
-abstract class UserContractPresenter extends UserContractRepository {
+abstract class UserContractPresenter extends UserContractService {
 
 }
 
-abstract class UserContractRepository {
+abstract class UserContractService {
   Future<BaseUser> currentUser();
   Future<void> signOut();
   Future<void> changePassword(String email, String password, String newPassword);
   Future<void> changeEmail(String email);
+
+  isEmailVerified();
+  sendEmailVerification();
 }

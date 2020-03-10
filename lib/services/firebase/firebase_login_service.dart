@@ -1,74 +1,50 @@
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
+import 'package:default_app_flutter/contract/login/login_contract.dart';
+import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseLoginService {
-  //final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+import '../crud.dart';
+
+class FirebaseLoginService extends LoginContractService {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  FirebaseLoginService(LoginContractPresenter presenter) : super(presenter);
   //final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
-  Future<String> signInWithGoogle() async {
+  signIn(String email, String password) async {
+    _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).then((AuthResult result) async {
+      var user = BaseUser();
+      user.setUid(result.user.uid);
+
+      Crud<BaseUser> crud = FirebaseUserService();
+      BaseUser result2 = await crud.read(user);
+
+      //print("Aqui " + result2.email);
+
+      presenter.onSuccess(result2);
+    }).catchError((error) {
+      presenter.onFailure(error.toString());
+    });
+  }
+
+  @override
+  signInWithGoogle() async {
 //    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 //    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-//
 //    final AuthCredential credential = GoogleAuthProvider.getCredential(
 //      idToken: googleSignInAuthentication.accessToken,
 //      accessToken: googleSignInAuthentication.idToken,
 //    );
+//    //final AuthResult result = await _firebaseAuth.signInWithCredential(credential);
 //
-//    final AuthResult result = await _firebaseAuth.signInWithCredential(credential);
-//    final FirebaseUser user = result.user;
-//    prints();
-//    return user.uid;
-  }
-
-  @override
-  Future<void> getCurrentUser() async {
-//    FirebaseUser user = await _firebaseAuth.currentUser();
-//    return user;
-  }
-
-  @override
-  Future<bool> isEmailVerified() async {
-//    FirebaseUser user = await _firebaseAuth.currentUser();
-//    return user.isEmailVerified;
-  }
-
-  @override
-  Future<void> sendEmailVerification() async {
-//    FirebaseUser user = await _firebaseAuth.currentUser();
-//    user.sendEmailVerification();
-  }
-
-  @override
-  Future<String> signIn(String email, String password) async {
-//    AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-//    FirebaseUser user = result.user;
-//    prints();
-//    return user.uid;
-  }
-
-  @override
-  Future<void> signOut() {
-    //return _firebaseAuth.signOut();
-  }
-
-  @override
-  Future<String> signUp(String email, String password) async {
-//    AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-//    FirebaseUser user = result.user;
-//    prints();
-//    return user.uid;
-  }
-
-  void prints() async {
-    //FirebaseUser user = await getCurrentUser();
-//    print("uid ${user.uid}");
-//    print("displayName ${user.displayName}");
-//    print("email ${user.email}");
-//    print("isEmailVerified ${user.isEmailVerified}");
-//    print("phoneNumber ${user.phoneNumber}");
-//    print("photoUrl ${user.photoUrl}");
-    //print("isAnonymous ${user.toString()}");
+//    return _firebaseAuth.signInWithCredential(credential).then((AuthResult result) {
+//      var user = BaseUser();
+//      user.name = result.user.displayName;
+//      user.email = result.user.email;
+//
+//      return user;
+//    });
   }
 
 }

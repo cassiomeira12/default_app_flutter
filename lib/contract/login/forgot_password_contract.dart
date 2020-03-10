@@ -5,9 +5,12 @@ abstract class ForgotPasswordContractView extends BaseProgressContract {
 }
 
 abstract class ForgotPasswordContractPresenter {
+  final ForgotPasswordContractView view;
+  ForgotPasswordContractPresenter(this.view);
+
   sendEmail(String email);
 }
 
-abstract class ForgotPasswordContractRepository {
+abstract class ForgotPasswordContractService {
   Future<void> sendEmail(String email);
 }

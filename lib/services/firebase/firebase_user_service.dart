@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../crud.dart';
 
-class FirebaseUserService implements Crud<BaseUser>, UserContractRepository {
+class FirebaseUserService implements Crud<BaseUser>, UserContractService {
   CollectionReference _collection = Firestore.instance.collection("teste");
 
   @override
@@ -26,18 +26,26 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractRepository {
     return await _collection.document(uId).setData(item.toMap()).then((result) {
       return item;
     }).catchError((error) {
-      print("Erro " + error.toString());
+      print("Erro ${error.toString()}");
+      return null;
+    });
+  }
+
+  @override
+  Future<BaseUser> read(BaseUser item) {
+    String uId = item.getUid();
+    return _collection.document(uId).get().then((result) {
+      print("Aqui");
+      print(result.exists);
+      return BaseUser.fromMap(result.data);
+    }).catchError((error) {
+      print("Erro ${error.toString()}");
       return null;
     });
   }
 
   @override
   Future<BaseUser> delete(BaseUser item) {
-    return null;
-  }
-
-  @override
-  Future<BaseUser> read(BaseUser item) {
     return null;
   }
 
@@ -93,6 +101,18 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractRepository {
     user.password = null; //Nao adicionar a senha no BD
 
     return _collection.document(uId).setData(user.toMap());
+  }
+
+  @override
+  isEmailVerified() {
+    // TODO: implement isEmailVerified
+    return null;
+  }
+
+  @override
+  sendEmailVerification() {
+    // TODO: implement sendEmailVerification
+    return null;
   }
 
 }

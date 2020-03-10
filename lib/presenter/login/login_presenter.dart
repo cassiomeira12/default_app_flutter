@@ -1,25 +1,22 @@
 import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
-import 'package:default_app_flutter/services/firebase/firebase_login_reposotory.dart';
-import 'package:flutter/material.dart';
+import 'package:default_app_flutter/services/firebase/firebase_login_service.dart';
 
 class LoginPresenter extends LoginContractPresenter {
-  LoginContractView _view;
-  LoginContractRepository repository;
+  LoginContractService repository;
 
-  LoginPresenter(@required LoginContractView view) {
-    this._view = view;
-    this.repository = FirebaseLoginRepository(this);
+  LoginPresenter(LoginContractView view) : super(view) {
+    this.repository = FirebaseLoginService(this);
   }
 
   @override
   signIn(String email, String password) {
-    _view.showProgress();
+    view.showProgress();
     repository.signIn(email, password);
   }
 
   @override
-  Future<BaseUser> signInWithGoogle() async {
+  signInWithGoogle() {
     //_view.showProgress();
     //BaseUser nome = await repository.signInWithGoogle();
     //print(nome);
@@ -33,14 +30,14 @@ class LoginPresenter extends LoginContractPresenter {
 
   @override
   onFailure(String error) {
-    _view.hideProgress();
-    _view.onFailure(error);
+    view.hideProgress();
+    view.onFailure(error);
   }
 
   @override
   onSuccess(BaseUser user) {
-    _view.hideProgress();
-    _view.onSuccess();
+    view.hideProgress();
+    view.onSuccess();
   }
 
 }

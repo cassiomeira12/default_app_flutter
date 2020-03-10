@@ -5,9 +5,9 @@ import 'package:flutter/widgets.dart';
 
 class UserPresenter implements UserContractPresenter {
   final UserContractView _view;
-  UserPresenter(this._view);
+  UserPresenter(@required this._view);
 
-  UserContractRepository repository = FirebaseUserService();
+  UserContractService repository = FirebaseUserService();
 
   @override
   Future<void> changeEmail(String email) {
@@ -33,6 +33,18 @@ class UserPresenter implements UserContractPresenter {
   @override
   Future<void> signOut() {
     return repository.signOut();
+  }
+
+  @override
+  isEmailVerified() {
+    // TODO: implement isEmailVerified
+    return null;
+  }
+
+  @override
+  sendEmailVerification() {
+    // TODO: implement sendEmailVerification
+    return null;
   }
 
 }

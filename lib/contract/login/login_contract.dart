@@ -7,19 +7,21 @@ abstract class LoginContractView extends BaseProgressContract {
 }
 
 abstract class LoginContractPresenter {
+  final LoginContractView view;
+  LoginContractPresenter(this.view);
 
   signIn(String email, String password);
-  //Future<BaseUser> signInWithGoogle();
+  signInWithGoogle();
   onFailure(String error);
   onSuccess(BaseUser user);
 
 }
 
-abstract class LoginContractRepository {
+abstract class LoginContractService {
   final LoginContractPresenter presenter;
-  LoginContractRepository(this.presenter);
+  LoginContractService(this.presenter);
 
-  Future<BaseUser> signIn(String email, String password);
-  //Future<BaseUser> signInWithGoogle();
+  signIn(String email, String password);
+  signInWithGoogle();
 
 }
