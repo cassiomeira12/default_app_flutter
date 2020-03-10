@@ -37,7 +37,7 @@ class LoginPresenter extends LoginContractPresenter {
   @override
   onSuccess(BaseUser user) {
     view.hideProgress();
-    view.onSuccess();
+    view.onSuccess(user);
   }
 
 }

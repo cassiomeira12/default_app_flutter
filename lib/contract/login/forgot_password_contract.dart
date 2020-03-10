@@ -1,6 +1,8 @@
-import 'base_progress_contract.dart';
+import 'package:default_app_flutter/contract/base_result_contract.dart';
 
-abstract class ForgotPasswordContractView extends BaseProgressContract {
+import '../base_progress_contract.dart';
+
+abstract class ForgotPasswordContractView implements BaseProgressContract, BaseResultContract<String> {
 
 }
 

@@ -11,7 +11,7 @@ class ForgotPasswordPresenter extends ForgotPasswordContractPresenter {
     view.showProgress();
     repository.sendEmail(email).then((result) {
       view.hideProgress();
-      view.onSuccess();
+      view.onSuccess("Email enviado com sucesso!");
     }).catchError((error) {
       view.hideProgress();
       view.onFailure(error.toString());

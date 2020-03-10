@@ -1,6 +1,6 @@
 import 'package:default_app_flutter/model/base_user.dart';
 
-import 'base_progress_contract.dart';
+import '../base_progress_contract.dart';
 
 abstract class CreateAccountContractView extends BaseProgressContract {
   onFailure(String error);

@@ -188,9 +188,9 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
   }
 
   @override
-  onSuccess() {
+  onSuccess(String result) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text("Email enviado com sucesso!"),
+      content: Text(result),
       backgroundColor: Colors.green,
     ));
   }

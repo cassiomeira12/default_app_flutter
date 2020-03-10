@@ -1,9 +1,6 @@
 import 'package:default_app_flutter/contract/login/login_contract.dart';
-import 'package:default_app_flutter/model/singleton/singleton_user.dart';
+import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
-import 'package:default_app_flutter/view/home/home_page.dart';
-import 'package:default_app_flutter/view/tabs2_page.dart';
-import 'package:default_app_flutter/view/tabs_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
@@ -30,19 +27,12 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   String _email;
   String _password;
-  String _errorMessage;
-
-  bool _isLoginForm;
-  bool _isLoading;
 
   ProgressDialog pr;
 
   @override
   void initState() {
     super.initState();
-    _errorMessage = "";
-    _isLoading = false;
-    _isLoginForm = true;
     pr = ProgressDialog(context);
     presenter = LoginPresenter(this);
   }
@@ -73,21 +63,12 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   }
 
   @override
-  onSuccess() {
-    //pr.dismiss();
+  onSuccess(BaseUser result) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text("Sucesso"),
       backgroundColor: Colors.blue,
     ));
-    //Navigator.pop(context);
     widget.loginCallback();
-//    Navigator.of(context).push(
-//      MaterialPageRoute(
-//          builder: (context) {
-//            return Tabs2Page();
-//          }
-//      ),
-//    );
   }
 
   @override
@@ -132,22 +113,9 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             showPasswordInput(),
             showForgotPasswordButton(),
             loginButton(),
-            showErrorMessage(),
           ],
         ),
       ),
-    );
-  }
-
-  Widget showCircularProgress() {
-    if (true) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    return Container(
-      height: 0.0,
-      width: 0.0,
     );
   }
 
@@ -353,40 +321,6 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     );
   }
 
-  Widget showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-          fontSize: 16.0,
-          color: Colors.red,
-          height: 1.0,
-          fontWeight: FontWeight.w300,
-        ),
-      );
-    } else {
-      return new Container(
-        height: 0.0,
-      );
-    }
-  }
-
-
-
-
-
-  void resetForm() {
-    _formKey.currentState.reset();
-    _errorMessage = "";
-  }
-
-  void toggleFormMode() {
-    resetForm();
-    setState(() {
-      _isLoginForm = !_isLoginForm;
-    });
-  }
-
   bool validateAndSave() {
     final form = _formKey.currentState;
     if (form.validate()) {
@@ -396,45 +330,10 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     return false;
   }
 
-  void validateAndSubmit() async {
-    setState(() {
-      _errorMessage = "";
-      _isLoading = true;
-    });
-
-    //showProgress();
-    //CollectionReference _collection = Firestore.instance.collection("teste");
-    //_collection.document("cassio").delete();
-
+  void validateAndSubmit() {
     if (validateAndSave()) {
       presenter.signIn(_email, _password);
     }
-
-//    if (validateAndSave()) {
-//      String userId = "";
-//      try {
-//
-//        userId = await widget.auth.signIn(_email, _password);
-//
-//        setState(() {
-//          _isLoading = false;
-//        });
-//
-//        if (userId.length > 0 && userId != null && _isLoginForm) {
-//          widget.loginCallback();
-//        }
-//      } catch (e) {
-//        print('Error $e');
-//        setState(() {
-//          _isLoading = false;
-//          _errorMessage = e.message;
-//          _formKey.currentState.reset();
-//        });
-//      }
-//    }
-
   }
-
-
 
 }
