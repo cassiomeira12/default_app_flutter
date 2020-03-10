@@ -2,6 +2,11 @@ import 'package:default_app_flutter/contract/login/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/presenter/login/user_presenter.dart';
 import 'package:default_app_flutter/strings.dart';
+import 'package:default_app_flutter/view/notifications/notifications_settings_page.dart';
+import 'package:default_app_flutter/view/settings/about_app_page.dart';
+import 'package:default_app_flutter/view/settings/disable_account_page.dart';
+import 'package:default_app_flutter/view/settings/termos_app_page.dart';
+import 'package:default_app_flutter/view/settings/user_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +23,8 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
   final _formKey = new GlobalKey<FormState>();
 
   UserContractPresenter presenter;
+
+  bool darkMode = true;
 
   @override
   void initState() {
@@ -107,10 +114,12 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
       children: <Widget>[
         perfilButton(),
         notificationsSettingsButton(),
+        darkModeButton(),
         aboutAppButton(),
         termosButton(),
         disableAccountButton(),
         signOutButton(),
+        Padding(padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40),),
       ],
     );
   }
@@ -143,7 +152,13 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             ],
           ),
           onPressed: () {
-            //validateAndSubmit();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) {
+                    return UserPage();
+                  }
+              ),
+            );
           },
         ),
       ),
@@ -178,7 +193,57 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             ],
           ),
           onPressed: () {
-            //validateAndSubmit();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) {
+                    return NotificationsSettingsPage();
+                  }
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget darkModeButton() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 55,
+        child: RaisedButton(
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0),
+            side: BorderSide(color: Colors.black26),
+          ),
+          color: Colors.white,
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
+                child: Icon(Icons.color_lens, color: Colors.black54,),
+              ),
+              Expanded(
+                child: Text("Dark Mode", style: TextStyle(fontSize: 18.0, color: Colors.black54),),
+              ),
+              Container(
+                child: Switch(
+                  value: darkMode,
+                  onChanged: (value) {
+                    setState(() {
+                      darkMode = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          onPressed: () {
+            setState(() {
+              darkMode = !darkMode;
+            });
           },
         ),
       ),
@@ -213,7 +278,13 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             ],
           ),
           onPressed: () {
-            //validateAndSubmit();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) {
+                    return AboutAppPage();
+                  }
+              ),
+            );
           },
         ),
       ),
@@ -248,7 +319,13 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             ],
           ),
           onPressed: () {
-            //validateAndSubmit();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) {
+                    return TermosAppPage();
+                  }
+              ),
+            );
           },
         ),
       ),
@@ -283,7 +360,13 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             ],
           ),
           onPressed: () {
-            //validateAndSubmit();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) {
+                    return DisableAccountPage();
+                  }
+              ),
+            );
           },
         ),
       ),

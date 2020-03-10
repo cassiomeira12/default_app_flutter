@@ -2,13 +2,13 @@ import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
-class ChangePasswordPage extends StatefulWidget {
+class TermosAppPage extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => _ChangePasswordState();
+  State<StatefulWidget> createState() => _TermosAppState();
 }
 
-class _ChangePasswordState extends State<ChangePasswordPage> {
+class _TermosAppState extends State<TermosAppPage> {
   final _formKey = new GlobalKey<FormState>();
 
   @override
@@ -16,7 +16,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Alterar Senha"),
+        title: Text("Termos"),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(

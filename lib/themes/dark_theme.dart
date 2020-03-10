@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-const brightness = Brightness.light;
+const brightness = Brightness.dark;
 const primaryColor = const Color(0xFF00C569);
 const lightColor = const Color(0xFFFFFFFF);
-const backgroundColor = const Color(0xFFF5F5F5);
+const backgroudColor = const Color(0xFFF5F5F5);
 
-const colorPrimary = const Color(0xFF84E8B2);
-const colorPrimaryDark = const Color(0xFF66B489);
-const colorAccent = const Color(0xFF808080);
-
-ThemeData lightTheme() {
+ThemeData darkTheme() {
   return ThemeData(
     // primarySwatch: primaryColor,
     brightness: brightness,
-    // textTheme: new TextTheme(
-    //   body1: new TextStyle(color: Colors.red),
-    //   display4: new TextStyle(fontSize: 78),
-    //   button: new TextStyle(color: Colors.green),
-    //   headline: new TextStyle(color: Colors.deepPurple)
-    // ),
+    textTheme: new TextTheme(
+      body1: new TextStyle(color: Colors.black),
+      display2: new TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.w500,
+      ),
+      display4: new TextStyle(fontSize: 78),
+      button: new TextStyle(color: Colors.green),
+      headline: new TextStyle(color: Colors.white),
+    ),
     // tabBarTheme:
     // accentIconTheme:
     // accentTextTheme:
@@ -41,10 +41,10 @@ ThemeData lightTheme() {
     // primaryIconTheme:
     // primaryTextTheme:
     // sliderTheme:
-    primaryColor: colorPrimary,
-    accentColor: colorAccent,
+    primaryColor: primaryColor,
+    accentColor: Colors.black26,
     // fontFamily: 'Montserrat',
-    buttonColor: Color(0xFF00D2F8),
+    // buttonColor: Color(0xFF00C569),
     // // scaffoldBackgroundColor: backgroundColor,
     // cardColor: Colors.white,
   );

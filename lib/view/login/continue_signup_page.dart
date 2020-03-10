@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class ContinueSignUpPage extends StatefulWidget {
 
-
   @override
   State<StatefulWidget> createState() => _ContinueSignUpPageState();
 }

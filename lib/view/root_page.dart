@@ -2,7 +2,7 @@ import 'package:default_app_flutter/contract/login/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/login/user_presenter.dart';
-import 'package:default_app_flutter/view/tabs2_page.dart';
+import 'package:default_app_flutter/view/tabs_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +42,7 @@ class _RootPageState extends State<RootPage> implements UserContractView {
         return new LoginPage(loginCallback: loginCallback,);
         break;
       case AuthStatus.LOGGED_IN:
-        return Tabs2Page(logoutCallback: logoutCallback,);
+        return TabsPage(logoutCallback: logoutCallback,);
         break;
       default:
         return buildWaitingScreen();

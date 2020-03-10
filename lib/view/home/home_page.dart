@@ -1,3 +1,4 @@
+import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,18 @@ class _HomePageState extends State<HomePage> {
   final _formKey = new GlobalKey<FormState>();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("init");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text(HOME),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
