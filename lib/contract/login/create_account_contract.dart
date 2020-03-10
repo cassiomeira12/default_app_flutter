@@ -8,8 +8,12 @@ abstract class CreateAccountContractView extends BaseProgressContract {
 }
 
 abstract class CreateAccountContractPresenter {
-  final CreateAccountContractView view;
+  CreateAccountContractView view;
   CreateAccountContractPresenter(this.view);
+
+  dispose() {
+    this.view = null;
+  }
 
   createAccount(BaseUser user);
 
@@ -18,8 +22,12 @@ abstract class CreateAccountContractPresenter {
 }
 
 abstract class CreateAccountContractService {
-  final CreateAccountContractPresenter presenter;
+  CreateAccountContractPresenter presenter;
   CreateAccountContractService(this.presenter);
+
+  dispose() {
+    this.presenter = null;
+  }
 
   createAccount(BaseUser user);
 }

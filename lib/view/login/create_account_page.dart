@@ -8,16 +8,16 @@ import 'package:flutter/material.dart';
 
 import '../../strings.dart';
 
-class CreatedAccountPage extends StatefulWidget {
-  CreatedAccountPage({this.user});
+class CreateAccountPage extends StatefulWidget {
+  CreateAccountPage({this.user});
 
   final BaseUser user;
 
   @override
-  State<StatefulWidget> createState() => _CreatedAccountPageState();
+  State<StatefulWidget> createState() => _CreateAccountPageState();
 }
 
-class _CreatedAccountPageState extends State<CreatedAccountPage> implements CreateAccountContractView {
+class _CreateAccountPageState extends State<CreateAccountPage> implements CreateAccountContractView {
 
   CreateAccountContractPresenter presenter;
 
@@ -30,6 +30,12 @@ class _CreatedAccountPageState extends State<CreatedAccountPage> implements Crea
     super.initState();
     presenter = CreateAccountPresenter(this);
     presenter.createAccount(widget.user);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    presenter.dispose();
   }
 
   @override

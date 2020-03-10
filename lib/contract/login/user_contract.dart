@@ -1,4 +1,3 @@
-import 'package:default_app_flutter/contract/login/base_progress_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 
 abstract class UserContractView {

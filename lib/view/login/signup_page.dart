@@ -1,7 +1,7 @@
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/strings.dart';
-import 'package:default_app_flutter/view/login/created_account_page.dart';
+import 'package:default_app_flutter/view/login/create_account_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/cupertino.dart';
@@ -205,7 +205,7 @@ class _SignUpPageState extends State<SignUpPage>{
       Navigator.of(context).push(
         MaterialPageRoute(
             builder: (context) {
-              return CreatedAccountPage(
+              return CreateAccountPage(
                 user: user,
               );
             }

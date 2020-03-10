@@ -30,6 +30,12 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    presenter.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,

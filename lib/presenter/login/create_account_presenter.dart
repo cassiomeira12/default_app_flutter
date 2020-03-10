@@ -10,6 +10,12 @@ class CreateAccountPresenter extends CreateAccountContractPresenter {
   }
 
   @override
+  dispose() {
+    repository.dispose();
+    return super.dispose();
+  }
+
+  @override
   createAccount(BaseUser user) {
     view.showProgress();
     repository.createAccount(user);

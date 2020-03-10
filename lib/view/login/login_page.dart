@@ -50,6 +50,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   @override
   void dispose() {
     super.dispose();
+    presenter.dispose();
   }
 
   @override
