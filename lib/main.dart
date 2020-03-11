@@ -1,10 +1,8 @@
-import 'package:default_app_flutter/strings.dart';
-import 'package:default_app_flutter/themes/dark_theme.dart';
-import 'package:default_app_flutter/view/root_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'strings.dart';
 import 'themes/light_theme.dart';
+import 'view/root_page.dart';
 
 void main() => runApp(MyApp());
 
