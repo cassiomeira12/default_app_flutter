@@ -16,11 +16,11 @@ class LoginPresenter extends LoginContractPresenter {
   }
 
   @override
-  signInWithGoogle() {
-    //_view.showProgress();
-    //BaseUser nome = await repository.signInWithGoogle();
-    //print(nome);
-    //_view.onFailure(nome.name);
+  signInWithGoogle() async {
+    view.showProgress();
+    BaseUser nome = await repository.signInWithGoogle();
+    print(nome);
+    view.onFailure(nome.name);
 //    repository.signInWithGoogle()
 //      .then((user) => _view.onSuccess())
 //      .catchError((onError) {

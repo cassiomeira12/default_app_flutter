@@ -2,6 +2,7 @@ import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../crud.dart';
 
@@ -9,7 +10,7 @@ class FirebaseLoginService extends LoginContractService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   FirebaseLoginService(LoginContractPresenter presenter) : super(presenter);
-  //final GoogleSignIn googleSignIn = GoogleSignIn();
+  GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   signIn(String email, String password) async {
@@ -30,21 +31,21 @@ class FirebaseLoginService extends LoginContractService {
 
   @override
   signInWithGoogle() async {
-//    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-//    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-//    final AuthCredential credential = GoogleAuthProvider.getCredential(
-//      idToken: googleSignInAuthentication.accessToken,
-//      accessToken: googleSignInAuthentication.idToken,
-//    );
-//    //final AuthResult result = await _firebaseAuth.signInWithCredential(credential);
-//
-//    return _firebaseAuth.signInWithCredential(credential).then((AuthResult result) {
-//      var user = BaseUser();
-//      user.name = result.user.displayName;
-//      user.email = result.user.email;
-//
-//      return user;
-//    });
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      idToken: googleSignInAuthentication.accessToken,
+      accessToken: googleSignInAuthentication.idToken,
+    );
+    //final AuthResult result = await _firebaseAuth.signInWithCredential(credential);
+
+    return _firebaseAuth.signInWithCredential(credential).then((AuthResult result) {
+      var user = BaseUser();
+      user.name = result.user.displayName;
+      user.email = result.user.email;
+
+      return user;
+    });
   }
 
 }

@@ -262,6 +262,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             ],
           ),
           onPressed: () {
+            //presenter.signInWithGoogle();
             _scaffoldKey.currentState.showSnackBar(SnackBar(
               content: Text("Recurso indisponível"),
               backgroundColor: Colors.redAccent,
