@@ -2,6 +2,8 @@ import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
+import 'package:default_app_flutter/view/widgets/light_button.dart';
+import 'package:default_app_flutter/view/widgets/secondary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -182,17 +184,9 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   Widget showForgotPasswordButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
-      child: Container(
-        alignment: Alignment.bottomRight,
-        child: FlatButton(
-          child: Text(
-            RECUPERAR_SENHA,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-              fontSize: 14,
-            ),
-          ),
+        child: LightButton(
+          alignment: Alignment.bottomRight,
+          text: RECUPERAR_SENHA,
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -203,7 +197,6 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             );
           },
         ),
-      ),
     );
   }
 
@@ -245,32 +238,25 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   Widget googleButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(60.0, 12.0, 60.0, 0.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 42.0,
-        child: RaisedButton(
-          elevation: 0.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Colors.black12),
-          ),
-          color: Colors.white,
-          child: Row(
+        child: SecondaryButton(
+          child: Stack(
+            alignment: Alignment.centerLeft,
             children: <Widget>[
               SizedBox(
                 child: Image.asset("assets/google_logo.png"),
                 width: 28,
                 height: 28,
               ),
-              SizedBox(
-                width: 16,
-              ),
-              Text(
-                LOGAR_COM_GOOGLE.toUpperCase(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                  fontSize: 12,
+              Container(
+                //color: Colors.black,
+                alignment: Alignment.center,
+                child: Text(
+                  LOGAR_COM_GOOGLE.toUpperCase(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ],
@@ -282,7 +268,6 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             ));
           },
         ),
-      ),
     );
   }
 

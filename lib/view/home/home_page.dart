@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(HOME),
+        title: Text(HOME, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(

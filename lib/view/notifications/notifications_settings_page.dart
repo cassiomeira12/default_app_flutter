@@ -12,24 +12,76 @@ class NotificationsSettingsPage extends StatefulWidget {
 class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
   final _formKey = new GlobalKey<FormState>();
 
+  bool notifications = true;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(NOTIFICATIONS),
-        //iconTheme: IconThemeData(color: Colors.white),
+        title: Text(NOTIFICATIONS, style: TextStyle(color: Colors.white),),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-//            BackgroundCard(),
-//            SingleChildScrollView(
-//              child: ShapeRound(
-//                  _showForm()
-//              ),
-//            ),
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  notificacoesButton(),
+                  notificacoesButton(),
+                  notificacoesButton(),
+                  notificacoesButton(),
+                  notificacoesButton(),
+                  notificacoesButton(),
+                ],
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget notificacoesButton() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 60,
+        child: RaisedButton(
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0),
+            //side: BorderSide(color: Colors.black26),
+          ),
+          color: Colors.white,
+          child: Row(
+            children: <Widget>[
+//              Padding(
+//                padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
+//                child: Icon(Icons.color_lens, color: Colors.black54,),
+//              ),
+              Expanded(
+                child: Text("Dark Mode", style: TextStyle(fontSize: 18.0, color: Colors.black45),),
+              ),
+              Container(
+                child: Switch(
+                  value: notifications,
+                  onChanged: (value) {
+                    setState(() {
+                      notifications = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          onPressed: () {
+            setState(() {
+              notifications = !notifications;
+            });
+          },
         ),
       ),
     );

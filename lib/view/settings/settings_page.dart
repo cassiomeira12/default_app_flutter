@@ -1,5 +1,6 @@
 import 'package:default_app_flutter/contract/login/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/login/user_presenter.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/notifications/notifications_settings_page.dart';
@@ -25,11 +26,13 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
   UserContractPresenter presenter;
 
   bool darkMode = true;
+  String userPhoto;
 
   @override
   void initState() {
     super.initState();
     presenter = UserPresenter(this);
+    userPhoto = SingletonUser.instance.avatarURL;
   }
 
   @override
@@ -37,13 +40,13 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(SETTINGS),
+        title: Text(SETTINGS, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-            BackgroundCard(),
+            BackgroundCard(height: 150,),
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -65,15 +68,15 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
         key: _formKey,
         child: Column(
           children: <Widget>[
-            imagem(),
-            textMensagem(),
+            imgUser(),
+            textUserName(),
           ],
         ),
       ),
     );
   }
 
-  Widget textMensagem() {
+  Widget textUserName() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: Center(
@@ -90,7 +93,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
     );
   }
 
-  Widget imagem() {
+  Widget imgUser() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: Center(
@@ -98,16 +101,40 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
           tag: 'hero',
           child: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 60.0,
-              child: Image.asset("assets/user_default_img_white.png"),
+            child: ClipOval(
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 60,
+                child: Image.asset("assets/user_default_img_white.png"),
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+//  Widget loadImage() {
+//    return (userPhoto == null || userPhoto.isEmpty) ?
+//      CircleAvatar(
+//        backgroundColor: Colors.transparent,
+//        radius: 60,
+//        child: Image.asset("assets/user_default_img_white.png"),
+//      )
+//          :
+//      Image.network(userPhoto,fit: BoxFit.cover, width: 120,
+//        loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+//          if (loadingProgress == null) return child;
+//          return Center(
+//            child: CircularProgressIndicator(
+//              value: loadingProgress.expectedTotalBytes != null ?
+//              loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+//                  : null,
+//            ),
+//          );
+//        },
+//      );
+//  }
 
   Widget formOpcoes() {
     return Column(
@@ -126,28 +153,28 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget perfilButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
-        height: 55,
+        height: 60,
         child: RaisedButton(
-          elevation: 5.0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0.0),
-            side: BorderSide(color: Colors.black26),
+            //side: BorderSide(color: Colors.black26),
           ),
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.person, color: Colors.black54,),
+                child: Icon(Icons.person_outline, color: Colors.black45,),
               ),
               Expanded(
-                child: Text(PERFIL, style: TextStyle(fontSize: 18.0, color: Colors.black54),),
+                child: Text(PERFIL, style: TextStyle(fontSize: 18.0, color: Colors.black45),),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black54,),
+                child: Icon(Icons.chevron_right, color: Colors.black45,),
               ),
             ],
           ),
@@ -167,28 +194,28 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget notificationsSettingsButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
-        height: 55,
+        height: 60,
         child: RaisedButton(
-          elevation: 5.0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0.0),
-            side: BorderSide(color: Colors.black26),
+            //side: BorderSide(color: Colors.black26),
           ),
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.notifications, color: Colors.black54,),
+                child: Icon(Icons.notifications_none, color: Colors.black45,),
               ),
               Expanded(
-                child: Text(NOTIFICATIONS, style: TextStyle(fontSize: 18.0, color: Colors.black54),),
+                child: Text(NOTIFICATIONS, style: TextStyle(fontSize: 18.0, color: Colors.black45),),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black54,),
+                child: Icon(Icons.chevron_right, color: Colors.black45,),
               ),
             ],
           ),
@@ -208,25 +235,25 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget darkModeButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
-        height: 55,
+        height: 60,
         child: RaisedButton(
-          elevation: 5.0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0.0),
-            side: BorderSide(color: Colors.black26),
+            //side: BorderSide(color: Colors.black26),
           ),
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.color_lens, color: Colors.black54,),
+                child: Icon(Icons.color_lens, color: Colors.black45,),
               ),
               Expanded(
-                child: Text("Dark Mode", style: TextStyle(fontSize: 18.0, color: Colors.black54),),
+                child: Text("Dark Mode", style: TextStyle(fontSize: 18.0, color: Colors.black45),),
               ),
               Container(
                 child: Switch(
@@ -252,28 +279,28 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget aboutAppButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
-        height: 55,
+        height: 60,
         child: RaisedButton(
-          elevation: 5.0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0.0),
-            side: BorderSide(color: Colors.black26),
+            //side: BorderSide(color: Colors.black26),
           ),
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.add, color: Colors.black54,),
+                child: Icon(Icons.info_outline, color: Colors.black45,),
               ),
               Expanded(
-                child: Text(ABOUT, style: TextStyle(fontSize: 18.0, color: Colors.black54),),
+                child: Text(ABOUT, style: TextStyle(fontSize: 18.0, color: Colors.black45),),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black54,),
+                child: Icon(Icons.chevron_right, color: Colors.black45,),
               ),
             ],
           ),
@@ -293,28 +320,28 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget termosButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
-        height: 55,
+        height: 60,
         child: RaisedButton(
-          elevation: 5.0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0.0),
-            side: BorderSide(color: Colors.black26),
+            //side: BorderSide(color: Colors.black26),
           ),
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.star, color: Colors.black54,),
+                child: Icon(Icons.help_outline, color: Colors.black45,),
               ),
               Expanded(
-                child: Text(TERMOS, style: TextStyle(fontSize: 18.0, color: Colors.black54),),
+                child: Text(TERMOS, style: TextStyle(fontSize: 18.0, color: Colors.black45),),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black54,),
+                child: Icon(Icons.chevron_right, color: Colors.black45,),
               ),
             ],
           ),
@@ -334,28 +361,28 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget disableAccountButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
-        height: 55,
+        height: 60,
         child: RaisedButton(
-          elevation: 5.0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0.0),
-            side: BorderSide(color: Colors.black26),
+            //side: BorderSide(color: Colors.black26),
           ),
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.clear, color: Colors.black54,),
+                child: Icon(Icons.delete, color: Colors.black45,),
               ),
               Expanded(
-                child: Text(DISABLE_ACCOUNT, style: TextStyle(fontSize: 18.0, color: Colors.black54),),
+                child: Text(DISABLE_ACCOUNT, style: TextStyle(fontSize: 18.0, color: Colors.black45),),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black54,),
+                child: Icon(Icons.chevron_right, color: Colors.black45,),
               ),
             ],
           ),
@@ -375,38 +402,65 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget signOutButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
-        height: 55,
+        height: 60,
         child: RaisedButton(
-          elevation: 5.0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0.0),
-            side: BorderSide(color: Colors.black26),
+            //side: BorderSide(color: Colors.black26),
           ),
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.exit_to_app, color: Colors.black54,),
+                child: Icon(Icons.exit_to_app, color: Colors.black45,),
               ),
               Expanded(
                 child: Text(SIGNOUT, style: TextStyle(fontSize: 18.0, color: Colors.redAccent),),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black54,),
+                child: Icon(Icons.chevron_right, color: Colors.black45,),
               ),
             ],
           ),
           onPressed: () {
-            presenter.signOut().whenComplete(() {
-              widget.logoutCallback();
-            });
+            showDialogLogOut();
           },
         ),
       ),
+    );
+  }
+
+  void showDialogLogOut() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Sair"),
+          content: Text("Deseja sair do ${APP_NAME} ?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Sair"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                presenter.signOut().whenComplete(() {
+                  widget.logoutCallback();
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

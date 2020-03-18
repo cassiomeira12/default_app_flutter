@@ -1,3 +1,4 @@
+import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class _HistoricoPageState extends State<HistoricoPage> {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Histórico"),
+        title: Text(HISTORICO, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(

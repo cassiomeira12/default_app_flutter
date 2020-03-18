@@ -80,6 +80,7 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
       user.setUid(currentUser.uid);
       user.name = currentUser.displayName;
       user.email = currentUser.email;
+      user.avatarURL = currentUser.photoUrl;
       return user;
     }
   }

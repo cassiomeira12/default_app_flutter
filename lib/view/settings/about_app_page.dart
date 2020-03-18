@@ -1,5 +1,5 @@
+import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
-import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
 class AboutAppPage extends StatefulWidget {
@@ -16,39 +16,93 @@ class _AboutAppState extends State<AboutAppPage> {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Sobre"),
+        title: Text(ABOUT, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-//            BackgroundCard(),
-//            SingleChildScrollView(
-//              child: ShapeRound(
-//                  _showForm()
-//              ),
-//            ),
+            Column(
+              children: <Widget>[
+                BackgroundCard(height: 200,),
+                txtAboutApp(),
+              ],
+            ),
+            SingleChildScrollView(
+              child: _showForm(),
+            ),
           ],
         ),
       ),
     );
   }
 
-//  Widget _showForm() {
-//    return new Container(
-//      padding: EdgeInsets.all(12.0),
-//      child: new Form(
-//        key: _formKey,
-//        child: Column(
-//          children: <Widget>[
-//            //textTitle(),
-//            //emailInput(),
-//            //textMensagem(),
-//            //_isLoading ? showCircularProgress() : sendButton()
-//          ],
-//        ),
-//      ),
-//    );
-//  }
+  Widget _showForm() {
+    return new Container(
+      padding: EdgeInsets.all(12.0),
+      child: new Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            imgApp(),
+            txtAppName(),
+            //textTitle(),
+            //emailInput(),
+            //textMensagem(),
+            //_isLoading ? showCircularProgress() : sendButton()
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget imgApp() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child: Center(
+        child: Hero(
+          tag: 'hero',
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 80.0,
+              child: Image.asset("assets/logo_app.png"),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget txtAppName() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child: Center(
+        child: Text(
+          APP_NAME,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget txtAboutApp() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+      width: double.maxFinite,
+      child: Text(
+        "About App",
+        style: TextStyle(
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
 
 }

@@ -1,5 +1,4 @@
-import 'package:default_app_flutter/view/widgets/background_card.dart';
-import 'package:default_app_flutter/view/widgets/shape_round.dart';
+import 'package:default_app_flutter/strings.dart';
 import 'package:flutter/material.dart';
 
 class TermosAppPage extends StatefulWidget {
@@ -16,39 +15,30 @@ class _TermosAppState extends State<TermosAppPage> {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Termos"),
+        title: Text(TERMOS, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-//            BackgroundCard(),
-//            SingleChildScrollView(
-//              child: ShapeRound(
-//                  _showForm()
-//              ),
-//            ),
+            txtTermosApp(),
           ],
         ),
       ),
     );
   }
 
-//  Widget _showForm() {
-//    return new Container(
-//      padding: EdgeInsets.all(12.0),
-//      child: new Form(
-//        key: _formKey,
-//        child: Column(
-//          children: <Widget>[
-//            //textTitle(),
-//            //emailInput(),
-//            //textMensagem(),
-//            //_isLoading ? showCircularProgress() : sendButton()
-//          ],
-//        ),
-//      ),
-//    );
-//  }
+  Widget txtTermosApp() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+      width: double.maxFinite,
+      child: Text(
+        "Termos do App",
+        style: TextStyle(
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
 
 }

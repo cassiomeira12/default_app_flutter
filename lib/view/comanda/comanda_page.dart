@@ -16,7 +16,7 @@ class _ComandaPageState extends State<ComandaPage> {
     return new Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Comanda"),
+        title: Text("Comanda", style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
