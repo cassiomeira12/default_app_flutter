@@ -1,5 +1,4 @@
 import 'package:default_app_flutter/model/base_user.dart';
-import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/login/create_account_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
@@ -8,6 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
+  SignUpPage({this.loginCallback});
+
+  final VoidCallback loginCallback;
 
   @override
   State<StatefulWidget> createState() => _SignUpPageState();
@@ -19,7 +21,6 @@ class _SignUpPageState extends State<SignUpPage>{
   String _name;
   String _email;
   String _password;
-  String _confirmPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage>{
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: NOME,
+          labelText: NOME,
         ),
         validator: (value) => value.isEmpty ? DIGITE_SEU_NOME : null,
         onSaved: (value) => _name = value.trim(),
@@ -98,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage>{
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: EMAIL,
+          labelText: EMAIL,
         ),
         validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
         onSaved: (value) => _email = value.trim(),
@@ -115,9 +116,15 @@ class _SignUpPageState extends State<SignUpPage>{
         obscureText: true,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: SENHA,
+          labelText: SENHA,
         ),
-        validator: (value) => value.isEmpty ? SENHA_MUITO_CURTA : null,
+        validator: (value) {
+          if (value.isEmpty || value.length < 6) {
+            return SENHA_MUITO_CURTA;
+          }
+          _password = value;
+          return null;
+        },
         onSaved: (value) => _password = value.trim(),
       ),
     );
@@ -132,10 +139,18 @@ class _SignUpPageState extends State<SignUpPage>{
         obscureText: true,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: REPITA_SENHA,
+          labelText: REPITA_SENHA,
         ),
-        validator: (value) => value.isEmpty ? REPITA_SENHA : null,
-        onSaved: (value) => _confirmPassword = value.trim(),
+        validator: (value) {
+          if (value.isEmpty || value.length < 6) {
+            return SENHA_MUITO_CURTA;
+          }
+          print(_password);
+          if (_password != value) {
+            return SENHA_NAO_SAO_IGUAIS;
+          }
+          return null;
+        },
       ),
     );
   }
@@ -202,224 +217,15 @@ class _SignUpPageState extends State<SignUpPage>{
   void createAccount() {
     if (validateData()) {
       var user = createBaseUser();
+      Navigator.pop(context);
       Navigator.of(context).push(
         MaterialPageRoute(
             builder: (context) {
-              return CreateAccountPage(
-                user: user,
-              );
+              return CreateAccountPage(loginCallback: widget.loginCallback, user: user,);
             }
         ),
       );
     }
   }
-
-
-
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        iconTheme: IconThemeData(color: Colors.white),
-//      ),
-//      body: Container(
-//        color: Colors.white,
-//        child: ListView(
-//          children: <Widget>[
-//            Stack(
-//              children: <Widget>[
-//                Container(
-//                  width: double.infinity,
-//                  height: 300,
-//                  color: Colors.greenAccent,
-//                ),
-//                container(context),
-//              ],
-//            ),
-//          ],
-//        ),
-//      ),
-//    );
-//  }
-//
-//  Widget container(BuildContext context) {
-//    return SingleChildScrollView(
-//      child: Column(
-//        children: <Widget>[
-//          card(context),
-//        ],
-//      ),
-//    );
-//  }
-//
-//  Widget card(BuildContext context) {
-//    return Container(
-//      width: double.infinity,
-//      height: 510,
-//      decoration: BoxDecoration(
-//          color: Colors.white,
-//          border: Border.all(
-//            width: 1,
-//            color: Colors.black12,
-//          ),
-//          borderRadius: BorderRadius.all(
-//            Radius.circular(10),
-//          )
-//      ),
-//      margin: EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 20),
-//      child: ListView(
-//        padding: EdgeInsets.only(top: 20, left: 30, right: 30),
-//        children: <Widget>[
-//          Center(
-//            child: Text(
-//              CRIAR_CONTA,
-//              style: TextStyle(
-//                fontSize: 32,
-//                color: Colors.black38,
-//              ),
-//            ),
-//          ),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          TextFormField(
-//            autofocus: true,
-//            keyboardType: TextInputType.emailAddress,
-//            decoration: InputDecoration(
-//              labelText: "Nome",
-//              labelStyle: TextStyle(
-//                color: Colors.black38,
-//                fontWeight: FontWeight.w400,
-//                fontSize: 20,
-//              ),
-//            ),
-//            style: TextStyle(fontSize: 20),
-//          ),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          TextFormField(
-//            keyboardType: TextInputType.text,
-//            obscureText: true,
-//            decoration: InputDecoration(
-//              labelText: "Email",
-//              labelStyle: TextStyle(
-//                color: Colors.black38,
-//                fontWeight: FontWeight.w400,
-//                fontSize: 20,
-//              ),
-//            ),
-//            style: TextStyle(fontSize: 20),
-//          ),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          TextFormField(
-//            autofocus: true,
-//            keyboardType: TextInputType.emailAddress,
-//            decoration: InputDecoration(
-//              labelText: "Telefone",
-//              labelStyle: TextStyle(
-//                color: Colors.black38,
-//                fontWeight: FontWeight.w400,
-//                fontSize: 20,
-//              ),
-//            ),
-//            style: TextStyle(fontSize: 20),
-//          ),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          TextFormField(
-//            keyboardType: TextInputType.text,
-//            obscureText: true,
-//            decoration: InputDecoration(
-//              labelText: "Senha",
-//              labelStyle: TextStyle(
-//                color: Colors.black38,
-//                fontWeight: FontWeight.w400,
-//                fontSize: 20,
-//              ),
-//            ),
-//            style: TextStyle(fontSize: 20),
-//          ),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          TextFormField(
-//            autofocus: true,
-//            keyboardType: TextInputType.emailAddress,
-//            decoration: InputDecoration(
-//              labelText: "Repita a senha",
-//              labelStyle: TextStyle(
-//                color: Colors.black38,
-//                fontWeight: FontWeight.w400,
-//                fontSize: 20,
-//              ),
-//            ),
-//            style: TextStyle(fontSize: 20),
-//          ),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          termosApp(context),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          buttonCriar(context),
-//        ],
-//      ),
-//    );
-//  }
-//
-//  Widget termosApp(BuildContext context) {
-//    return Row(
-//      children: <Widget>[
-//        Text(
-//            "Ao me cadastrar eu estou de"
-//        ),
-//      ],
-//    );
-//  }
-//
-//  Widget buttonCriar(BuildContext context) {
-//    return Container(
-//      height: 50,
-//      alignment: Alignment.centerLeft,
-//      margin: EdgeInsets.only(left: 10, right: 10),
-//      decoration: BoxDecoration(
-//          color: Colors.white,
-//          border: Border.all(
-//            width: 1,
-//            color: Colors.white,
-//          ),
-//          borderRadius: BorderRadius.all(
-//            Radius.circular(10),
-//          )
-//      ),
-//      child: SizedBox.expand(
-//        child: RaisedButton(
-//          shape: RoundedRectangleBorder(
-//            borderRadius: BorderRadius.all(Radius.circular(10)),
-//            side: BorderSide(color: Colors.black12),
-//          ),
-//          color: Theme.of(context).buttonColor,
-//          child: Text(
-//            CRIAR_CONTA.toUpperCase(),
-//            style: TextStyle(
-//              color: Colors.white,
-//              fontWeight: FontWeight.bold,
-//              fontSize: 14,
-//            ),
-//          ),
-//          onPressed: () {
-//            Navigator.push(
-//                context, CupertinoPageRoute(builder: (context) => SignUpPage()),
-//            );
-//          },
-//        ),
-//      ),
-//    );
-//  }
 
 }

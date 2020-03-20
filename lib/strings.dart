@@ -17,13 +17,22 @@ const SENHA_NAO_SAO_IGUAIS = "Senha não são iguais";
 const RECUPERAR_SENHA = "Recuperar senha";
 const LOGIN = "Login";
 const LOGAR = "Logar";
+const FAZER_LOGIN = "Fazer Login";
 const OU = "OU";
 const LOGAR_COM_GOOGLE = "Logar com Google";
 const ENVIAR = "Enviar";
 const FORGOT_PASSWORD_TEXT = "Será enviado um e-mail para recuperar a sua senha, verifique sua caixa de entrada e spam.";
+const EMAIL_VERIFICACAO_ENVIADO = "Email de verificação enviado com sucesso!";
+const ERROR_ENVIAR_EMAIL = "Erro ao enviar email de verificação";
+const EMAIL_VERIFICACAO = "Email de verificação";
+const REENVIAR_EMAIL = "Reenviar email";
 
 const CRIAR_CONTA = "Criar conta";
 const CRIANDO_CONTA = "Criando conta";
+const ESTAMOS_CRIANDO_CONTA = "Estamos criando sua conta...";
+const ERROR_CRIAR_USUARIO = "Erro ao criar novo usuário";
+const USUARIO_NAO_ENCONTRADO = "Usuário não encontrado";
+const CONTA_CRIADA_SUCESSO = "Sua conta foi criada com sucesso!";
 
 const TERMOS_DE_USO = "Termos de uso";
 const POLITICA_DE_PRIVACIDADE = "Política de privacidade";

@@ -1,5 +1,6 @@
 import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/light_button.dart';
@@ -66,10 +67,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   @override
   onSuccess(BaseUser result) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text("Sucesso"),
-      backgroundColor: Colors.blue,
-    ));
+    SingletonUser.instance.update(result);
     widget.loginCallback();
   }
 
@@ -93,7 +91,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
       child: Column(
         children: <Widget>[
           ShapeRound(
-            _showForm()
+              _showForm()
           ),
           textOU(),
           googleButton(),
@@ -155,7 +153,8 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: EMAIL,
+          labelText: EMAIL,
+          //hintText: (SingletonUser.instance.email != null) ? SingletonUser.instance.email : null,
           //icon: new Icon(Icons.email, color: Colors.grey,)
         ),
         validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
@@ -172,7 +171,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
         obscureText: true,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: SENHA,
+          labelText: SENHA,
           //icon: new Icon(Icons.lock, color: Colors.grey,)
         ),
         validator: (value) => value.isEmpty ? SENHA_INVALIDA : null,
@@ -184,44 +183,44 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   Widget showForgotPasswordButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
-        child: LightButton(
-          alignment: Alignment.bottomRight,
-          text: RECUPERAR_SENHA,
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) {
-                    return ForgotPasswordPage();
-                  }
-              ),
-            );
-          },
-        ),
+      child: LightButton(
+        alignment: Alignment.bottomRight,
+        text: RECUPERAR_SENHA,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) {
+                  return ForgotPasswordPage();
+                }
+            ),
+          );
+        },
+      ),
     );
   }
 
   Widget loginButton() {
     return new Padding(
       padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 16.0),
-        child: SizedBox(
-          width: double.infinity,
-          height: 42.0,
-          child: RaisedButton(
-            elevation: 5.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              side: BorderSide(color: Colors.lightBlueAccent),
-            ),
-            color: Colors.lightBlueAccent,
-            child: new Text(
-              LOGAR,
-              style: new TextStyle(fontSize: 18.0, color: Colors.white),
-            ),
-            onPressed: () {
-              validateAndSubmit();
-            },
+      child: SizedBox(
+        width: double.infinity,
+        height: 42.0,
+        child: RaisedButton(
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(color: Colors.lightBlueAccent),
           ),
+          color: Colors.lightBlueAccent,
+          child: new Text(
+            LOGAR,
+            style: new TextStyle(fontSize: 18.0, color: Colors.white),
+          ),
+          onPressed: () {
+            validateAndSubmit();
+          },
         ),
+      ),
     );
   }
 
@@ -238,16 +237,17 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   Widget googleButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(60.0, 12.0, 60.0, 0.0),
-        child: SecondaryButton(
-          child: Stack(
-            alignment: Alignment.centerLeft,
-            children: <Widget>[
-              SizedBox(
-                child: Image.asset("assets/google_logo.png"),
-                width: 28,
-                height: 28,
-              ),
-              Container(
+      child: SecondaryButton(
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: <Widget>[
+            SizedBox(
+              child: Image.asset("assets/google_logo.png"),
+              width: 28,
+              height: 28,
+            ),
+            Expanded(
+              child: Container(
                 //color: Colors.black,
                 alignment: Alignment.center,
                 child: Text(
@@ -259,15 +259,16 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
                   ),
                 ),
               ),
-            ],
-          ),
-          onPressed: () {
-            _scaffoldKey.currentState.showSnackBar(SnackBar(
-              content: Text("Recurso indisponível"),
-              backgroundColor: Colors.redAccent,
-            ));
-          },
+            ),
+          ],
         ),
+        onPressed: () {
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text("Recurso indisponível"),
+            backgroundColor: Colors.redAccent,
+          ));
+        },
+      ),
     );
   }
 
@@ -296,7 +297,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) {
-                    return SignUpPage();
+                    return SignUpPage(loginCallback: widget.loginCallback,);
                   }
               ),
             );

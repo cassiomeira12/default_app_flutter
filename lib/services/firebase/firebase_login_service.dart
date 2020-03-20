@@ -3,6 +3,7 @@ import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../strings.dart';
 import '../crud.dart';
 
 class FirebaseLoginService extends LoginContractService {
@@ -14,15 +15,21 @@ class FirebaseLoginService extends LoginContractService {
   @override
   signIn(String email, String password) async {
     _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).then((AuthResult result) async {
-      var user = BaseUser();
-      user.setUid(result.user.uid);
-
       Crud<BaseUser> crud = FirebaseUserService();
-      BaseUser result2 = await crud.read(user);
+      List<BaseUser> list =  await crud.findBy("email", email);
 
-      //print("Aqui " + result2.email);
+      if (list.length == 1) {
+        BaseUser user = list[0];
+        if (!user.emailVerified) { // Verificando se o email do usuario foi validado
+          user.emailVerified = result.user.isEmailVerified; // Atualizando caso o email ja foi validado
+          crud.update(user); // Atualizando a base de dados
+        }
+        presenter.onSuccess(user);
+      } else if (list.length == 0) {
+        _firebaseAuth.signOut();
+        presenter.onFailure(USUARIO_NAO_ENCONTRADO);
+      }
 
-      presenter.onSuccess(result2);
     }).catchError((error) {
       presenter.onFailure(error.toString());
     });

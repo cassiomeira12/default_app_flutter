@@ -7,10 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'login/login_page.dart';
+import 'login/verified_email_page.dart';
 
 enum AuthStatus {
   NOT_DETERMINED,
   NOT_LOGGED_IN,
+  EMAIL_NOT_VERIFIED,
   LOGGED_IN,
 }
 
@@ -44,6 +46,8 @@ class _RootPageState extends State<RootPage> implements UserContractView {
       case AuthStatus.LOGGED_IN:
         return TabsPage(logoutCallback: logoutCallback,);
         break;
+      case AuthStatus.EMAIL_NOT_VERIFIED:
+        return VerifiedEmailPage(logoutCallback: logoutCallback,);
       default:
         return buildWaitingScreen();
     }
@@ -59,9 +63,15 @@ class _RootPageState extends State<RootPage> implements UserContractView {
   }
 
   void loginCallback() {
-    setState(() {
-      authStatus = AuthStatus.LOGGED_IN;
-    });
+    if (SingletonUser.instance.emailVerified) {
+      setState(() {
+        authStatus = AuthStatus.LOGGED_IN;
+      });
+    } else {
+      setState(() {
+        authStatus = AuthStatus.EMAIL_NOT_VERIFIED;
+      });
+    }
   }
 
   void logoutCallback() {
@@ -80,9 +90,15 @@ class _RootPageState extends State<RootPage> implements UserContractView {
   @override
   onSuccess(BaseUser user) {
     SingletonUser.instance.update(user);
-    setState(() {
-      authStatus = AuthStatus.LOGGED_IN;
-    });
+    if (user.emailVerified) {
+      setState(() {
+        authStatus = AuthStatus.LOGGED_IN;
+      });
+    } else {
+      setState(() {
+        authStatus = AuthStatus.EMAIL_NOT_VERIFIED;
+      });
+    }
   }
 
 }

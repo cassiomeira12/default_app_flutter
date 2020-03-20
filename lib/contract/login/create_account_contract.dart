@@ -1,10 +1,9 @@
 import 'package:default_app_flutter/model/base_user.dart';
-
 import '../base_progress_contract.dart';
+import '../base_result_contract.dart';
 
-abstract class CreateAccountContractView extends BaseProgressContract {
-  onFailure(String error);
-  onSuccess();
+abstract class CreateAccountContractView implements BaseProgressContract, BaseResultContract<BaseUser> {
+
 }
 
 abstract class CreateAccountContractPresenter {
@@ -15,7 +14,7 @@ abstract class CreateAccountContractPresenter {
     this.view = null;
   }
 
-  createAccount(BaseUser user);
+  Future<BaseUser> createAccount(BaseUser user);
 
   onFailure(String error);
   onSuccess(BaseUser user);
@@ -29,5 +28,5 @@ abstract class CreateAccountContractService {
     this.presenter = null;
   }
 
-  createAccount(BaseUser user);
+  Future<BaseUser> createAccount(BaseUser user);
 }

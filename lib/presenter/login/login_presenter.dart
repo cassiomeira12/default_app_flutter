@@ -3,16 +3,16 @@ import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/services/firebase/firebase_login_service.dart';
 
 class LoginPresenter extends LoginContractPresenter {
-  LoginContractService repository;
+  LoginContractService service;
 
   LoginPresenter(LoginContractView view) : super(view) {
-    this.repository = FirebaseLoginService(this);
+    this.service = FirebaseLoginService(this);
   }
 
   @override
   signIn(String email, String password) {
     view.showProgress();
-    repository.signIn(email, password);
+    service.signIn(email, password);
   }
 
   @override

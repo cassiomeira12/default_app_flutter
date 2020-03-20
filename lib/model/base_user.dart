@@ -33,7 +33,7 @@ class BaseUser implements BaseModel {
     _uId = map["uId"];
     notificationToken = map["notificationToken"];
     avatarURL = map["avatarURL"];
-    status = map["status"];
+    //status = map["status"];
     name = map["name"];
     email = map["email"];
     emailVerified = map["emailVerified"];
@@ -47,7 +47,7 @@ class BaseUser implements BaseModel {
     map["uId"] = _uId;
     map["notificationToken"] = notificationToken;
     map["avatarURL"] = avatarURL;
-    map["status"] = status.toString();
+    //map["status"] = status.toString();
     map["name"] = name;
     map["email"] = email;
     map["emailVerified"] = emailVerified;

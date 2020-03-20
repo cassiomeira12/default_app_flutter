@@ -15,6 +15,6 @@ abstract class UserContractService {
   Future<void> changePassword(String email, String password, String newPassword);
   Future<void> changeEmail(String email);
 
-  isEmailVerified();
-  sendEmailVerification();
+  Future<bool> isEmailVerified();
+  Future<void> sendEmailVerification();
 }
