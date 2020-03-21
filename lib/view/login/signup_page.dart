@@ -145,7 +145,6 @@ class _SignUpPageState extends State<SignUpPage>{
           if (value.isEmpty || value.length < 6) {
             return SENHA_MUITO_CURTA;
           }
-          print(_password);
           if (_password != value) {
             return SENHA_NAO_SAO_IGUAIS;
           }

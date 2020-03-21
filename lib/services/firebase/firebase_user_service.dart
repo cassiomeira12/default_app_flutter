@@ -104,8 +104,10 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
   }
 
   @override
-  Future<void> changePassword(String email, String password, String newPassword) {
-    return null;
+  Future<void> changePassword(String email, String password, String newPassword) async {
+    return await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((result) {
+      result.user.updatePassword(newPassword);
+    });
   }
 
   @override

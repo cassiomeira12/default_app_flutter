@@ -15,8 +15,12 @@ class UserPresenter implements UserContractPresenter {
   }
 
   @override
-  Future<void> changePassword(String email, String password, String newPassword) {
-    return null;
+  Future<String> changePassword(String email, String password, String newPassword) async {
+    await service.changePassword(email, password, newPassword).then((value) {
+      _view.onSuccess(null);
+    }).catchError((error) {
+      _view.onFailure(error.message);
+    });
   }
 
   @override
@@ -45,7 +49,6 @@ class UserPresenter implements UserContractPresenter {
       _view.onSuccess(null);
     }).catchError((error) {
       _view.onFailure(ERROR_ENVIAR_EMAIL);
-      print("Erro ao enviar email ${error.message}");
     });
   }
 
