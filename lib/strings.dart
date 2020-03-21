@@ -52,3 +52,13 @@ const ABOUT = "Sobre";
 const TERMOS = "Termos";
 const DISABLE_ACCOUNT = "Desativar conta";
 const SIGNOUT = "Sair";
+
+const NUMERO_CELULAR = "Número do celular";
+const MENSAGEM_SMS_VERIFICACAO = "Insira seu número de celular, em seguida você receberá um SMS com o código de confirmação.";
+const MENSAGEM_SMS_ENVIADO = "Digite o código de confirmação enviado por SMS.";
+const DIGITE_CODIGO_VALIDACAO = "Digite o código de validação";
+const DIGITE_NUMERO_TELEFONE = "Digite o número de telefone";
+const CONFIRMAR = "Confirmar";
+const TROCAR_FOTO = "Trocar foto";
+const RECEBER_SMS = "Receber SMS";
+const ALTERAR_TELEFONE = "Alterar telefone";

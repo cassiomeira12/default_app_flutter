@@ -1,5 +1,6 @@
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/strings.dart';
+import 'package:default_app_flutter/view/login/phone_number_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/secondary_button.dart';
@@ -53,9 +54,9 @@ class _UserState extends State<UserPage> {
   }
 
   Widget _showForm() {
-    return new Container(
-      padding: EdgeInsets.all(12.0),
-      child: new Form(
+    return  Container(
+      padding: EdgeInsets.all(12),
+      child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
@@ -63,9 +64,9 @@ class _UserState extends State<UserPage> {
             txtChangePhoto(),
             nameUserInput(),
             emailUserInput(),
+            changeTelefoneButton(),
             changePasswordButton(),
             salvarButton(),
-            //_isLoading ? showCircularProgress() : sendButton()
           ],
         ),
       ),
@@ -106,11 +107,7 @@ class _UserState extends State<UserPage> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
             child: ClipOval(
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 80,
-                child: Image.asset("assets/user_default_img_white.png"),
-              ),
+              child: loadImage(),
             ),
           ),
         ),
@@ -118,34 +115,34 @@ class _UserState extends State<UserPage> {
     );
   }
 
-//  Widget loadImage() {
-//    return (userPhoto == null || userPhoto.isEmpty) ?
-//    CircleAvatar(
-//      backgroundColor: Colors.transparent,
-//      radius: 80,
-//      child: Image.asset("assets/user_default_img_white.png"),
-//    )
-//        :
-//    Image.network(userPhoto,fit: BoxFit.cover, width: 150,
-//      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-//        if (loadingProgress == null) return child;
-//        return Center(
-//          child: CircularProgressIndicator(
-//            value: loadingProgress.expectedTotalBytes != null ?
-//            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-//                : null,
-//          ),
-//        );
-//      },
-//    );
-//  }
+  Widget loadImage() {
+    return (userPhoto == null || userPhoto.isEmpty) ?
+    CircleAvatar(
+      backgroundColor: Colors.transparent,
+      radius: 80,
+      child: Image.asset("assets/user_default_img_white.png"),
+    )
+        :
+    Image.network(userPhoto,fit: BoxFit.cover, width: 150,
+      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null ?
+            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                : null,
+          ),
+        );
+      },
+    );
+  }
 
   Widget txtChangePhoto() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: Center(
         child: Text(
-          "Trocar foto",
+          TROCAR_FOTO,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
@@ -164,7 +161,7 @@ class _UserState extends State<UserPage> {
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           hintText: userName,
           //icon: new Icon(Icons.email, color: Colors.grey,)
         ),
@@ -177,11 +174,11 @@ class _UserState extends State<UserPage> {
   Widget emailUserInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      child: TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           hintText: userEmail,
           //icon: new Icon(Icons.email, color: Colors.grey,)
         ),
@@ -191,11 +188,29 @@ class _UserState extends State<UserPage> {
     );
   }
 
+  Widget changeTelefoneButton() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+      child: SecondaryButton(
+        text: ALTERAR_TELEFONE,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) {
+                  return PhoneNumberPage();
+                }
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget changePasswordButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: SecondaryButton(
-        text: "Alterar senha",
+        text: ALTERAR_SENHA,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -210,12 +225,12 @@ class _UserState extends State<UserPage> {
   }
 
   Widget salvarButton() {
-    return new Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: PrimaryButton(
-        text: "Salvar",
-        onPressed: changeDataUser
-      )
+    return Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 12.0),
+        child: PrimaryButton(
+            text: SALVAR,
+            onPressed: changeDataUser
+        )
     );
   }
 
