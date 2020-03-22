@@ -45,7 +45,7 @@ ThemeData lightTheme() {
     primaryColorDark: colorPrimaryDark,
     accentColor: colorAccent,
     // fontFamily: 'Montserrat',
-    buttonColor: Color(0xFF00D2F8),
+    buttonColor: Colors.blue[400],
     // // scaffoldBackgroundColor: backgroundColor,
     // cardColor: Colors.white,
   );

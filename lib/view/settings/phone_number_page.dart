@@ -104,6 +104,10 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         decoration: InputDecoration(
           labelText: NUMERO_CELULAR,
           hintText: "(XX) X XXXX-XXXX",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.red),
+          ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(color: Colors.red),

@@ -15,7 +15,7 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 42.0,
+      height: 45.0,
       child: RaisedButton(
         elevation: 0.0,
         shape: RoundedRectangleBorder(
