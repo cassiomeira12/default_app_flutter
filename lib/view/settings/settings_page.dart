@@ -1,7 +1,7 @@
-import 'package:default_app_flutter/contract/login/user_contract.dart';
+import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
-import 'package:default_app_flutter/presenter/login/user_presenter.dart';
+import 'package:default_app_flutter/presenter/user/user_presenter.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/notifications/notifications_settings_page.dart';
 import 'package:default_app_flutter/view/settings/about_app_page.dart';
@@ -26,12 +26,13 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
   UserContractPresenter presenter;
 
   bool darkMode = true;
-  String userPhoto;
+  String userName, userPhoto;
 
   @override
   void initState() {
     super.initState();
     presenter = UserPresenter(this);
+    userName = SingletonUser.instance.name;
     userPhoto = SingletonUser.instance.avatarURL;
   }
 
@@ -81,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
       padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: Center(
         child: Text(
-          "Cássio Meira Silva",
+          userName,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -102,11 +103,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
           child: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
             child: ClipOval(
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 60,
-                child: Image.asset("assets/user_default_img_white.png"),
-              ),
+              child: loadImage(),
             ),
           ),
         ),
@@ -114,27 +111,27 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
     );
   }
 
-//  Widget loadImage() {
-//    return (userPhoto == null || userPhoto.isEmpty) ?
-//      CircleAvatar(
-//        backgroundColor: Colors.transparent,
-//        radius: 60,
-//        child: Image.asset("assets/user_default_img_white.png"),
-//      )
-//          :
-//      Image.network(userPhoto,fit: BoxFit.cover, width: 120,
-//        loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-//          if (loadingProgress == null) return child;
-//          return Center(
-//            child: CircularProgressIndicator(
-//              value: loadingProgress.expectedTotalBytes != null ?
-//              loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-//                  : null,
-//            ),
-//          );
-//        },
-//      );
-//  }
+  Widget loadImage() {
+    return (userPhoto == null || userPhoto.isEmpty) ?
+    CircleAvatar(
+      backgroundColor: Colors.transparent,
+      radius: 60,
+      child: Image.asset("assets/user_default_img_white.png"),
+    )
+        :
+    Image.network(userPhoto,fit: BoxFit.cover, width: 120,
+      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null ?
+            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                : null,
+          ),
+        );
+      },
+    );
+  }
 
   Widget formOpcoes() {
     return Column(
@@ -153,7 +150,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget perfilButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -194,7 +191,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget notificationsSettingsButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -235,7 +232,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget darkModeButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -279,7 +276,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget aboutAppButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -320,7 +317,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget termosButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -361,7 +358,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget disableAccountButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -402,7 +399,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
 
   Widget signOutButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
       child: SizedBox(
         width: double.infinity,
         height: 60,
@@ -440,17 +437,17 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Sair"),
+          title: Text(SIGNOUT),
           content: Text("Deseja sair do ${APP_NAME} ?"),
           actions: <Widget>[
             FlatButton(
-              child: Text("Cancelar"),
+              child: Text(CANCELAR),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
-              child: Text("Sair"),
+              child: Text(SIGNOUT),
               onPressed: () {
                 Navigator.of(context).pop();
                 presenter.signOut().whenComplete(() {

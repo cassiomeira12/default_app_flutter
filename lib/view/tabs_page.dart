@@ -62,70 +62,90 @@ class _TabsPageState extends State<TabsPage> {
           height: 60,
           child: Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
 
-              MaterialButton(
-                onPressed: () {
-                  setState(() {
-                    currentScreen = screens[0];
-                    currentTab = 0;
-                  });
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.home, color: currentTab == 0 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                    currentTab == 0 ? Text(HOME, style: TextStyle(color: currentTab == 0 ? Theme.of(context).primaryColorDark : Colors.grey),) : Container()
-                  ],
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: MaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = screens[0];
+                        currentTab = 0;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.home, color: currentTab == 0 ? Theme.of(context).primaryColorDark : Colors.grey,),
+                        currentTab == 0 ? FittedBox(fit:BoxFit.fitWidth, child: Text(HOME, style: TextStyle(color: currentTab == 0 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                      ],
+                    ),
+                  ),
                 ),
               ),
 
-              MaterialButton(
-                onPressed: () {
-                  setState(() {
-                    currentScreen = screens[1];
-                    currentTab = 1;
-                  });
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.notifications, color: currentTab == 1 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                    currentTab == 1 ? Text(NOTIFICATIONS, style: TextStyle(color: currentTab == 1 ? Theme.of(context).primaryColorDark : Colors.grey),) : Container()
-                  ],
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: MaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = screens[1];
+                        currentTab = 1;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.notifications, color: currentTab == 1 ? Theme.of(context).primaryColorDark : Colors.grey,),
+                        currentTab == 1 ? FittedBox(fit:BoxFit.fitWidth, child: Text(NOTIFICATIONS, style: TextStyle(color: currentTab == 1 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                      ],
+                    ),
+                  ),
                 ),
               ),
 
-              MaterialButton(
-                onPressed: () {
-                  setState(() {
-                    currentScreen = screens[3];
-                    currentTab = 3;
-                  });
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.history, color: currentTab == 3 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                    currentTab == 3 ? Text(HISTORICO, style: TextStyle(color: currentTab == 3 ? Theme.of(context).primaryColorDark : Colors.grey),) : Container()
-                  ],
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: MaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = screens[3];
+                        currentTab = 3;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.history, color: currentTab == 3 ? Theme.of(context).primaryColorDark : Colors.grey,),
+                        currentTab == 3 ? FittedBox(fit:BoxFit.fitWidth, child: Text(HISTORICO, style: TextStyle(color: currentTab == 3 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                      ],
+                    ),
+                  ),
                 ),
               ),
 
-              MaterialButton(
-                onPressed: () {
-                  setState(() {
-                    currentScreen = screens[4];
-                    currentTab = 4;
-                  });
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.settings, color: currentTab == 4 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                    currentTab == 4 ? Text(SETTINGS, style: TextStyle(color: currentTab == 4 ? Theme.of(context).primaryColorDark : Colors.grey),) : Container()
-                  ],
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: MaterialButton(
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = screens[4];
+                        currentTab = 4;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.settings, color: currentTab == 4 ? Theme.of(context).primaryColorDark : Colors.grey,),
+                        currentTab == 4 ? FittedBox(fit:BoxFit.fitWidth, child: Text(SETTINGS, style: TextStyle(color: currentTab == 4 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                      ],
+                    ),
+                  ),
                 ),
               ),
 
@@ -133,6 +153,7 @@ class _TabsPageState extends State<TabsPage> {
           ),
         ),
       ),
+
     );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:default_app_flutter/contract/login/user_contract.dart';
+import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../crud.dart';
 
-class FirebaseUserService implements Crud<BaseUser>, UserContractService {
+class FirebaseUserService implements UserContractService {
   CollectionReference _collection = Firestore.instance.collection("teste");
 
   @override
@@ -37,33 +37,27 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
       });
       return list;
     }).catchError((error) {
+      print(error.message);
       return null;
     });
   }
 
-  Future<BaseUser> findUserByEmail(String email) {
-    return _collection
-        .where("email", isEqualTo: email)
-        .getDocuments()
-        .then((value) {
-      print("findUserByEmail");
-      print(value.documentChanges.toString());
-      print(value.documents.length);
+  Future<BaseUser> findUserByEmail(String email) async {
+    List<BaseUser> list =  await findBy("email", email);
 
-      if (value.documents.length == 1) {//Usuario encontrado
-        return BaseUser.fromMap(value.documents[0].data);
-      } else if (value.documents.length == 0) {//Usuaro nao encontrado
-        print("Usuário não encontrado");
-        return null;
-      } else {//Mais de 1 conta com mesmo email
-        print("Mais de 1 usuário com mesmo email");
-        return null;
-      }
-
-    }).catchError((error) {
-      print(error.message);
+    if (list == null) {
       return null;
-    });
+    }
+
+    if (list.length == 1) {
+      return list[0];
+    } else if (list.length == 0) {
+      print("Usuário não encontrado");
+      return null;
+    } else {
+      print("Mais de 1 usuário com mesmo email");
+      return null;
+    }
   }
 
   @override

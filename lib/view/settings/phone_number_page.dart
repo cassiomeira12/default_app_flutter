@@ -1,3 +1,4 @@
+import 'package:default_app_flutter/model/phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
@@ -90,17 +91,31 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
     );
   }
 
-  Widget showNumberInput() {
+  Widget showNumberInput () {
     var controller = MaskedTextController(mask: '(00) 0 0000-0000');
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: TextFormField(
         textAlign: TextAlign.center,
         maxLines: 1,
         keyboardType: TextInputType.phone,
-        autofocus: false,
+        style: TextStyle(fontSize: 18),
+        textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
-          hintText: '(XX) X XXXX-XXXX',
+          labelText: NUMERO_CELULAR,
+          hintText: "(XX) X XXXX-XXXX",
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         controller: controller,
         validator: (value) => value.isEmpty ? DIGITE_NUMERO_TELEFONE : null,
@@ -128,12 +143,21 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
     return false;
   }
 
+  PhoneNumber createNumber(String phoneNumber) {
+    PhoneNumber phone = PhoneNumber();
+    phone.countryCode = "+55";
+    phone.ddd = _phoneNumber.substring(1, 3);
+    phone.number = _phoneNumber.substring(5);
+    return phone;
+  }
+
   void validateAndSubmit() {
     if (validateAndSave()) {
+      PhoneNumber phone = createNumber(_phoneNumber);
       Navigator.of(context).pop();
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) {
-          return VerifiedPhoneNumberPage(phoneNumber: _phoneNumber,);
+          return VerifiedPhoneNumberPage(phoneNumber: phone,);
         }),
       );
     }

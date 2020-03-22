@@ -1,4 +1,5 @@
 import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/services/crud.dart';
 
 abstract class UserContractView {
   onFailure(String error);
@@ -9,7 +10,7 @@ abstract class UserContractPresenter extends UserContractService {
 
 }
 
-abstract class UserContractService {
+abstract class UserContractService extends Crud<BaseUser> {
   Future<BaseUser> currentUser();
   Future<void> signOut();
   Future<void> changePassword(String email, String password, String newPassword);

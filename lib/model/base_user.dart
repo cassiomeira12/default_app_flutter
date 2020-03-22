@@ -1,6 +1,7 @@
 import 'package:default_app_flutter/model/status.dart';
 
 import 'base_model.dart';
+import 'phone_number.dart';
 
 class BaseUser implements BaseModel {
   String _uId;
@@ -13,6 +14,7 @@ class BaseUser implements BaseModel {
   String password;
   DateTime createAt;
   DateTime updateAt;
+  PhoneNumber phoneNumber;
 
   BaseUser();
 
@@ -27,9 +29,10 @@ class BaseUser implements BaseModel {
     password = user.password;
     createAt = user.createAt;
     updateAt = user.updateAt;
+    phoneNumber = user.phoneNumber;
   }
 
-  BaseUser.fromMap(Map<String, dynamic>  map) {
+  BaseUser.fromMap(Map<dynamic, dynamic>  map) {
     _uId = map["uId"];
     notificationToken = map["notificationToken"];
     avatarURL = map["avatarURL"];
@@ -40,6 +43,7 @@ class BaseUser implements BaseModel {
     password = map["password"];
     createAt = map["createAt"];
     updateAt = map["updateAt"];
+    phoneNumber = map["phoneNumber"] == null ? null : PhoneNumber.fromMap(map["phoneNumber"]);
   }
 
   toMap() {
@@ -54,6 +58,7 @@ class BaseUser implements BaseModel {
     map["password"] = password;
     map["createAt"] = createAt;
     map["updateAt"] = updateAt;
+    map["phoneNumber"] = phoneNumber == null ? null : phoneNumber.toMap();
     return map;
   }
 

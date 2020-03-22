@@ -18,6 +18,10 @@ class FirebaseLoginService extends LoginContractService {
       Crud<BaseUser> crud = FirebaseUserService();
       List<BaseUser> list =  await crud.findBy("email", email);
 
+      if (list == null) {
+        return presenter.onFailure(USUARIO_NAO_ENCONTRADO);
+      }
+
       if (list.length == 1) {
         BaseUser user = list[0];
         if (!user.emailVerified) { // Verificando se o email do usuario foi validado

@@ -1,7 +1,7 @@
-import 'package:default_app_flutter/contract/login/user_contract.dart';
+import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
-import 'package:default_app_flutter/presenter/login/user_presenter.dart';
+import 'package:default_app_flutter/presenter/user/user_presenter.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/secondary_button.dart';
