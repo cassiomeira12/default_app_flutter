@@ -6,6 +6,7 @@ import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
+import '../page_router.dart';
 import 'verified_phone_number_page.dart';
 
 class PhoneNumberPage extends StatefulWidget {
@@ -20,7 +21,8 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
+      appBar: AppBar( iconTheme: IconThemeData(color: Colors.white), elevation: 0,),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
@@ -66,10 +68,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
     return Center(
       child: Text(
         NUMERO_CELULAR,
-        style: TextStyle(
-          fontSize: 32,
-          color: Colors.black38,
-        ),
+        style: Theme.of(context).textTheme.subtitle,
       ),
     );
   }
@@ -81,11 +80,7 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         child: Text(
           MENSAGEM_SMS_VERIFICACAO,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.body2,
         ),
       ),
     );
@@ -99,22 +94,24 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
         textAlign: TextAlign.center,
         maxLines: 1,
         keyboardType: TextInputType.phone,
-        style: TextStyle(fontSize: 18),
+        style: Theme.of(context).textTheme.body2,
         textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
           labelText: NUMERO_CELULAR,
           hintText: "(XX) X XXXX-XXXX",
+          hintStyle: Theme.of(context).textTheme.body2,
+          labelStyle: Theme.of(context).textTheme.body2,
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -158,14 +155,9 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
   void validateAndSubmit() {
     if (validateAndSave()) {
       PhoneNumber phone = createNumber(_phoneNumber);
-      Navigator.of(context).pop();
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) {
-          return VerifiedPhoneNumberPage(phoneNumber: phone,);
-        }),
-      );
+      PageRouter.pop(context);
+      PageRouter.push(context, VerifiedPhoneNumberPage(phoneNumber: phone,));
     }
   }
 
 }
-

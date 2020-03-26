@@ -20,7 +20,6 @@ class VerifiedEmailPage extends StatefulWidget {
 }
 
 class _VerifiedEmailPageState extends State<VerifiedEmailPage> implements UserContractView {
-
   String email = "";
   String imgEmail = "assets/error.png";
   bool sendingEmail = true;
@@ -38,7 +37,7 @@ class _VerifiedEmailPageState extends State<VerifiedEmailPage> implements UserCo
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
@@ -55,9 +54,9 @@ class _VerifiedEmailPageState extends State<VerifiedEmailPage> implements UserCo
   }
 
   Widget _showForm() {
-    return new Container(
+    return Container(
       padding: EdgeInsets.all(12.0),
-      child: new Form(
+      child: Form(
         //key: _formKey,
         child: Column(
           children: <Widget>[
@@ -76,10 +75,7 @@ class _VerifiedEmailPageState extends State<VerifiedEmailPage> implements UserCo
     return Center(
       child: Text(
         EMAIL_VERIFICACAO,
-        style: TextStyle(
-          fontSize: 24,
-          color: Colors.black38,
-        ),
+        style: Theme.of(context).textTheme.subtitle,
       ),
     );
   }
@@ -112,11 +108,7 @@ class _VerifiedEmailPageState extends State<VerifiedEmailPage> implements UserCo
             Text(
               textMessage,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black54,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.body2,
             ),
             Text(
               email,

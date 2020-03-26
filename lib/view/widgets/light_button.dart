@@ -18,11 +18,7 @@ class LightButton extends StatelessWidget {
       child: FlatButton(
         child: Text(
           text,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-            fontSize: 14,
-          ),
+          style: Theme.of(context).textTheme.button,
         ),
         onPressed: onPressed
       ),

@@ -2,8 +2,11 @@ import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
+import 'package:default_app_flutter/utils/preferences_util.dart';
+import 'package:default_app_flutter/view/page_router.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/light_button.dart';
+import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/secondary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +76,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Stack(
@@ -94,7 +97,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
               _showForm()
           ),
           textOU(),
-          googleButton(),
+          //googleButton(),
           signupButton(),
         ],
       ),
@@ -102,9 +105,9 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   }
 
   Widget _showForm() {
-    return new Container(
+    return Container(
       padding: EdgeInsets.all(12.0),
-      child: new Form(
+      child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
@@ -128,18 +131,15 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
             padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
-              radius: 48.0,
-              child: Image.asset("assets/logo_app.png"),
+              radius: 58.0,
+              child: Image.asset("assets/user_default_img_white.png"),
             ),
           ),
         ),
         SizedBox(height: 10),
         Text(
           APP_NAME,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black87,
-          ),
+          style: Theme.of(context).textTheme.body1,
         ),
       ],
     );
@@ -147,15 +147,32 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   Widget showEmailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+      child: TextFormField(
+        textAlign: TextAlign.center,
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
+        style: Theme.of(context).textTheme.body2,
+        decoration: InputDecoration(
           labelText: EMAIL,
-          //hintText: (SingletonUser.instance.email != null) ? SingletonUser.instance.email : null,
-          //icon: new Icon(Icons.email, color: Colors.grey,)
+          labelStyle: Theme.of(context).textTheme.body2,
+          //hintText: "",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
         onSaved: (value) => _email = value.trim(),
@@ -165,14 +182,33 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   Widget showPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+      child: TextFormField(
+        textAlign: TextAlign.center,
         maxLines: 1,
+        keyboardType: TextInputType.emailAddress,
         obscureText: true,
-        autofocus: false,
-        decoration: new InputDecoration(
+        style: Theme.of(context).textTheme.body2,
+        decoration: InputDecoration(
           labelText: SENHA,
-          //icon: new Icon(Icons.lock, color: Colors.grey,)
+          labelStyle: Theme.of(context).textTheme.body2,
+          //hintText: "",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) => value.isEmpty ? SENHA_INVALIDA : null,
         onSaved: (value) => _password = value.trim(),
@@ -182,44 +218,23 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   Widget showForgotPasswordButton() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: LightButton(
         alignment: Alignment.bottomRight,
         text: RECUPERAR_SENHA,
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) {
-                  return ForgotPasswordPage();
-                }
-            ),
-          );
+          PageRouter.push(context, ForgotPasswordPage());
         },
       ),
     );
   }
 
   Widget loginButton() {
-    return new Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 16.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 42.0,
-        child: RaisedButton(
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Colors.lightBlueAccent),
-          ),
-          color: Colors.lightBlueAccent,
-          child: new Text(
-            LOGAR,
-            style: new TextStyle(fontSize: 18.0, color: Colors.white),
-          ),
-          onPressed: () {
-            validateAndSubmit();
-          },
-        ),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
+      child: PrimaryButton(
+        text: ENTRAR,
+        onPressed: validateAndSubmit,
       ),
     );
   }
@@ -227,10 +242,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   Widget textOU() {
     return Text(
       "--- $OU ---",
-      style: TextStyle(
-        fontSize: 18,
-        color: Colors.black38,
-      ),
+      style: Theme.of(context).textTheme.body2,
     );
   }
 
@@ -251,22 +263,22 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
                 //color: Colors.black,
                 alignment: Alignment.center,
                 child: Text(
-                  LOGAR_COM_GOOGLE.toUpperCase(),
+                  LOGAR_COM_GOOGLE,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                    fontSize: 14,
+                    color: Colors.black45,
+                    fontSize: 18,
                   ),
                 ),
               ),
             ),
           ],
         ),
-        onPressed: () { 
+        onPressed: () {
           //presenter.signInWithGoogle();
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text("Recurso indisponível"),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Theme.of(context).errorColor,
           ));
         },
       ),
@@ -275,35 +287,12 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   Widget signupButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(60.0, 12.0, 60.0, 16.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 42.0,
-        child: RaisedButton(
-          elevation: 0.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Colors.black12),
-          ),
-          color: Colors.white,
-          child: Text(
-            CRIAR_CONTA,
-            style: new TextStyle(
-              fontSize: 18.0,
-              color: Colors.blueAccent,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) {
-                    return SignUpPage(loginCallback: widget.loginCallback,);
-                  }
-              ),
-            );
-          },
-        ),
+      padding: EdgeInsets.fromLTRB(60, 12, 60, 16),
+      child: SecondaryButton(
+        text: CRIAR_CONTA,
+        onPressed: () {
+          PageRouter.push(context, SignUpPage(loginCallback: widget.loginCallback,));
+        },
       ),
     );
   }

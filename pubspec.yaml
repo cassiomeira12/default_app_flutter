@@ -21,6 +21,7 @@ dependencies:
   #bloc_pattern: 2.2.3 #Funciona
   progress_dialog: 1.2.0 #Funciona
   flutter_masked_text: ^0.8.0
+  shared_preferences: ^0.5.3
 
 dev_dependencies:
   flutter_test:

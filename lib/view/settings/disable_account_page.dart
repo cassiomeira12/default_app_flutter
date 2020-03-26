@@ -13,7 +13,7 @@ class _DisableAccountState extends State<DisableAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
         title: Text(DISABLE_ACCOUNT, style: TextStyle(color: Colors.white),),
@@ -41,11 +41,7 @@ class _DisableAccountState extends State<DisableAccountPage> {
       child: Text(
         "Tem certeza que deseja desativar sua conta?",
         textAlign: TextAlign.left,
-        style: TextStyle(
-          fontSize: 20,
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(context).textTheme.body1,
       ),
     );
   }
@@ -56,17 +52,13 @@ class _DisableAccountState extends State<DisableAccountPage> {
       child: Text(
         "Se você acha que não vai user o ${APP_NAME} novamente e desaja desativar sua conta, cuidaremos disso para você.",
         textAlign: TextAlign.left,
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.black54,
-          //fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(context).textTheme.body2,
       ),
     );
   }
 
   Widget disableAccountButton() {
-    return new Padding(
+    return Padding(
       padding: EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 20.0),
         child: DangerButton(
           text: DISABLE_ACCOUNT,
@@ -76,6 +68,5 @@ class _DisableAccountState extends State<DisableAccountPage> {
         ),
     );
   }
-
 
 }

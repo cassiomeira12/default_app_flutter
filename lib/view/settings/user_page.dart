@@ -3,10 +3,10 @@ import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/settings/phone_number_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
-import 'package:default_app_flutter/view/widgets/secondary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
+import '../page_router.dart';
 import 'change_password_page.dart';
 
 class UserPage extends StatefulWidget {
@@ -68,37 +68,6 @@ class _UserState extends State<UserPage> {
             phoneNumberUser(),
             changePasswordButton(),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget perfilButton() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.5, 0.0, 0.0),
-      child: SizedBox(
-        //width: double.infinity,
-        height: 55,
-        child: RaisedButton(
-          elevation: 0.5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0),
-            //side: BorderSide(color: Colors.black12),
-          ),
-          color: Colors.white,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(userPhoneNumber, style: TextStyle(fontSize: 18.0, color: Colors.black45),),
-              ),
-              Container(
-                child: Icon(Icons.chevron_right, color: Colors.black45,),
-              ),
-            ],
-          ),
-          onPressed: () {
-
-          },
         ),
       ),
     );
@@ -175,11 +144,7 @@ class _UserState extends State<UserPage> {
         child: Text(
           TROCAR_FOTO,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black54,
-            //fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.body2,
         ),
       ),
     );
@@ -197,14 +162,19 @@ class _UserState extends State<UserPage> {
             borderRadius: BorderRadius.circular(0),
             //side: BorderSide(color: Colors.black12),
           ),
-          color: Colors.white,
+          color: Theme.of(context).backgroundColor,
           child: Row(
             children: <Widget>[
               Expanded(
-                child: Text(userName, style: TextStyle(fontSize: 16.0, color: Colors.black45),),
+                child: Text(
+                  userName,
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black45,),
+                child: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color,),
               ),
             ],
           ),
@@ -228,14 +198,19 @@ class _UserState extends State<UserPage> {
             borderRadius: BorderRadius.circular(0),
             //side: BorderSide(color: Colors.black12),
           ),
-          color: Colors.white,
+          color: Theme.of(context).backgroundColor,
           child: Row(
             children: <Widget>[
               Expanded(
-                child: Text(userEmail, style: TextStyle(fontSize: 16.0, color: Colors.black45),),
+                child: Text(
+                  userEmail,
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black45,),
+                child: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color,),
               ),
             ],
           ),
@@ -259,25 +234,24 @@ class _UserState extends State<UserPage> {
             borderRadius: BorderRadius.circular(0),
             //side: BorderSide(color: Colors.black12),
           ),
-          color: Colors.white,
+          color: Theme.of(context).backgroundColor,
           child: Row(
             children: <Widget>[
               Expanded(
-                child: Text(userPhoneNumber, style: TextStyle(fontSize: 16.0, color: Colors.black45),),
+                child: Text(
+                  userPhoneNumber,
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Container(
-                child: Icon(Icons.chevron_right, color: Colors.black45,),
+                child: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color,),
               ),
             ],
           ),
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) {
-                    return PhoneNumberPage();
-                  }
-              ),
-            );
+            PageRouter.push(context, PhoneNumberPage());
           },
         ),
       ),
@@ -290,13 +264,7 @@ class _UserState extends State<UserPage> {
       child: PrimaryButton(
         text: ALTERAR_SENHA,
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) {
-                  return ChangePasswordPage();
-                }
-            ),
-          );
+          PageRouter.push(context, ChangePasswordPage());
         },
       ),
     );

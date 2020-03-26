@@ -2,6 +2,9 @@ import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/user/user_presenter.dart';
+import 'package:default_app_flutter/themes/my_themes.dart';
+import 'package:default_app_flutter/themes/custom_theme.dart';
+import 'package:default_app_flutter/utils/preferences_util.dart';
 import 'package:default_app_flutter/view/tabs_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +35,12 @@ class _RootPageState extends State<RootPage> implements UserContractView {
     super.initState();
     presenter = UserPresenter(this);
     presenter.currentUser();
+    updateCurrentTheme();
+  }
+
+  void updateCurrentTheme() async {
+    String theme = await PreferencesUtil.getTheme();
+    CustomTheme.instanceOf(context).changeTheme(MyThemes.geKey(theme));
   }
 
   @override
@@ -57,7 +66,25 @@ class _RootPageState extends State<RootPage> implements UserContractView {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        child: CircularProgressIndicator(),
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Hero(
+                tag: 'hero',
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 100,
+                    child: Image.asset("assets/user_default_img_white.png"),
+                  ),
+                ),
+              ),
+              CircularProgressIndicator(),
+            ],
+          ),
+        ),
       ),
     );
   }

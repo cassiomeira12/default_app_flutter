@@ -2,9 +2,12 @@ import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/login/create_account_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
+import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../page_router.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({this.loginCallback});
@@ -24,10 +27,8 @@ class _SignUpPageState extends State<SignUpPage>{
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+    return Scaffold(
+      appBar: AppBar( iconTheme: IconThemeData(color: Colors.white), elevation: 0,),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
@@ -44,9 +45,9 @@ class _SignUpPageState extends State<SignUpPage>{
   }
 
   Widget _showForm() {
-    return new Container(
+    return Container(
       padding: EdgeInsets.all(12.0),
-      child: new Form(
+      child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
@@ -67,10 +68,7 @@ class _SignUpPageState extends State<SignUpPage>{
     return Center(
       child: Text(
         CRIAR_CONTA,
-        style: TextStyle(
-          fontSize: 32,
-          color: Colors.black38,
-        ),
+        style: Theme.of(context).textTheme.subtitle,
       ),
     );
   }
@@ -78,12 +76,32 @@ class _SignUpPageState extends State<SignUpPage>{
   Widget nameInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
-        keyboardType: TextInputType.text,
-        autofocus: false,
-        decoration: new InputDecoration(
+        keyboardType: TextInputType.emailAddress,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
+        decoration: InputDecoration(
           labelText: NOME,
+          labelStyle: Theme.of(context).textTheme.body2,
+          //hintText: "",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) => value.isEmpty ? DIGITE_SEU_NOME : null,
         onSaved: (value) => _name = value.trim(),
@@ -94,12 +112,32 @@ class _SignUpPageState extends State<SignUpPage>{
   Widget emailInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
+        decoration: InputDecoration(
           labelText: EMAIL,
+          labelStyle: Theme.of(context).textTheme.body2,
+          //hintText: "",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
         onSaved: (value) => _email = value.trim(),
@@ -110,13 +148,33 @@ class _SignUpPageState extends State<SignUpPage>{
   Widget passwordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.emailAddress,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
         obscureText: true,
-        autofocus: false,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           labelText: SENHA,
+          labelStyle: Theme.of(context).textTheme.body2,
+          //hintText: "",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) {
           if (value.isEmpty || value.length < 6) {
@@ -133,13 +191,33 @@ class _SignUpPageState extends State<SignUpPage>{
   Widget confirmPasswordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
+      child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.emailAddress,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
         obscureText: true,
-        autofocus: false,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           labelText: REPITA_SENHA,
+          labelStyle: Theme.of(context).textTheme.body2,
+          //hintText: "",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) {
           if (value.isEmpty || value.length < 6) {
@@ -161,37 +239,18 @@ class _SignUpPageState extends State<SignUpPage>{
         child: Text(
           TEXT_DADOS,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black38,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.body2,
         ),
       ),
     );
   }
 
   Widget createAccountButton() {
-    return new Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 16.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 42.0,
-        child: RaisedButton(
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Colors.lightBlueAccent),
-          ),
-          color: Colors.lightBlueAccent,
-          child: new Text(
-            CRIAR_CONTA,
-            style: new TextStyle(fontSize: 18.0, color: Colors.white),
-          ),
-          onPressed: () {
-            createAccount();
-          },
-        ),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
+      child: PrimaryButton(
+        text: CRIAR_CONTA,
+        onPressed: createAccount,
       ),
     );
   }
@@ -216,14 +275,8 @@ class _SignUpPageState extends State<SignUpPage>{
   void createAccount() {
     if (validateData()) {
       var user = createBaseUser();
-      Navigator.pop(context);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context) {
-              return CreateAccountPage(loginCallback: widget.loginCallback, user: user,);
-            }
-        ),
-      );
+      PageRouter.pop(context);
+      PageRouter.push(context, CreateAccountPage(loginCallback: widget.loginCallback, user: user,));
     }
   }
 

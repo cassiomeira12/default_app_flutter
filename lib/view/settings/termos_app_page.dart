@@ -12,7 +12,7 @@ class _TermosAppState extends State<TermosAppPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
         title: Text(TERMOS, style: TextStyle(color: Colors.white),),
@@ -34,9 +34,7 @@ class _TermosAppState extends State<TermosAppPage> {
       width: double.maxFinite,
       child: Text(
         "Termos do App",
-        style: TextStyle(
-          fontSize: 18,
-        ),
+        style: Theme.of(context).textTheme.body1,
       ),
     );
   }

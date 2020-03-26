@@ -3,7 +3,9 @@ import 'package:default_app_flutter/model/status.dart';
 import 'base_model.dart';
 import 'phone_number.dart';
 
-class BaseUser implements BaseModel {
+class BaseUser implements BaseModel<BaseUser> {
+  static getCollection() => "users";
+
   String _uId;
   String notificationToken;
   String avatarURL;
@@ -60,26 +62,6 @@ class BaseUser implements BaseModel {
     map["updateAt"] = updateAt;
     map["phoneNumber"] = phoneNumber == null ? null : phoneNumber.toMap();
     return map;
-  }
-
-  toJson() {
-    return {
-      "uId": _uId,
-      "notificationToken": notificationToken,
-      "avatarURL": avatarURL,
-      "status": status,
-      "name": name,
-      "email": email,
-      "emailVerified": emailVerified,
-      "password": password,
-      "createAt": createAt,
-      "updateAt": updateAt,
-    };
-  }
-
-  @override
-  String getCollection() {
-    return "teste";
   }
 
   @override

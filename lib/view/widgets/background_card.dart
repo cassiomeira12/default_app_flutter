@@ -4,7 +4,7 @@ class BackgroundCard extends StatelessWidget {
   final double height;
 
   const BackgroundCard({
-    @required this.height,
+    this.height,
   });
 
   @override
@@ -12,7 +12,7 @@ class BackgroundCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: height == null ? 300 : height,
-      color: Colors.greenAccent,
+      color: Theme.of(context).primaryColor,
     );
   }
 }

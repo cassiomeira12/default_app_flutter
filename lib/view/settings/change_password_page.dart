@@ -3,6 +3,7 @@ import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/user/user_presenter.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
+import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
     });
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(error),
-      backgroundColor: Colors.red,
+      backgroundColor: Theme.of(context).errorColor,
     ));
   }
 
@@ -82,7 +83,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
   }
 
   Widget _showForm() {
-    return new Container(
+    return Container(
       padding: EdgeInsets.all(12.0),
       child: Form(
         key: _formKey,
@@ -100,18 +101,37 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
 
   Widget currentPasswordInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
       child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
         keyboardType: TextInputType.text,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
         obscureText: true,
-        autofocus: false,
-        controller: _controllerCurrentPassword,
         decoration: InputDecoration(
           labelText: SENHA_ATUAL,
+          labelStyle: Theme.of(context).textTheme.body2,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
         onSaved: (value) => _currentPassword = value.trim(),
+        controller: _controllerCurrentPassword,
       ),
     );
   }
@@ -120,13 +140,31 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
       child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
         keyboardType: TextInputType.text,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
         obscureText: true,
-        autofocus: false,
-        controller: _controllerNewPassword,
         decoration: InputDecoration(
           labelText: NOVA_SENHA,
+          labelStyle: Theme.of(context).textTheme.body2,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) {
           if (value.isEmpty || value.length < 6) {
@@ -136,6 +174,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
           return null;
         },
         onSaved: (value) => _newPassword = value.trim(),
+        controller: _controllerNewPassword,
       ),
     );
   }
@@ -144,13 +183,31 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
       child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
         keyboardType: TextInputType.text,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
         obscureText: true,
-        autofocus: false,
-        controller: _controllerConfirmPassword,
         decoration: InputDecoration(
           labelText: REPITA_SENHA,
+          labelStyle: Theme.of(context).textTheme.body2,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) {
           if (value.isEmpty || value.length < 6) {
@@ -161,6 +218,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
           }
           return null;
         },
+        controller: _controllerConfirmPassword,
       ),
     );
   }
@@ -174,24 +232,10 @@ class _ChangePasswordState extends State<ChangePasswordPage> implements UserCont
 
   Widget salvarButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 42.0,
-        child: RaisedButton(
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          color: Colors.lightBlueAccent,
-          child: Text(
-            SALVAR,
-            style: TextStyle(fontSize: 18.0, color: Colors.white),
-          ),
-          onPressed: () {
-            changePassword();
-          },
-        ),
+      padding: EdgeInsets.fromLTRB(0, 16, 0, 12),
+      child: PrimaryButton(
+        text: SALVAR,
+        onPressed: changePassword,
       ),
     );
   }

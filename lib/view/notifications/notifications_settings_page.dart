@@ -1,6 +1,4 @@
 import 'package:default_app_flutter/strings.dart';
-import 'package:default_app_flutter/view/widgets/background_card.dart';
-import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsSettingsPage extends StatefulWidget {
@@ -16,7 +14,7 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
         title: Text(NOTIFICATIONS, style: TextStyle(color: Colors.white),),
@@ -55,7 +53,7 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
             borderRadius: BorderRadius.circular(0.0),
             //side: BorderSide(color: Colors.black26),
           ),
-          color: Colors.white,
+          color: Theme.of(context).backgroundColor,
           child: Row(
             children: <Widget>[
 //              Padding(
@@ -63,11 +61,17 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
 //                child: Icon(Icons.color_lens, color: Colors.black54,),
 //              ),
               Expanded(
-                child: Text("Dark Mode", style: TextStyle(fontSize: 18.0, color: Colors.black45),),
+                child: Text(
+                  "Dark Mode",
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Container(
                 child: Switch(
                   value: notifications,
+                  activeColor: Theme.of(context).accentColor,
                   onChanged: (value) {
                     setState(() {
                       notifications = value;

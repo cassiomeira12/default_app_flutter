@@ -13,6 +13,8 @@ import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
+import '../page_router.dart';
+
 class VerifiedPhoneNumberPage extends StatefulWidget {
   VerifiedPhoneNumberPage({this.phoneNumber});
 
@@ -75,9 +77,8 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
       backgroundColor: Colors.green,
     ));
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).pop();
+    PageRouter.pop(context);
   }
-
 
   @override
   verificationCompleted() {
@@ -85,17 +86,14 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
     setState(() {
       waitingSMS = false;
     });
-    print(widget.phoneNumber.toString());
     widget.phoneNumber.verified = true;
     SingletonUser.instance.phoneNumber = widget.phoneNumber;
-    print(SingletonUser.instance.toMap());
     crud.update(SingletonUser.instance);
   }
 
   @override
   codeSent(String verificationId) {
     print("_smsCodeSent");
-    print(verificationId);
     setState(() {
       loading = false;
       waitingSMS = true;
@@ -107,7 +105,6 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
   @override
   codeAutoRetrievalTimeout(String verificationId) {
     print("_codeAutoRetriavalTimeout");
-    print(verificationId);
     setState(() {
       waitingSMS = false;
       _verificationId = verificationId;
@@ -125,7 +122,7 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
     });
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(error),
-      backgroundColor: Colors.red,
+      backgroundColor: Theme.of(context).errorColor,
     ));
   }
 
@@ -160,10 +157,7 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
     return Center(
       child: Text(
         NUMERO_CELULAR,
-        style: TextStyle(
-          fontSize: 32,
-          color: Colors.black38,
-        ),
+        style: Theme.of(context).textTheme.subtitle,
       ),
     );
   }
@@ -189,11 +183,7 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
         child: Text(
           MENSAGEM_SMS_ENVIADO,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.body2,
         ),
       ),
     );
@@ -208,7 +198,7 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 22,
-            color: Colors.black54,
+            color: Theme.of(context).textTheme.body2.color,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -233,15 +223,34 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
   Widget codeInput() {
     var controller = MaskedTextController(mask: '000000');
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
       child: TextFormField(
         textAlign: TextAlign.center,
         maxLines: 1,
         keyboardType: TextInputType.phone,
-        style: TextStyle(fontSize: 18),
-        autofocus: false,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
+        obscureText: true,
         decoration: InputDecoration(
           hintText: 'XXXXXX',
+          hintStyle: Theme.of(context).textTheme.body2,
+          labelStyle: Theme.of(context).textTheme.body2,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         controller: controller,
         validator: (value) => value.isEmpty ? DIGITE_CODIGO_VALIDACAO : null,
@@ -261,12 +270,12 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
         ),
         color: Colors.white,
         child: Text(
-            REENVIAR_SMS,
-            style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.black45,
-              fontWeight: FontWeight.bold,
-            )
+          REENVIAR_SMS,
+          style: TextStyle(
+            fontSize: 18.0,
+            color: Colors.black45,
+            fontWeight: FontWeight.bold,
+          )
         ),
         onPressed: () {
           presenter.verifyPhoneNumber(widget.phoneNumber.toString());
@@ -282,11 +291,11 @@ class _VerifiedPhoneNumberPageState extends State<VerifiedPhoneNumberPage> imple
 
   Widget confirmationButton() {
     return Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-        child: PrimaryButton(
-            text: CONFIRMAR,
-            onPressed: sendCode
-        )
+      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+      child: PrimaryButton(
+        text: CONFIRMAR,
+        onPressed: sendCode
+      )
     );
   }
 

@@ -65,3 +65,5 @@ const ALTERAR_TELEFONE = "Alterar telefone";
 const REENVIAR_SMS = "Reenviar SMS";
 const CANCELAR = "Cancelar";
 const TELEFONE_ATUALIZADO = "Telefone Atualizado";
+
+const ENTRAR = "Entrar";
