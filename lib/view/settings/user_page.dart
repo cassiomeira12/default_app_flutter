@@ -1,11 +1,12 @@
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/strings.dart';
+import 'package:default_app_flutter/view/settings/phone_number_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
-import 'package:default_app_flutter/view/widgets/secondary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
+import '../page_router.dart';
 import 'change_password_page.dart';
 
 class UserPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class UserPage extends StatefulWidget {
 class _UserState extends State<UserPage> {
   final _formKey = new GlobalKey<FormState>();
 
-  String userName, userEmail, userPhoto;
+  String userName, userEmail, userPhoneNumber , userPhoto;
 
   @override
   void initState() {
@@ -25,13 +26,14 @@ class _UserState extends State<UserPage> {
     if (SingletonUser.instance != null) {
       userName = SingletonUser.instance.name;
       userEmail = SingletonUser.instance.email;
+      userPhoneNumber = SingletonUser.instance.phoneNumber == null ? NUMERO_CELULAR : SingletonUser.instance.phoneNumber.toString();
       userPhoto = SingletonUser.instance.avatarURL;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
         title: Text(PERFIL, style: TextStyle(color: Colors.white),),
@@ -53,19 +55,18 @@ class _UserState extends State<UserPage> {
   }
 
   Widget _showForm() {
-    return new Container(
-      padding: EdgeInsets.all(12.0),
-      child: new Form(
+    return  Container(
+      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
+      child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
             user(),
             txtChangePhoto(),
-            nameUserInput(),
-            emailUserInput(),
+            nameUser(),
+            emailUser(),
+            phoneNumberUser(),
             changePasswordButton(),
-            salvarButton(),
-            //_isLoading ? showCircularProgress() : sendButton()
           ],
         ),
       ),
@@ -106,11 +107,7 @@ class _UserState extends State<UserPage> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
             child: ClipOval(
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 80,
-                child: Image.asset("assets/user_default_img_white.png"),
-              ),
+              child: loadImage(),
             ),
           ),
         ),
@@ -118,109 +115,159 @@ class _UserState extends State<UserPage> {
     );
   }
 
-//  Widget loadImage() {
-//    return (userPhoto == null || userPhoto.isEmpty) ?
-//    CircleAvatar(
-//      backgroundColor: Colors.transparent,
-//      radius: 80,
-//      child: Image.asset("assets/user_default_img_white.png"),
-//    )
-//        :
-//    Image.network(userPhoto,fit: BoxFit.cover, width: 150,
-//      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-//        if (loadingProgress == null) return child;
-//        return Center(
-//          child: CircularProgressIndicator(
-//            value: loadingProgress.expectedTotalBytes != null ?
-//            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-//                : null,
-//          ),
-//        );
-//      },
-//    );
-//  }
+  Widget loadImage() {
+    return (userPhoto == null || userPhoto.isEmpty) ?
+    CircleAvatar(
+      backgroundColor: Colors.transparent,
+      radius: 80,
+      child: Image.asset("assets/user_default_img_white.png"),
+    )
+        :
+    Image.network(userPhoto,fit: BoxFit.cover, width: 150,
+      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null ?
+            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                : null,
+          ),
+        );
+      },
+    );
+  }
 
   Widget txtChangePhoto() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
       child: Center(
         child: Text(
-          "Trocar foto",
+          TROCAR_FOTO,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black54,
-            //fontWeight: FontWeight.bold,
+          style: Theme.of(context).textTheme.body2,
+        ),
+      ),
+    );
+  }
+
+  Widget nameUser() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 0.5, 0.0, 0.0),
+      child: SizedBox(
+        //width: double.infinity,
+        height: 55,
+        child: RaisedButton(
+          elevation: 0.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+            //side: BorderSide(color: Colors.black12),
           ),
+          color: Theme.of(context).backgroundColor,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  userName,
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                child: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color,),
+              ),
+            ],
+          ),
+          onPressed: () {
+
+          },
         ),
       ),
     );
   }
 
-  Widget nameUserInput() {
+  Widget emailUser() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
-        maxLines: 1,
-        keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
-          hintText: userName,
-          //icon: new Icon(Icons.email, color: Colors.grey,)
+      padding: EdgeInsets.fromLTRB(0.0, 0.5, 0.0, 0.0),
+      child: SizedBox(
+        //width: double.infinity,
+        height: 55,
+        child: RaisedButton(
+          elevation: 0.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+            //side: BorderSide(color: Colors.black12),
+          ),
+          color: Theme.of(context).backgroundColor,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  userEmail,
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                child: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color,),
+              ),
+            ],
+          ),
+          onPressed: () {
+
+          },
         ),
-        //validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
-        //onSaved: (value) => _email = value.trim(),
       ),
     );
   }
 
-  Widget emailUserInput() {
+  Widget phoneNumberUser() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: new TextFormField(
-        maxLines: 1,
-        keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
-          hintText: userEmail,
-          //icon: new Icon(Icons.email, color: Colors.grey,)
+      padding: EdgeInsets.fromLTRB(0.0, 0.5, 0.0, 0.0),
+      child: SizedBox(
+        //width: double.infinity,
+        height: 55,
+        child: RaisedButton(
+          elevation: 0.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+            //side: BorderSide(color: Colors.black12),
+          ),
+          color: Theme.of(context).backgroundColor,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  userPhoneNumber,
+                  style: Theme.of(context).textTheme.body2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                child: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color,),
+              ),
+            ],
+          ),
+          onPressed: () {
+            PageRouter.push(context, PhoneNumberPage());
+          },
         ),
-        //validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
-        //onSaved: (value) => _email = value.trim(),
       ),
     );
   }
 
   Widget changePasswordButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: SecondaryButton(
-        text: "Alterar senha",
+      padding: EdgeInsets.fromLTRB(12, 16.0, 12, 0.0),
+      child: PrimaryButton(
+        text: ALTERAR_SENHA,
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) {
-                  return ChangePasswordPage();
-                }
-            ),
-          );
+          PageRouter.push(context, ChangePasswordPage());
         },
       ),
     );
-  }
-
-  Widget salvarButton() {
-    return new Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: PrimaryButton(
-        text: "Salvar",
-        onPressed: changeDataUser
-      )
-    );
-  }
-
-  void changeDataUser() {
-
   }
 
 }

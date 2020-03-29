@@ -3,29 +3,22 @@ import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/services/firebase/firebase_login_service.dart';
 
 class LoginPresenter extends LoginContractPresenter {
-  LoginContractService repository;
+  LoginContractService service;
 
   LoginPresenter(LoginContractView view) : super(view) {
-    this.repository = FirebaseLoginService(this);
+    this.service = FirebaseLoginService(this);
   }
 
   @override
   signIn(String email, String password) {
     view.showProgress();
-    repository.signIn(email, password);
+    service.signIn(email, password);
   }
 
   @override
-  signInWithGoogle() async {
+  signInWithGoogle() {
     view.showProgress();
-    BaseUser nome = await repository.signInWithGoogle();
-    print(nome);
-    view.onFailure(nome.name);
-//    repository.signInWithGoogle()
-//      .then((user) => _view.onSuccess())
-//      .catchError((onError) {
-//        _view.onFailure(onError.toString());
-//    });
+    service.signInWithGoogle();
   }
 
   @override

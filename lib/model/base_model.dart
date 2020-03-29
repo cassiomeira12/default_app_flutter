@@ -1,10 +1,7 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
-
-abstract class BaseModel {
+abstract class BaseModel<T> {
   BaseModel();
-  //BaseModel.fromMap(DocumentSnapshot document);
-  String getCollection();
-  String getUid();
-  void setUid(String uId);
+  update(T item);
   toMap();
+  String getUid();
+  setUid(String uId);
 }

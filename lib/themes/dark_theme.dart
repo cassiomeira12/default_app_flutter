@@ -2,28 +2,41 @@ import 'package:flutter/material.dart';
 
 const brightness = Brightness.dark;
 const primaryColor = const Color(0xFF00C569);
-const lightColor = const Color(0xFFFFFFFF);
-const backgroudColor = const Color(0xFFF5F5F5);
+const primaryColorDark = const Color(0xFF66B489);
+const accentColor = const Color(0xFF808080);
+const backgroundColor = const Color(0xFFF5F5F5);
 
 ThemeData darkTheme() {
   return ThemeData(
-    // primarySwatch: primaryColor,
+    scaffoldBackgroundColor: Colors.grey[800],
+    backgroundColor: Colors.grey[700],
     brightness: brightness,
-    textTheme: new TextTheme(
-      body1: new TextStyle(color: Colors.black),
-      display2: new TextStyle(
-        fontSize: 32,
-        fontWeight: FontWeight.w500,
+    textTheme: TextTheme(
+      subtitle: TextStyle(
+        fontSize: 28,
+        color: Colors.white,
       ),
-      display4: new TextStyle(fontSize: 78),
-      button: new TextStyle(color: Colors.green),
-      headline: new TextStyle(color: Colors.white),
+      body1: TextStyle(
+          fontSize: 20,
+          color: Colors.white,
+      ),
+      body2: TextStyle(
+        fontSize: 18,
+        color: Colors.white70,
+      ),
+      button: TextStyle(
+        fontSize: 14,
+        color: Colors.white,
+      ),
     ),
     // tabBarTheme:
     // accentIconTheme:
     // accentTextTheme:
     // appBarTheme:
-    // bottomAppBarTheme:
+    bottomAppBarTheme: BottomAppBarTheme (
+      color: Colors.grey[700],
+      elevation: 5,
+    ),
     // buttonTheme: new ButtonThemeData(
     //   buttonColor: Colors.orange,
     //   textTheme: ButtonTextTheme.primary,
@@ -35,17 +48,20 @@ ThemeData darkTheme() {
     // chipTheme:
     // dialogTheme:
     // floatingActionButtonTheme:
-    // iconTheme:
+    iconTheme: IconThemeData(
+        color: Colors.white70,
+    ),
     // inputDecorationTheme:
     // pageTransitionsTheme:
     // primaryIconTheme:
     // primaryTextTheme:
     // sliderTheme:
+    hintColor: Colors.white30,
+    errorColor: Colors.red,
     primaryColor: primaryColor,
-    accentColor: Colors.black26,
+    primaryColorDark: primaryColorDark,
+    accentColor: primaryColor,
     // fontFamily: 'Montserrat',
-    // buttonColor: Color(0xFF00C569),
-    // // scaffoldBackgroundColor: backgroundColor,
-    // cardColor: Colors.white,
+    buttonColor: Colors.blue[400],
   );
 }

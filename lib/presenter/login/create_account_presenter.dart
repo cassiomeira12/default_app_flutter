@@ -3,22 +3,22 @@ import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/services/firebase/firebase_create_account_service.dart';
 
 class CreateAccountPresenter extends CreateAccountContractPresenter {
-  CreateAccountContractService repository;
+  CreateAccountContractService service;
 
   CreateAccountPresenter(CreateAccountContractView view) : super(view) {
-    this.repository = FirebaseCreateAccountService(this);
+    this.service = FirebaseCreateAccountService(this);
   }
 
   @override
   dispose() {
-    repository.dispose();
+    service.dispose();
     return super.dispose();
   }
 
   @override
   createAccount(BaseUser user) {
     view.showProgress();
-    repository.createAccount(user);
+    service.createAccount(user);
   }
 
   @override
@@ -30,7 +30,7 @@ class CreateAccountPresenter extends CreateAccountContractPresenter {
   @override
   onSuccess(BaseUser user) {
     view.hideProgress();
-    view.onSuccess();
+    view.onSuccess(user);
   }
 
 }

@@ -30,12 +30,12 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-//            BackgroundCard(),
-////            SingleChildScrollView(
-////              child: ShapeRound(
-////                  _showForm()
-////              ),
-////            ),
+            BackgroundCard(),
+//            SingleChildScrollView(
+//              child: ShapeRound(
+//                  _showForm()
+//              ),
+//            ),
           ],
         ),
       ),

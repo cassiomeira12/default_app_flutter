@@ -4,26 +4,37 @@ import 'package:default_app_flutter/services/firebase/firebase_user_service.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../strings.dart';
 import '../crud.dart';
 
 class FirebaseLoginService extends LoginContractService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   FirebaseLoginService(LoginContractPresenter presenter) : super(presenter);
-  GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   signIn(String email, String password) async {
     _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).then((AuthResult result) async {
-      var user = BaseUser();
-      user.setUid(result.user.uid);
-
       Crud<BaseUser> crud = FirebaseUserService();
-      BaseUser result2 = await crud.read(user);
+      List<BaseUser> list =  await crud.findBy("email", email);
 
-      //print("Aqui " + result2.email);
+      if (list == null) {
+        return presenter.onFailure(USUARIO_NAO_ENCONTRADO);
+      }
 
-      presenter.onSuccess(result2);
+      if (list.length == 1) {
+        BaseUser user = list[0];
+        if (!user.emailVerified) { // Verificando se o email do usuario foi validado
+          user.emailVerified = result.user.isEmailVerified; // Atualizando caso o email ja foi validado
+          crud.update(user); // Atualizando a base de dados
+        }
+        presenter.onSuccess(user);
+      } else if (list.length == 0) {
+        _firebaseAuth.signOut();
+        presenter.onFailure(USUARIO_NAO_ENCONTRADO);
+      }
+
     }).catchError((error) {
       presenter.onFailure(error.toString());
     });
@@ -37,14 +48,29 @@ class FirebaseLoginService extends LoginContractService {
       idToken: googleSignInAuthentication.accessToken,
       accessToken: googleSignInAuthentication.idToken,
     );
-    //final AuthResult result = await _firebaseAuth.signInWithCredential(credential);
+    await _firebaseAuth.signInWithCredential(credential).then((AuthResult result) async {
+      Crud<BaseUser> crud = FirebaseUserService();
+      List<BaseUser> list =  await crud.findBy("email", result.user.email);
 
-    return _firebaseAuth.signInWithCredential(credential).then((AuthResult result) {
-      var user = BaseUser();
-      user.name = result.user.displayName;
-      user.email = result.user.email;
+      if (list == null) {
+        return presenter.onFailure(USUARIO_NAO_ENCONTRADO);
+      }
 
-      return user;
+      if (list.length == 1) {
+        BaseUser user = list[0];
+        if (!user.emailVerified) { // Verificando se o email do usuario foi validado
+          user.emailVerified = result.user.isEmailVerified; // Atualizando caso o email ja foi validado
+          crud.update(user); // Atualizando a base de dados
+        }
+        presenter.onSuccess(user);
+      } else if (list.length == 0) {
+        _firebaseAuth.signOut();
+        presenter.onFailure(USUARIO_NAO_ENCONTRADO);
+      }
+
+    }).catchError((error) {
+      print(error.message);
+      presenter.onFailure(error.message);
     });
   }
 

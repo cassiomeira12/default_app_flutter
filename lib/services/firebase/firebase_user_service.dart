@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:default_app_flutter/contract/login/create_account_contract.dart';
-import 'package:default_app_flutter/contract/login/user_contract.dart';
+import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
-import 'package:default_app_flutter/model/status.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../crud.dart';
 
-class FirebaseUserService implements Crud<BaseUser>, UserContractService {
+class FirebaseUserService implements UserContractService {
   CollectionReference _collection = Firestore.instance.collection("teste");
 
   @override
@@ -17,7 +15,6 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
     //Atualizando informacoes ao criar novo usuario
     item.setUid(uId);
     //user.notificationToken = PreferenceUtils(activity).getTokenNotification()
-    item.emailVerified = false;
     //user.createAt = DateTime();
     //user.updateAt = DateTime();
     //item.status = Status.ATIVO;
@@ -32,11 +29,43 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
   }
 
   @override
+  Future<List<BaseUser>> findBy(String field, value) async {
+    return await _collection.where(field, isEqualTo: value).getDocuments().then((value) {
+      var list = List<BaseUser>();
+      value.documents.forEach((element) {
+        list.add(BaseUser.fromMap(element.data));
+      });
+      return list;
+    }).catchError((error) {
+      print(error.message);
+      return null;
+    });
+  }
+
+  Future<BaseUser> findUserByEmail(String email) async {
+    List<BaseUser> list =  await findBy("email", email);
+
+    if (list == null) {
+      return null;
+    }
+
+    if (list.length == 1) {
+      return list[0];
+    } else if (list.length == 0) {
+      print("Usuário não encontrado");
+      return null;
+    } else {
+      print("Mais de 1 usuário com mesmo email");
+      return null;
+    }
+  }
+
+  @override
   Future<BaseUser> read(BaseUser item) {
     String uId = item.getUid();
+    print("Read User $uId");
     return _collection.document(uId).get().then((result) {
-      print("Aqui");
-      print(result.exists);
+      print("Documento exists ${result.exists}");
       return BaseUser.fromMap(result.data);
     }).catchError((error) {
       print("Erro ${error.toString()}");
@@ -51,7 +80,11 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
 
   @override
   Future<BaseUser> update(BaseUser item) {
-    return null;
+    return _collection.document(item.getUid()).updateData(item.toMap()).then((value) {
+      return item;
+    }).catchError((error) {
+      return null;
+    });
   }
 
   @override
@@ -65,8 +98,10 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
   }
 
   @override
-  Future<void> changePassword(String email, String password, String newPassword) {
-    return null;
+  Future<void> changePassword(String email, String password, String newPassword) async {
+    return await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((result) {
+      result.user.updatePassword(newPassword);
+    });
   }
 
   @override
@@ -75,18 +110,18 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
     if (currentUser == null) {
       return null;
     } else {
-      print(currentUser.email);
-      BaseUser user = BaseUser();
-      user.setUid(currentUser.uid);
-      user.name = currentUser.displayName;
-      user.email = currentUser.email;
-      user.avatarURL = currentUser.photoUrl;
+      BaseUser user = await findUserByEmail(currentUser.email);
+      if (user == null) {
+        return null;
+      }
+      user.emailVerified = currentUser.isEmailVerified;
       return user;
     }
   }
 
   @override
   Future<void> signOut() async {
+    //SingletonUser.instance.update(null);
     return await FirebaseAuth.instance.signOut();
   }
 
@@ -105,15 +140,21 @@ class FirebaseUserService implements Crud<BaseUser>, UserContractService {
   }
 
   @override
-  isEmailVerified() {
-    // TODO: implement isEmailVerified
-    return null;
+  Future<bool> isEmailVerified() async {
+    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+    bool emailVerified = currentUser.isEmailVerified;
+    BaseUser user = await findUserByEmail(currentUser.email);
+    if (user != null) {
+      user.emailVerified = emailVerified;
+      _collection.document(user.getUid()).updateData(user.toMap());
+    }
+    return emailVerified;
   }
 
   @override
-  sendEmailVerification() {
-    // TODO: implement sendEmailVerification
-    return null;
+  Future<void> sendEmailVerification() async {
+    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+    return currentUser.sendEmailVerification();
   }
 
 }

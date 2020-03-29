@@ -1,7 +1,7 @@
 import 'package:default_app_flutter/contract/login/forgot_password_contract.dart';
 import 'package:default_app_flutter/presenter/login/forgot_password_presenter.dart';
-import 'package:default_app_flutter/view/login/login_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
+import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +37,8 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+    return Scaffold(
+      appBar: AppBar( iconTheme: IconThemeData(color: Colors.white), elevation: 0,),
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
@@ -58,9 +55,9 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
   }
 
   Widget _showForm() {
-    return new Container(
+    return Container(
       padding: EdgeInsets.all(12.0),
-      child: new Form(
+      child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
@@ -78,23 +75,41 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
     return Center(
       child: Text(
         RECUPERAR_SENHA,
-        style: TextStyle(
-          fontSize: 24,
-          color: Colors.black38,
-        ),
+        style: Theme.of(context).textTheme.subtitle,
       ),
     );
   }
 
   Widget emailInput() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
       child: TextFormField(
+        textAlign: TextAlign.left,
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
-          hintText: EMAIL,
+        style: Theme.of(context).textTheme.body2,
+        textCapitalization: TextCapitalization.words,
+        obscureText: false,
+        decoration: InputDecoration(
+          labelText: EMAIL,
+          labelStyle: Theme.of(context).textTheme.body2,
+          //hintText: "",
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).errorColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).hintColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+          ),
         ),
         validator: (value) => value.isEmpty ? EMAIL_INVALIDO : null,
         onSaved: (value) => _email = value.trim(),
@@ -109,11 +124,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
         child: Text(
           FORGOT_PASSWORD_TEXT,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.body2,
         ),
       ),
     );
@@ -127,31 +138,18 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
   }
 
   Widget sendButton() {
-    return new Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 16.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 42.0,
-        child: RaisedButton(
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: Colors.lightBlueAccent),
-          ),
-          color: Colors.lightBlueAccent,
-          child: new Text(
-            ENVIAR,
-            style: new TextStyle(fontSize: 18.0, color: Colors.white),
-          ),
-          onPressed: () {
-            if (validateAndSave()) {
-              setState(() {
-                _isLoading = true;
-              });
-              presenter.sendEmail(_email);
-            }
-          },
-        ),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
+      child: PrimaryButton(
+        text: ENVIAR,
+        onPressed: () {
+          if (validateAndSave()) {
+            setState(() {
+              _isLoading = true;
+            });
+            presenter.sendEmail(_email);
+          }
+        },
       ),
     );
   }
@@ -183,7 +181,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
   onFailure(String error) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(error),
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Theme.of(context).errorColor,
     ));
   }
 

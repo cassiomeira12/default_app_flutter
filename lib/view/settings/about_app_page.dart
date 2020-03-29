@@ -61,7 +61,7 @@ class _AboutAppState extends State<AboutAppPage> {
       padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: Center(
         child: Hero(
-          tag: 'hero',
+          tag: "about",
           child: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
             child: CircleAvatar(
@@ -82,11 +82,7 @@ class _AboutAppState extends State<AboutAppPage> {
         child: Text(
           APP_NAME,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.body1,
         ),
       ),
     );
@@ -98,9 +94,7 @@ class _AboutAppState extends State<AboutAppPage> {
       width: double.maxFinite,
       child: Text(
         "About App",
-        style: TextStyle(
-          fontSize: 18,
-        ),
+        style: Theme.of(context).textTheme.body1,
       ),
     );
   }
