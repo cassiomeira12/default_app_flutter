@@ -3,10 +3,8 @@ import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../crud.dart';
-
 class FirebaseUserService implements UserContractService {
-  CollectionReference _collection = Firestore.instance.collection("teste");
+  CollectionReference _collection = Firestore.instance.collection(BaseUser.getCollection());
 
   @override
   Future<BaseUser> create(BaseUser item) async {

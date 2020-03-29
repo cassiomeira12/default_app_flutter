@@ -117,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage>{
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         style: Theme.of(context).textTheme.body2,
-        textCapitalization: TextCapitalization.words,
+        //textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
           labelText: EMAIL,
           labelStyle: Theme.of(context).textTheme.body2,
@@ -153,7 +153,7 @@ class _SignUpPageState extends State<SignUpPage>{
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         style: Theme.of(context).textTheme.body2,
-        textCapitalization: TextCapitalization.words,
+        //textCapitalization: TextCapitalization.words,
         obscureText: true,
         decoration: InputDecoration(
           labelText: SENHA,
@@ -196,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage>{
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         style: Theme.of(context).textTheme.body2,
-        textCapitalization: TextCapitalization.words,
+        //textCapitalization: TextCapitalization.words,
         obscureText: true,
         decoration: InputDecoration(
           labelText: REPITA_SENHA,

@@ -12,14 +12,14 @@ dependencies:
 
   cupertino_icons: ^0.1.2 #Funciona
 
-  firebase_core: 0.4.0+9 #Funciona
-  cloud_firestore: 0.12.3 #Funciona
-  firebase_auth: 0.14.0+5 #Funciona
-  google_sign_in: 4.0.4 #ERRO
+  firebase_core: ^0.4.0+9 #Funciona
+  cloud_firestore: ^0.12.3 #Funciona
+  firebase_auth: ^0.14.0+5 #Funciona
+  google_sign_in: ^4.0.4 #ERRO
   #dio: 2.1.13 #Funciona
   #rxdart: 0.22.0 #Funciona
   #bloc_pattern: 2.2.3 #Funciona
-  progress_dialog: 1.2.0 #Funciona
+  progress_dialog: ^1.2.0 #Funciona
   flutter_masked_text: ^0.8.0
   shared_preferences: ^0.5.3
 

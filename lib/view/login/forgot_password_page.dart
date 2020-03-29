@@ -88,7 +88,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         style: Theme.of(context).textTheme.body2,
-        textCapitalization: TextCapitalization.words,
+        //textCapitalization: TextCapitalization.words,
         obscureText: false,
         decoration: InputDecoration(
           labelText: EMAIL,
