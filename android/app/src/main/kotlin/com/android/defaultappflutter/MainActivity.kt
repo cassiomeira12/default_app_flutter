@@ -1,4 +1,4 @@
-package com.android.default_app_flutter
+package com.android.defaultappflutter
 
 import android.os.Bundle
 
