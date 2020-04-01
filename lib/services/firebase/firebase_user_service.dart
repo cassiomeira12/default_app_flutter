@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'package:path/path.dart' as Path;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseUserService implements UserContractService {
   CollectionReference _collection = Firestore.instance.collection(BaseUser.getCollection());
@@ -78,7 +83,7 @@ class FirebaseUserService implements UserContractService {
 
   @override
   Future<BaseUser> update(BaseUser item) {
-    return _collection.document(item.getUid()).updateData(item.toMap()).then((value) {
+    return _collection.document(item.getUid()).updateData(item.toMap()).timeout(Duration(seconds: 5)).then((value) {
       return item;
     }).catchError((error) {
       return null;
@@ -91,14 +96,35 @@ class FirebaseUserService implements UserContractService {
   }
 
   @override
-  Future<void> changeEmail(String email) {
-    return null;
-  }
-
-  @override
   Future<void> changePassword(String email, String password, String newPassword) async {
     return await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((result) {
       result.user.updatePassword(newPassword);
+    });
+  }
+
+  @override
+  Future<bool> changeName(String name) async {
+    SingletonUser.instance.name = name;
+    return await update(SingletonUser.instance) == null ? false : true;
+  }
+
+  @override
+  Future<String> changeUserPhoto(File image) async {
+    String baseName = Path.basename(image.path);
+    String uID = SingletonUser.instance.getUid() + baseName.substring(baseName.length - 4);
+    StorageReference storageReference = FirebaseStorage.instance.ref().child("users/${uID}");
+    StorageUploadTask uploadTask = storageReference.putFile(image);
+    return await uploadTask.onComplete.then((value) async {
+      return await storageReference.getDownloadURL().then((fileURL) async {
+        SingletonUser.instance.avatarURL = fileURL;
+        return await update(SingletonUser.instance) == null ? null : fileURL;
+      }).catchError((error) {
+        print(error.message);
+        return null;
+      });
+    }).catchError((error) {
+      print(error.message);
+      return null;
     });
   }
 

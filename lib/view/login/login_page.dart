@@ -2,11 +2,11 @@ import 'package:default_app_flutter/contract/login/login_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/login/login_presenter.dart';
-import 'package:default_app_flutter/utils/preferences_util.dart';
 import 'package:default_app_flutter/view/page_router.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/light_button.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
+import 'package:default_app_flutter/view/widgets/scaffold_snackbar.dart';
 import 'package:default_app_flutter/view/widgets/secondary_button.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
@@ -62,10 +62,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
   @override
   onFailure(String error) {
     hideProgress();
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(error),
-      backgroundColor: Colors.red,
-    ));
+    ScaffoldSnackBar.failure(context, _scaffoldKey, error);
   }
 
   @override
@@ -276,10 +273,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
         ),
         onPressed: () {
           //presenter.signInWithGoogle();
-          _scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text("Recurso indisponível"),
-            backgroundColor: Theme.of(context).errorColor,
-          ));
+          ScaffoldSnackBar.failure(context, _scaffoldKey, "Recurso indisponível");
         },
       ),
     );

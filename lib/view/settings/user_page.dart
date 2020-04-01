@@ -1,13 +1,19 @@
+import 'package:default_app_flutter/contract/user/user_contract.dart';
+import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
+import 'package:default_app_flutter/presenter/user/user_presenter.dart';
 import 'package:default_app_flutter/strings.dart';
-import 'package:default_app_flutter/view/settings/phone_number_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
+import 'package:default_app_flutter/view/widgets/scaffold_snackbar.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../page_router.dart';
 import 'change_password_page.dart';
+import 'phone_number_page.dart';
+import 'user_name_page.dart';
 
 class UserPage extends StatefulWidget {
 
@@ -15,14 +21,19 @@ class UserPage extends StatefulWidget {
   State<StatefulWidget> createState() => _UserState();
 }
 
-class _UserState extends State<UserPage> {
-  final _formKey = new GlobalKey<FormState>();
+class _UserState extends State<UserPage> implements UserContractView {
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String userName, userEmail, userPhoneNumber , userPhoto;
+
+  bool loading = false;
+  UserContractPresenter presenter;
 
   @override
   void initState() {
     super.initState();
+    presenter = UserPresenter(this);
     if (SingletonUser.instance != null) {
       userName = SingletonUser.instance.name;
       userEmail = SingletonUser.instance.email;
@@ -34,7 +45,7 @@ class _UserState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //key: _scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(PERFIL, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
@@ -54,9 +65,26 @@ class _UserState extends State<UserPage> {
     );
   }
 
+  @override
+  onFailure(String error) {
+    setState(() {
+      loading = false;
+    });
+    ScaffoldSnackBar.failure(context, _scaffoldKey, error);
+  }
+
+  @override
+  onSuccess(BaseUser user) async {
+    setState(() {
+      userPhoto = SingletonUser.instance.avatarURL;
+      loading = false;
+    });
+    ScaffoldSnackBar.success(context, _scaffoldKey, FOTO_ALTERADA);
+  }
+
   Widget _showForm() {
     return  Container(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
+      padding: EdgeInsets.fromLTRB(0, 8, 0, 16),
       child: Form(
         key: _formKey,
         child: Column(
@@ -76,8 +104,6 @@ class _UserState extends State<UserPage> {
   Widget user() {
     return Container(
       width: 180,
-      //padding: EdgeInsets.fromLTRB(70.0, 0.0, 70.0, 0.0),
-      //color: Colors.red,
       child: Stack(
         alignment: Alignment.bottomRight,
         children: <Widget>[
@@ -89,8 +115,10 @@ class _UserState extends State<UserPage> {
               shape: CircleBorder(),
               elevation: 2.0,
               fillColor: Theme.of(context).primaryColorDark,
-              padding: const EdgeInsets.all(10.0),
-              onPressed: () { },
+              padding: const EdgeInsets.all(10),
+              onPressed: () {
+                changeImgUser();
+              },
             ),
           ),
         ],
@@ -100,14 +128,21 @@ class _UserState extends State<UserPage> {
 
   Widget imgUser() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
       child: Center(
         child: Hero(
-          tag: 'hero',
+          tag: 'imgUser',
           child: Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: ClipOval(
-              child: loadImage(),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  defaultImageUser(),
+                  userPhoto == null ? Container() : imageUserURL(),
+                  loading ? showLoadingProgress() : Container(),
+                ],
+              ),
             ),
           ),
         ),
@@ -115,31 +150,96 @@ class _UserState extends State<UserPage> {
     );
   }
 
-  Widget loadImage() {
-    return (userPhoto == null || userPhoto.isEmpty) ?
-    CircleAvatar(
-      backgroundColor: Colors.transparent,
-      radius: 80,
-      child: Image.asset("assets/user_default_img_white.png"),
-    )
-        :
-    Image.network(userPhoto,fit: BoxFit.cover, width: 150,
-      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null ?
-            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                : null,
-          ),
-        );
-      },
+  Widget showLoadingProgress() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: CircularProgressIndicator(),
     );
   }
 
+  Widget defaultImageUser() {
+    return Container(
+      width: 160,
+      height: 160,
+      child: Image.asset("assets/user_default_img_white.png"),
+    );
+  }
+
+  Widget imageUserURL() {
+    return Container(
+      width: 160,
+      height: 160,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(userPhoto),
+        ),
+      ),
+    );
+  }
+
+//  Widget imageUserFile() {
+//    return Container(
+//      height: 160,
+//      width: 160,
+//      decoration: BoxDecoration(
+//        image: DecorationImage(
+//          image: FileImage(pickedImage),
+//          fit: BoxFit.cover,
+//        ),
+//      ),
+//    );
+//  }
+//
+//  Widget loadImage2() {
+//    return (userPhoto == null || userPhoto.isEmpty) ?
+//      pickedImage == null ?
+//        defaultImageUser()
+//          :
+//        imageUserFile()
+//        :
+//      imageUserURL();
+//  }
+
+//  Widget loadImage() {
+//    return (userPhoto == null || userPhoto.isEmpty) ?
+//    CircleAvatar(
+//      backgroundColor: Colors.transparent,
+//      radius: 80,
+//      child:
+//      pickedImage == null ? Image.asset("assets/user_default_img_white.png")
+//          :
+//      Container(
+//        //height: 160.0,
+//        //width: 160.0,
+//        decoration: BoxDecoration(
+//          image: DecorationImage(
+//            image: FileImage(pickedImage),
+//            fit: BoxFit.cover,
+//          ),
+//        ),
+//      ),
+//
+//    )
+//        :
+//    Image.network(userPhoto,fit: BoxFit.cover, width: 150,
+//      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+//        if (loadingProgress == null) return child;
+//        return Center(
+//          child: CircularProgressIndicator(
+//            value: loadingProgress.expectedTotalBytes != null ?
+//            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+//                : null,
+//          ),
+//        );
+//      },
+//    );
+//  }
+
   Widget txtChangePhoto() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
+      padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
       child: Center(
         child: Text(
           TROCAR_FOTO,
@@ -179,7 +279,7 @@ class _UserState extends State<UserPage> {
             ],
           ),
           onPressed: () {
-
+            PageRouter.push(context, UserNamePage());
           },
         ),
       ),
@@ -214,9 +314,7 @@ class _UserState extends State<UserPage> {
               ),
             ],
           ),
-          onPressed: () {
-
-          },
+          onPressed: () {},
         ),
       ),
     );
@@ -268,6 +366,36 @@ class _UserState extends State<UserPage> {
         },
       ),
     );
+  }
+
+  void changeImgUser() async {
+    final imageSource = await showDialog<ImageSource>(
+      context: context,
+      builder: (context) =>
+        AlertDialog(
+          title: Text(SELECIONE_IMAGEM),
+          actions: <Widget>[
+            MaterialButton(
+              child: Text(CAMERA),
+              onPressed: () => Navigator.pop(context, ImageSource.camera),
+            ),
+            MaterialButton(
+              child: Text(GALERIA),
+              onPressed: () => Navigator.pop(context, ImageSource.gallery),
+            )
+          ],
+        )
+    );
+
+    if(imageSource != null) {
+      final file = await ImagePicker.pickImage(source: imageSource);
+      if (file != null) {
+        presenter.changeUserPhoto(file);
+        setState(() {
+          loading = true;
+        });
+      }
+    }
   }
 
 }

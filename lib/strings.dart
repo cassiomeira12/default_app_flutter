@@ -67,3 +67,15 @@ const CANCELAR = "Cancelar";
 const TELEFONE_ATUALIZADO = "Telefone Atualizado";
 
 const ENTRAR = "Entrar";
+
+const DARK_MODE = "Dark Mode";
+const CHANGE_NAME_SUCCESS = "Nome alterado com sucesso!";
+const CHANGE_NAME_FAILURE = "Erro ao atualizar nome";
+const CHANGE_NAME = "Alterar nome";
+const DIGITE_NOME = "Digite seu nome";
+const NAME = "Nome";
+
+const SELECIONE_IMAGEM = "Selecione uma imagem";
+const FOTO_ALTERADA = "Foto alterada com sucesso!";
+const CAMERA = "Camera";
+const GALERIA = "Galeria";

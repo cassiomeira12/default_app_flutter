@@ -2,6 +2,7 @@ import 'package:default_app_flutter/contract/login/forgot_password_contract.dart
 import 'package:default_app_flutter/presenter/login/forgot_password_presenter.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
+import 'package:default_app_flutter/view/widgets/scaffold_snackbar.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -179,18 +180,12 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> implements ForgotPa
 
   @override
   onFailure(String error) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(error),
-      backgroundColor: Theme.of(context).errorColor,
-    ));
+    ScaffoldSnackBar.failure(context, _scaffoldKey, error);
   }
 
   @override
   onSuccess(String result) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(result),
-      backgroundColor: Colors.green,
-    ));
+    ScaffoldSnackBar.success(context, _scaffoldKey, result);
   }
 
 }

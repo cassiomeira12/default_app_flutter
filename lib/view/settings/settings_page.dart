@@ -73,24 +73,39 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
         key: _formKey,
         child: Column(
           children: <Widget>[
-            imgUser(),
-            textUserName(),
+            user(),
           ],
         ),
       ),
     );
   }
 
+  Widget user() {
+    return Container(
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: <Widget>[
+          imgUser(),
+        ],
+      ),
+    );
+  }
+
   Widget imgUser() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Center(
         child: Hero(
-          tag: 'hero',
+          tag: 'imgUser',
           child: Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: ClipOval(
-              child: loadImage(),
+              child: Stack(
+                children: <Widget>[
+                  defaultImageUser(),
+                  userPhoto == null ? Container() : imageUserURL()
+                ],
+              ),
             ),
           ),
         ),
@@ -98,44 +113,32 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
     );
   }
 
-  Widget textUserName() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
-      child: Center(
-        child: Text(
-          userName,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.body1,
-        ),
-      ),
+  Widget defaultImageUser() {
+    return Container(
+      width: 120,
+      height: 120,
+      child: Image.asset("assets/user_default_img_white.png"),
     );
   }
 
-  Widget loadImage() {
-    return (userPhoto == null || userPhoto.isEmpty) ?
-    CircleAvatar(
-      backgroundColor: Colors.transparent,
-      radius: 60,
-      child: Image.asset("assets/user_default_img_white.png"),
-    )
-        :
-    Image.network(userPhoto,fit: BoxFit.cover, width: 120,
-      loadingBuilder:(BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null ?
-            loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                : null,
-          ),
-        );
-      },
+  Widget imageUserURL() {
+    return Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(userPhoto),
+        ),
+      ),
     );
   }
 
   Widget formOpcoes() {
     return Column(
       children: <Widget>[
+        textUserName(),
         perfilButton(),
         notificationsSettingsButton(),
         darkModeButton(),
@@ -145,6 +148,19 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
         signOutButton(),
         Padding(padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40),),
       ],
+    );
+  }
+
+  Widget textUserName() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 12, 0, 8),
+      child: Center(
+        child: Text(
+          userName,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.body1,
+        ),
+      ),
     );
   }
 
@@ -249,7 +265,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
               ),
               Expanded(
                 child: Text(
-                  "Dark Mode",
+                  DARK_MODE,
                   style: Theme.of(context).textTheme.body2,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/services/crud.dart';
 import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
 import 'package:default_app_flutter/strings.dart';
@@ -65,8 +68,24 @@ class UserPresenter implements UserContractPresenter, Crud<BaseUser> {
   }
 
   @override
-  Future<void> changeEmail(String email) {
-    return null;
+  Future<bool> changeName(String name) async {
+    await service.changeName(name).then((value) {
+      if (value) {
+        _view.onSuccess(SingletonUser.instance);
+      } else {
+        _view.onFailure(CHANGE_NAME_FAILURE);
+      }
+    });
+  }
+
+  @override
+  Future<String> changeUserPhoto(File image) async {
+    await service.changeUserPhoto(image).then((URL) {
+      SingletonUser.instance.avatarURL = URL;
+      _view.onSuccess(SingletonUser.instance);
+    }).catchError((error) {
+      _view.onFailure(error.message);
+    });
   }
 
   @override
