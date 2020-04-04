@@ -79,7 +79,7 @@ class _TabsPageState extends State<TabsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.home, color: currentTab == 0 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                        currentTab == 0 ? FittedBox(fit:BoxFit.fitWidth, child: Text(HOME, style: TextStyle(color: currentTab == 0 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                        //currentTab == 0 ? FittedBox(fit:BoxFit.fitWidth, child: Text(HOME, style: TextStyle(color: currentTab == 0 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
                       ],
                     ),
                   ),
@@ -100,7 +100,7 @@ class _TabsPageState extends State<TabsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.notifications, color: currentTab == 1 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                        currentTab == 1 ? FittedBox(fit:BoxFit.fitWidth, child: Text(NOTIFICATIONS, style: TextStyle(color: currentTab == 1 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                        //currentTab == 1 ? FittedBox(fit:BoxFit.fitWidth, child: Text(NOTIFICATIONS, style: TextStyle(color: currentTab == 1 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
                       ],
                     ),
                   ),
@@ -121,7 +121,7 @@ class _TabsPageState extends State<TabsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.history, color: currentTab == 3 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                        currentTab == 3 ? FittedBox(fit:BoxFit.fitWidth, child: Text(HISTORICO, style: TextStyle(color: currentTab == 3 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                        //currentTab == 3 ? FittedBox(fit:BoxFit.fitWidth, child: Text(HISTORICO, style: TextStyle(color: currentTab == 3 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
                       ],
                     ),
                   ),
@@ -142,7 +142,7 @@ class _TabsPageState extends State<TabsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.settings, color: currentTab == 4 ? Theme.of(context).primaryColorDark : Colors.grey,),
-                        currentTab == 4 ? FittedBox(fit:BoxFit.fitWidth, child: Text(SETTINGS, style: TextStyle(color: currentTab == 4 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
+                        //currentTab == 4 ? FittedBox(fit:BoxFit.fitWidth, child: Text(SETTINGS, style: TextStyle(color: currentTab == 4 ? Theme.of(context).primaryColorDark : Colors.grey),),) : Container()
                       ],
                     ),
                   ),

@@ -3,6 +3,8 @@ import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
+import 'search_page.dart';
+
 class HomePage extends StatefulWidget {
 
   @override
@@ -14,14 +16,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print("init");
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
         title: Text(HOME, style: TextStyle(color: Colors.white),),
@@ -30,33 +30,66 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
-            BackgroundCard(),
-//            SingleChildScrollView(
-//              child: ShapeRound(
-//                  _showForm()
-//              ),
-//            ),
+            BackgroundCard(height: 100,),
+            SingleChildScrollView(
+              child: _showForm(),
+            ),
           ],
         ),
       ),
     );
   }
 
-//  Widget _showForm() {
-//    return new Container(
-//      padding: EdgeInsets.all(12.0),
-//      child: new Form(
-//        key: _formKey,
-//        child: Column(
-//          children: <Widget>[
-//            //textTitle(),
-//            //emailInput(),
-//            //textMensagem(),
-//            //_isLoading ? showCircularProgress() : sendButton()
-//          ],
-//        ),
-//      ),
-//    );
-//  }
+  Widget search() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(8, 10, 8, 0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 60,
+        child: RaisedButton(
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0),),
+          color: Colors.white,
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.search, color: Colors.grey,),
+              SizedBox(width: 10,),
+              Text(
+                "Pesquise aqui",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.grey,
+                  //fontWeight: FontWeight.bold,
+                )
+              )
+            ],
+          ),
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) {
+                      return SearchPage();
+                    }
+                )
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _showForm() {
+    return new Container(
+      padding: EdgeInsets.all(12.0),
+      child: new Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            search(),
+          ],
+        ),
+      ),
+    );
+  }
 
 }

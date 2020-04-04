@@ -100,11 +100,16 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
           child: Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: ClipOval(
-              child: Stack(
-                children: <Widget>[
-                  defaultImageUser(),
-                  userPhoto == null ? Container() : imageUserURL()
-                ],
+              child: GestureDetector(
+                child: Stack(
+                  children: <Widget>[
+                    defaultImageUser(),
+                    userPhoto == null ? Container() : imageUserURL()
+                  ],
+                ),
+                onTap: () {
+                  PageRouter.push(context, UserPage());
+                },
               ),
             ),
           ),

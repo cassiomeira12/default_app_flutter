@@ -10,6 +10,7 @@ import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../image_view_page.dart';
 import '../page_router.dart';
 import 'change_password_page.dart';
 import 'phone_number_page.dart';
@@ -169,12 +170,19 @@ class _UserState extends State<UserPage> implements UserContractView {
     return Container(
       width: 160,
       height: 160,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(userPhoto),
+      child: GestureDetector(
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(userPhoto),
+            ),
+          ),
         ),
+        onTap: () {
+          PageRouter.push(context, ImageViewPage(imgURL: userPhoto,));
+        },
       ),
     );
   }

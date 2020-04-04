@@ -123,13 +123,13 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
     return Column(
       children: <Widget>[
         Hero(
-          tag: 'hero',
+          tag: APP_NAME,
           child: Padding(
             padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
               radius: 58.0,
-              child: Image.asset("assets/user_default_img_white.png"),
+              child: Image.asset("assets/logo_app.png"),
             ),
           ),
         ),

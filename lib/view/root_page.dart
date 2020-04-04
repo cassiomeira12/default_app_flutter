@@ -2,6 +2,7 @@ import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/user/user_presenter.dart';
+import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/themes/my_themes.dart';
 import 'package:default_app_flutter/themes/custom_theme.dart';
 import 'package:default_app_flutter/utils/preferences_util.dart';
@@ -71,13 +72,13 @@ class _RootPageState extends State<RootPage> implements UserContractView {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Hero(
-                tag: 'hero',
+                tag: APP_NAME,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
                   child: CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 100,
-                    child: Image.asset("assets/user_default_img_white.png"),
+                    child: Image.asset("assets/logo_app.png"),
                   ),
                 ),
               ),
