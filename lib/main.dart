@@ -3,7 +3,6 @@ import 'package:default_app_flutter/themes/custom_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'strings.dart';
-import 'themes/light_theme.dart';
 import 'view/root_page.dart';
 
 void main() {

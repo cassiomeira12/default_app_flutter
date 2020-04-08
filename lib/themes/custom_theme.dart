@@ -1,8 +1,9 @@
-import 'package:default_app_flutter/themes/my_themes.dart';
-import 'package:default_app_flutter/themes/dark_theme.dart';
 import 'package:default_app_flutter/utils/preferences_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import 'dark_theme.dart';
+import 'my_themes.dart';
 
 class _CustomTheme extends InheritedWidget {
   final CustomThemeState data;
