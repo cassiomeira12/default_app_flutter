@@ -1,5 +1,9 @@
 import 'package:default_app_flutter/strings.dart';
+import 'package:default_app_flutter/view/page_router.dart';
+import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+
+import 'notification_page.dart';
 
 class NotificationsPage extends StatefulWidget {
 
@@ -25,6 +29,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               semNotificacoes(),
+              PrimaryButton(
+                text: "Not",
+                onPressed: () {
+                  PageRouter.push(context, NotificationPage());
+                },
+              ),
             ],
           ),
         ),

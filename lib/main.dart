@@ -18,7 +18,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FirebaseNotifications(notification).setUpFirebase();
+    var not = FirebaseNotifications(notification);
+    not.setUpFirebase();
+    //not.sendNotification();
     return MaterialApp(
       title: APP_NAME,
       debugShowCheckedModeBanner: true,

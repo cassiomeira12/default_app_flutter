@@ -51,7 +51,7 @@ class _RootPageState extends State<RootPage> implements UserContractView {
         return buildWaitingScreen();
         break;
       case AuthStatus.NOT_LOGGED_IN:
-        return new LoginPage(loginCallback: loginCallback,);
+        return LoginPage(loginCallback: loginCallback,);
         break;
       case AuthStatus.LOGGED_IN:
         return TabsPage(logoutCallback: logoutCallback,);
@@ -100,6 +100,7 @@ class _RootPageState extends State<RootPage> implements UserContractView {
         authStatus = AuthStatus.EMAIL_NOT_VERIFIED;
       });
     }
+    updateNotificationToken();
   }
 
   void logoutCallback() {
@@ -126,6 +127,16 @@ class _RootPageState extends State<RootPage> implements UserContractView {
       setState(() {
         authStatus = AuthStatus.EMAIL_NOT_VERIFIED;
       });
+    }
+    updateNotificationToken();
+  }
+
+  void updateNotificationToken() async {
+    String notificationToken = await PreferencesUtil.getNotificationToken();
+    NotificationToken token = SingletonUser.instance.notificationToken;
+    if (token == null || token.token != notificationToken) {
+      SingletonUser.instance.notificationToken = NotificationToken(notificationToken);
+      presenter.update(SingletonUser.instance);
     }
   }
 

@@ -7,7 +7,7 @@ class BaseUser implements BaseModel<BaseUser> {
   static getCollection() => "users";
 
   String _uId;
-  String notificationToken;
+  NotificationToken notificationToken;
   String avatarURL;
   Status status;
   String name;
@@ -36,9 +36,8 @@ class BaseUser implements BaseModel<BaseUser> {
 
   BaseUser.fromMap(Map<dynamic, dynamic>  map) {
     _uId = map["uId"];
-    notificationToken = map["notificationToken"];
+    notificationToken = map["notificationToken"] == null ? null : NotificationToken.fromMap(map["notificationToken"]);
     avatarURL = map["avatarURL"];
-    //status = map["status"];
     name = map["name"];
     email = map["email"];
     emailVerified = map["emailVerified"];
@@ -51,9 +50,8 @@ class BaseUser implements BaseModel<BaseUser> {
   toMap() {
     var map = new Map<String, dynamic>();
     map["uId"] = _uId;
-    map["notificationToken"] = notificationToken;
+    map["notificationToken"] = notificationToken == null ? null : notificationToken.toMap();
     map["avatarURL"] = avatarURL;
-    //map["status"] = status.toString();
     map["name"] = name;
     map["email"] = email;
     map["emailVerified"] = emailVerified;
@@ -74,4 +72,25 @@ class BaseUser implements BaseModel<BaseUser> {
     this._uId = uId;
   }
 
+}
+
+class NotificationToken {
+  String token;
+  bool active;
+
+  NotificationToken(this.token) {
+    active = true;
+  }
+
+  NotificationToken.fromMap(Map<dynamic, dynamic> map) {
+    token = map["token"];
+    active = map["active"] as bool;
+  }
+
+  toMap() {
+    var map = new Map<String, dynamic>();
+    map["token"] = token;
+    map["active"] = active;
+    return map;
+  }
 }
