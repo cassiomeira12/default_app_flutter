@@ -1,6 +1,4 @@
 import 'package:default_app_flutter/strings.dart';
-import 'package:default_app_flutter/view/widgets/background_card.dart';
-import 'package:default_app_flutter/view/widgets/shape_round.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -14,41 +12,45 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
         title: Text(NOTIFICATIONS, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            BackgroundCard(),
-            SingleChildScrollView(
-              child: ShapeRound(
-                  _showForm()
-              ),
-            ),
-          ],
+      body: Container(
+        alignment: Alignment.center,
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              semNotificacoes(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _showForm() {
-    return new Container(
-      padding: EdgeInsets.all(12.0),
-      child: new Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            //textTitle(),
-            //emailInput(),
-            //textMensagem(),
-            //_isLoading ? showCircularProgress() : sendButton()
-          ],
+  Widget semNotificacoes() {
+    return Column(
+      children: <Widget>[
+        Container(
+          width: 80,
+          height: 80,
+          child: Image.asset("assets/notification.png"),
         ),
-      ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 12, 0, 8),
+          child: Center(
+            child: Text(
+              "Você ainda não tem notificações",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.body2,
+            ),
+          ),
+        )
+      ],
     );
   }
 

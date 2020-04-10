@@ -27,11 +27,6 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
               child: Column(
                 children: <Widget>[
                   notificacoesButton(),
-                  notificacoesButton(),
-                  notificacoesButton(),
-                  notificacoesButton(),
-                  notificacoesButton(),
-                  notificacoesButton(),
                 ],
               ),
             ),
@@ -56,13 +51,9 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
           color: Theme.of(context).backgroundColor,
           child: Row(
             children: <Widget>[
-//              Padding(
-//                padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-//                child: Icon(Icons.color_lens, color: Colors.black54,),
-//              ),
               Expanded(
                 child: Text(
-                  "Dark Mode",
+                  "Receber Notificações",
                   style: Theme.of(context).textTheme.body2,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -90,22 +81,5 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
       ),
     );
   }
-
-//  Widget _showForm() {
-//    return new Container(
-//      padding: EdgeInsets.all(12.0),
-//      child: new Form(
-//        key: _formKey,
-//        child: Column(
-//          children: <Widget>[
-//            //textTitle(),
-//            //emailInput(),
-//            //textMensagem(),
-//            //_isLoading ? showCircularProgress() : sendButton()
-//          ],
-//        ),
-//      ),
-//    );
-//  }
 
 }

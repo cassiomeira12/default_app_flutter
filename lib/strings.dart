@@ -68,7 +68,7 @@ const TELEFONE_ATUALIZADO = "Telefone Atualizado";
 
 const ENTRAR = "Entrar";
 
-const DARK_MODE = "Dark Mode";
+const DARK_MODE = "Tema escuro";
 const CHANGE_NAME_SUCCESS = "Nome alterado com sucesso!";
 const CHANGE_NAME_FAILURE = "Erro ao atualizar nome";
 const CHANGE_NAME = "Alterar nome";

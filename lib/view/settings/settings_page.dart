@@ -49,44 +49,19 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            BackgroundCard(height: 150,),
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  _showForm(),
-                  formOpcoes(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _showForm() {
-    return Container(
-      padding: EdgeInsets.all(12),
-      child: Form(
-        key: _formKey,
         child: Column(
           children: <Widget>[
-            user(),
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                BackgroundCard(height: 150,),
+                imgUser(),
+              ],
+            ),
+            textNameWidget(),
+            listConfigWidget(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget user() {
-    return Container(
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          imgUser(),
-        ],
       ),
     );
   }
@@ -141,10 +116,9 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
     );
   }
 
-  Widget formOpcoes() {
+  Widget listConfigWidget() {
     return Column(
       children: <Widget>[
-        textUserName(),
         perfilButton(),
         notificationsSettingsButton(),
         darkModeButton(),
@@ -157,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
     );
   }
 
-  Widget textUserName() {
+  Widget textNameWidget() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 12, 0, 8),
       child: Center(
@@ -283,7 +257,12 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
                   activeColor: Theme.of(context).accentColor,
                   onChanged: (value) {
                     setState(() {
-                      darkMode = value;
+                      darkMode = !darkMode;
+                      if (darkMode) {
+                        CustomTheme.instanceOf(context).changeTheme(MyThemeKeys.DARK);
+                      } else {
+                        CustomTheme.instanceOf(context).changeTheme(MyThemeKeys.LIGHT);
+                      }
                     });
                   },
                 ),
