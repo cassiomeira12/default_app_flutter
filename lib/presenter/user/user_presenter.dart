@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/model/user_notification.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/services/crud.dart';
 import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
@@ -124,6 +125,11 @@ class UserPresenter implements UserContractPresenter, Crud<BaseUser> {
     }).catchError((error) {
       _view.onFailure(ERROR_ENVIAR_EMAIL);
     });
+  }
+
+  @override
+  Future<List<UserNotification>> listUserNotifications() async {
+    return await service.listUserNotifications();
   }
 
 }

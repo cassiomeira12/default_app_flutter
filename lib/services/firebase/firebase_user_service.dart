@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:default_app_flutter/model/user_notification.dart';
 import 'package:path/path.dart' as Path;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -179,6 +180,17 @@ class FirebaseUserService implements UserContractService {
   Future<void> sendEmailVerification() async {
     FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
     return currentUser.sendEmailVerification();
+  }
+
+  @override
+  Future<List<UserNotification>> listUserNotifications() {
+    String uId = SingletonUser.instance.getUid();
+    return _collection.document(uId).collection(UserNotification.getCollection()).getDocuments().then((value) {
+      return value.documentChanges.map<UserNotification>((doc) => UserNotification.fromMap(doc.document.data)).toList();
+    }).catchError((error) {
+      print(error.message);
+      return null;
+    });
   }
 
 }

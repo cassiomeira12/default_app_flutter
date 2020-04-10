@@ -1,7 +1,7 @@
 const APP_NAME = "Default App Flutter";
 
 const HOME = "Mapa";
-const NOTIFICATIONS = "Promoções";
+const NOTIFICATIONS = "Notificações";
 const HISTORICO = "Histórico";
 const SETTINGS = "Ajustes";
 

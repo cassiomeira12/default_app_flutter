@@ -1,9 +1,14 @@
+import 'package:default_app_flutter/model/user_notification.dart';
 import 'package:default_app_flutter/services/firebase/firebase_notification.dart';
 import 'package:default_app_flutter/view/widgets/primary_button.dart';
 import 'package:default_app_flutter/view/widgets/scaffold_snackbar.dart';
 import 'package:flutter/material.dart';
 
 class NotificationPage extends StatefulWidget {
+  final UserNotification notification;
+
+  const NotificationPage({this.notification});
+
   @override
   _NotificationPageState createState() => _NotificationPageState();
 }

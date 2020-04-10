@@ -21,6 +21,29 @@ Future showSilentNotification(
   }
 ) => _showNotification(notifications, title: title, body: body, type: _noSound);
 
+NotificationDetails get _ongoing {
+  final androidChannelSpecifics = AndroidNotificationDetails(
+    'yout channel id',
+    'yout channel name',
+    'yout channel description',
+    importance: Importance.Max,
+    priority: Priority.High,
+    ongoing: true,
+    autoCancel: false,
+  );
+  final iOSChannelSpecifics = IOSNotificationDetails();
+  return NotificationDetails(androidChannelSpecifics, iOSChannelSpecifics);
+}
+
+Future showOngoingNotification(
+  FlutterLocalNotificationsPlugin notifications,
+  {
+    @required String title,
+    @required String body,
+    int id = 0,
+  }
+) => _showNotification(notifications, title: title, body: body, type: _ongoing);
+
 Future _showNotification(
   FlutterLocalNotificationsPlugin notifications,
   {

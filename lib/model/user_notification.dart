@@ -1,18 +1,19 @@
 import 'base_model.dart';
 
-class Notification extends BaseModel<Notification> {
+class UserNotification extends BaseModel<UserNotification> {
   static getCollection() => "notifications";
 
   String _uId;
   String title;
   String message;
   bool read;
+  DateTime createdAt;
   String avatarURL;
   String token;
   String topic;
   String type;
 
-  Notification();
+  UserNotification();
 
   @override
   String getUid() {
@@ -24,11 +25,12 @@ class Notification extends BaseModel<Notification> {
     this._uId = uId;
   }
 
-  Notification.fromMap(Map<dynamic, dynamic>  map) {
+  UserNotification.fromMap(Map<dynamic, dynamic>  map) {
     _uId = map["uId"];
     title = map["title"];
     message = map["message"];
     read = map["read"] as bool;
+    createdAt = map["createdAt"] == null ? null : DateTime.parse(map["createdAt"]);
     avatarURL = map["avatarURL"];
     token = map["token"];
     topic = map["topic"];
@@ -42,6 +44,7 @@ class Notification extends BaseModel<Notification> {
     map["title"] = title;
     map["message"] = message;
     map["read"] = read;
+    map["createdAt"] = createdAt == null ? null : createdAt.toString();
     map["avatarURL"] = avatarURL;
     map["token"] = token;
     map["topic"] = topic;
@@ -50,11 +53,12 @@ class Notification extends BaseModel<Notification> {
   }
 
   @override
-  update(Notification item) {
+  update(UserNotification item) {
     _uId = item.getUid();
     title = item.title;
     message = item.message;
     read = item.read;
+    createdAt = item.createdAt;
     avatarURL = item.avatarURL;
     token = item.token;
     topic = item.topic;
