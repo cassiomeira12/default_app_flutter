@@ -265,10 +265,11 @@ class _SignUpPageState extends State<SignUpPage>{
   }
 
   BaseUser createBaseUser() {
-    BaseUser user = new BaseUser();
+    BaseUser user = BaseUser();
     user.name = _name;
     user.email = _email;
     user.password = _password;
+    user.createAt = DateTime.now();
     return user;
   }
 

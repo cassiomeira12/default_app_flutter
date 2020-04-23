@@ -5,7 +5,7 @@ import 'package:default_app_flutter/model/phone_number.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/presenter/user/user_presenter.dart';
 import 'package:default_app_flutter/presenter/user/verified_sms_presenter.dart';
-import 'package:default_app_flutter/services/crud.dart';
+import 'package:default_app_flutter/contract/crud.dart';
 import 'package:flutter/material.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';

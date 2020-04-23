@@ -1,4 +1,5 @@
 const APP_NAME = "Default App Flutter";
+const PACKAGE_NAME = "com.android.defaultappflutter";
 
 const HOME = "Mapa";
 const NOTIFICATIONS = "Notificações";
@@ -79,3 +80,9 @@ const SELECIONE_IMAGEM = "Selecione uma imagem";
 const FOTO_ALTERADA = "Foto alterada com sucesso!";
 const CAMERA = "Camera";
 const GALERIA = "Galeria";
+
+const NOTIFICATION = "Notificação";
+const DELETAR = "Deletar";
+const CONFIGURAR = "Configurar";
+const SEM_NOTIFICACOES = "Você ainda não tem notificações";
+const RECEBER_NOTIFICACOES = "Receber Notificações";

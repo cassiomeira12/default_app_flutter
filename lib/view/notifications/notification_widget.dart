@@ -1,22 +1,30 @@
-import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/model/user_notification.dart';
-import 'package:default_app_flutter/view/notifications/notification_page.dart';
-import 'package:default_app_flutter/view/page_router.dart';
-import 'package:default_app_flutter/view/widgets/light_button.dart';
-import 'package:default_app_flutter/view/widgets/primary_button.dart';
-import 'package:default_app_flutter/view/widgets/secondary_button.dart';
+import 'package:default_app_flutter/utils/date_util.dart';
 import 'package:flutter/material.dart';
 
 class NotificationWidget extends StatefulWidget {
   final UserNotification notification;
+  final VoidCallback onPressed;
 
-  const NotificationWidget({this.notification});
+  const NotificationWidget({
+    this.notification,
+    this.onPressed,
+  });
 
   @override
   _NotificationWidgetState createState() => _NotificationWidgetState();
 }
 
 class _NotificationWidgetState extends State<NotificationWidget> {
+  
+  Color _colorButton, _colorTextButton;
+
+  @override
+  void initState() {
+    super.initState();
+    _colorTextButton = Colors.white;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,26 +35,23 @@ class _NotificationWidgetState extends State<NotificationWidget> {
           padding: EdgeInsets.fromLTRB(20, 5, 5, 5),
           elevation: 0.0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0),),
-          color: Color(0xFFE2FFF0),//Theme.of(context).backgroundColor,
+          color: widget.notification.read ? Theme.of(context).backgroundColor : Theme.of(context).primaryColorLight,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  //imageUser(SingletonUser.instance.avatarURL),
-                  Expanded(child: titleWidget(),),
+                  widget.notification.avatarURL == null ? Container() : imageNetworkURL(widget.notification.avatarURL),
+                  widget.notification.title == null ? Container() : Expanded(child: titleWidget(),),
                   //buttonAction(),
                 ],
               ),
-              messageWidget(),
+              widget.notification.message == null ? Container() : messageWidget(),
               dataWidget(),
             ],
           ),
-          onPressed: () => PageRouter.push(context, NotificationPage(notification: widget.notification,)),
-//          onPressed: () {
-//
-//          },
+          onPressed: widget.onPressed,
         ),
       ),
     );
@@ -58,7 +63,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
       child: Text(
         widget.notification.title,
         textAlign: TextAlign.left,
-        style: Theme.of(context).textTheme.body2,
+        style: Theme.of(context).textTheme.display3,
       ),
     );
   }
@@ -68,8 +73,8 @@ class _NotificationWidgetState extends State<NotificationWidget> {
       padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
       child: Text(
         widget.notification.message,
-        //textAlign: TextAlign.left,
-        style: Theme.of(context).textTheme.body1,
+        textAlign: TextAlign.left,
+        style: Theme.of(context).textTheme.display4,
       ),
     );
   }
@@ -78,9 +83,8 @@ class _NotificationWidgetState extends State<NotificationWidget> {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
       child: Text(
-        "${widget.notification.createdAt.day} de fev às ${widget.notification.createdAt.hour}:05",
+        "${DateUtil.formatDateMouthHour(widget.notification.createAt)}",
         style: Theme.of(context).textTheme.display2,
-        //textAlign: TextAlign.left,
       ),
     );
   }
@@ -89,31 +93,27 @@ class _NotificationWidgetState extends State<NotificationWidget> {
     return Align(
       alignment: Alignment.bottomRight,
       child: Container(
+        height: 28,
         child: RaisedButton(
-          elevation: 0.0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
-          color: Theme.of(context).backgroundColor,
-          child: Text("Button"),
-          onPressed: () { },
-        ),
-      ),
-    );
-  }
-
-  Widget imageUser(String url) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: <Widget>[
-          Image.asset("assets/marker_1.png"),
-          Container(
-            width: 40,
-            height: 41,
-            child: Image.asset("assets/user_default_img_white.png"),
+          elevation: 1.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-          url == null ? Container() : imageNetworkURL(url),
-        ],
+          color: _colorButton == null ? Theme.of(context).buttonColor : _colorButton,
+          child: Text(
+            "Action",
+            style: TextStyle(
+              color: _colorTextButton,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          onPressed: () {
+            setState(() {
+              _colorButton = Colors.white;
+              _colorTextButton = Colors.grey;
+            });
+          },
+        ),
       ),
     );
   }
@@ -122,9 +122,14 @@ class _NotificationWidgetState extends State<NotificationWidget> {
     return Container(
       width: 37,
       height: 37,
-      margin: EdgeInsets.only(top: 2),
+      margin: EdgeInsets.only(top: 2, right: 4),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Theme.of(context).hintColor,
+        ),
         image: DecorationImage(
           fit: BoxFit.cover,
           image: NetworkImage(url),
@@ -132,7 +137,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
       ),
     );
   }
-
 
 }
 

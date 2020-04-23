@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../strings.dart';
-import '../crud.dart';
+import '../../contract/crud.dart';
 
 class FirebaseLoginService extends LoginContractService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

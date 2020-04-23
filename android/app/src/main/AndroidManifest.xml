@@ -31,16 +31,16 @@
             </intent-filter>
         </activity>
         <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_stat_notification" />
-<!--        <meta-data-->
-<!--            android:name="com.google.firebase.messaging.default_notification_color"-->
-<!--            android:resource="@color/colorPrimary" />-->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="push_notification"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_sound"
             android:resource="@raw/sound_notification" />
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
     </application>
 </manifest>

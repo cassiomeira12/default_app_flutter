@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:default_app_flutter/model/base_user.dart';
-import 'package:default_app_flutter/model/user_notification.dart';
-import 'package:default_app_flutter/services/crud.dart';
+import 'package:default_app_flutter/contract/crud.dart';
 
 abstract class UserContractView {
   onFailure(String error);
@@ -21,5 +20,4 @@ abstract class UserContractService extends Crud<BaseUser> {
   Future<String> changeUserPhoto(File image);
   Future<bool> isEmailVerified();
   Future<void> sendEmailVerification();
-  Future<List<UserNotification>> listUserNotifications();
 }

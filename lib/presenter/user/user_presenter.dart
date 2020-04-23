@@ -4,7 +4,7 @@ import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/user_notification.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
-import 'package:default_app_flutter/services/crud.dart';
+import 'package:default_app_flutter/contract/crud.dart';
 import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
 import 'package:default_app_flutter/strings.dart';
 
@@ -17,6 +17,28 @@ class UserPresenter implements UserContractPresenter, Crud<BaseUser> {
   @override
   Future<BaseUser> create(BaseUser item) async {
     return await service.create(item).then((value) {
+      _view.onSuccess(value);
+      return value;
+    }).catchError((error) {
+      _view.onFailure(error.message);
+      return null;
+    });
+  }
+
+  @override
+  Future<BaseUser> read(BaseUser item) async {
+    return await service.read(item).then((value) {
+      _view.onSuccess(value);
+      return value;
+    }).catchError((error) {
+      _view.onFailure(error.message);
+      return null;
+    });
+  }
+
+  @override
+  Future<BaseUser> update(BaseUser item) async {
+    return await service.update(item).then((value) {
       _view.onSuccess(value);
       return value;
     }).catchError((error) {
@@ -47,25 +69,9 @@ class UserPresenter implements UserContractPresenter, Crud<BaseUser> {
   }
 
   @override
-  Future<BaseUser> read(BaseUser item) async {
-    return await service.read(item).then((value) {
-      _view.onSuccess(value);
-      return value;
-    }).catchError((error) {
-      _view.onFailure(error.message);
-      return null;
-    });
-  }
-
-  @override
-  Future<BaseUser> update(BaseUser item) async {
-    return await service.update(item).then((value) {
-      _view.onSuccess(value);
-      return value;
-    }).catchError((error) {
-      _view.onFailure(error.message);
-      return null;
-    });
+  Future<List<BaseUser>> list() {
+    // TODO: implement list
+    return null;
   }
 
   @override
@@ -125,11 +131,6 @@ class UserPresenter implements UserContractPresenter, Crud<BaseUser> {
     }).catchError((error) {
       _view.onFailure(ERROR_ENVIAR_EMAIL);
     });
-  }
-
-  @override
-  Future<List<UserNotification>> listUserNotifications() async {
-    return await service.listUserNotifications();
   }
 
 }

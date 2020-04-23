@@ -92,6 +92,12 @@ class FirebaseUserService implements UserContractService {
   }
 
   @override
+  Future<List<BaseUser>> list() {
+    // TODO: implement list
+    return null;
+  }
+
+  @override
   Future<BaseUser> createAccount(BaseUser user) async {
     return await create(user);
   }
@@ -150,20 +156,6 @@ class FirebaseUserService implements UserContractService {
     return await FirebaseAuth.instance.signOut();
   }
 
-  Future<void> _createUser(BaseUser user) async {
-    String uId = _collection.document().documentID;
-    //Atualizando informacoes ao criar novo usuario
-    user.setUid(uId);
-    //user.notificationToken = PreferenceUtils(activity).getTokenNotification()
-    user.emailVerified = false;
-    //user.createAt = DateTime();
-    //user.updateAt = DateTime();
-    //user.status = Status.ATIVO;
-    user.password = null; //Nao adicionar a senha no BD
-
-    return _collection.document(uId).setData(user.toMap());
-  }
-
   @override
   Future<bool> isEmailVerified() async {
     FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
@@ -180,17 +172,6 @@ class FirebaseUserService implements UserContractService {
   Future<void> sendEmailVerification() async {
     FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
     return currentUser.sendEmailVerification();
-  }
-
-  @override
-  Future<List<UserNotification>> listUserNotifications() {
-    String uId = SingletonUser.instance.getUid();
-    return _collection.document(uId).collection(UserNotification.getCollection()).getDocuments().then((value) {
-      return value.documentChanges.map<UserNotification>((doc) => UserNotification.fromMap(doc.document.data)).toList();
-    }).catchError((error) {
-      print(error.message);
-      return null;
-    });
   }
 
 }

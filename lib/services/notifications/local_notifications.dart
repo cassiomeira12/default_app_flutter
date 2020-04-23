@@ -3,9 +3,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 NotificationDetails get _noSound {
   final androidChannelSpecifics = AndroidNotificationDetails(
-    'silent channel id',
-    'silent channel name',
-    'silent channel description',
+    '0',
+    'Silent Notification',
+    'No Sound Notification',
     playSound: false,
   );
   final iOSChannelSpecifics = IOSNotificationDetails(presentSound: false);
@@ -17,15 +17,16 @@ Future showSilentNotification(
   {
     @required String title,
     @required String body,
-    int id = 0,
+    //int id = DateTime.now().millisecondsSinceEpoch,
   }
 ) => _showNotification(notifications, title: title, body: body, type: _noSound);
 
 NotificationDetails get _ongoing {
   final androidChannelSpecifics = AndroidNotificationDetails(
-    'yout channel id',
-    'yout channel name',
-    'yout channel description',
+    'push_notification',
+    'Push Notification',
+    null,
+    playSound: true,
     importance: Importance.Max,
     priority: Priority.High,
     ongoing: true,
@@ -40,9 +41,15 @@ Future showOngoingNotification(
   {
     @required String title,
     @required String body,
-    int id = 0,
+    //int id = 0,
   }
 ) => _showNotification(notifications, title: title, body: body, type: _ongoing);
+
+int notificationId() {
+  var date = DateTime.now();
+  String id = "${date.hour}${date.minute}${date.second}";
+  return int.parse(id);
+}
 
 Future _showNotification(
   FlutterLocalNotificationsPlugin notifications,
@@ -50,6 +57,6 @@ Future _showNotification(
     @required String title,
     @required String body,
     @required NotificationDetails type,
-    int id = 0,
+    //int id = 0,
   }
-) => notifications.show(id, title, body, type);
+) => notifications.show(notificationId(), title, body, type);

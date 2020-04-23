@@ -4,7 +4,7 @@ import 'package:default_app_flutter/services/firebase/firebase_user_service.dart
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../strings.dart';
-import '../crud.dart';
+import '../../contract/crud.dart';
 
 class FirebaseCreateAccountService extends CreateAccountContractService {
   FirebaseCreateAccountService(CreateAccountContractPresenter presenter) : super(presenter);

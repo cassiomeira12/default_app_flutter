@@ -6,11 +6,10 @@ class UserNotification extends BaseModel<UserNotification> {
   String _uId;
   String title;
   String message;
-  bool read;
-  DateTime createdAt;
+  String observacao;
+  bool read = false;
+  DateTime createAt = DateTime.now();
   String avatarURL;
-  String token;
-  String topic;
   String type;
 
   UserNotification();
@@ -29,11 +28,10 @@ class UserNotification extends BaseModel<UserNotification> {
     _uId = map["uId"];
     title = map["title"];
     message = map["message"];
-    read = map["read"] as bool;
-    createdAt = map["createdAt"] == null ? null : DateTime.parse(map["createdAt"]);
+    observacao = map["observacao"];
+    read = map["read"] == null ? true : map["read"] as bool;
+    createAt = map["createAt"] == null ? null : DateTime.parse(map["createAt"]);
     avatarURL = map["avatarURL"];
-    token = map["token"];
-    topic = map["topic"];
     type = map["type"];
   }
 
@@ -43,11 +41,11 @@ class UserNotification extends BaseModel<UserNotification> {
     map["uId"] = _uId;
     map["title"] = title;
     map["message"] = message;
+    map["observacao"] = observacao;
     map["read"] = read;
-    map["createdAt"] = createdAt == null ? null : createdAt.toString();
+    map["createAt"] = createAt == null ? null : createAt.toString();
+    map["date"] = createAt == null ? null : createAt.millisecondsSinceEpoch;
     map["avatarURL"] = avatarURL;
-    map["token"] = token;
-    map["topic"] = topic;
     map["type"] = type;
     return map;
   }
@@ -57,11 +55,10 @@ class UserNotification extends BaseModel<UserNotification> {
     _uId = item.getUid();
     title = item.title;
     message = item.message;
+    observacao = item.observacao;
     read = item.read;
-    createdAt = item.createdAt;
+    createAt = item.createAt;
     avatarURL = item.avatarURL;
-    token = item.token;
-    topic = item.topic;
     type = item.type;
   }
 

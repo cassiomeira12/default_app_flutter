@@ -40,6 +40,16 @@ ThemeData lightTheme() {
         fontSize: 12,
         color: Colors.black45,
       ),
+      display3: TextStyle(
+        fontSize: 14,
+        color: Colors.black45,
+        fontWeight: FontWeight.bold,
+      ),
+      display4: TextStyle(
+        fontSize: 14,
+        color: Colors.black54,
+        fontWeight: FontWeight.normal,
+      ),
     ),
     // tabBarTheme:
     // accentIconTheme:

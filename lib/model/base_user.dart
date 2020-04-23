@@ -42,8 +42,8 @@ class BaseUser implements BaseModel<BaseUser> {
     email = map["email"];
     emailVerified = map["emailVerified"];
     password = map["password"];
-    createAt = map["createAt"];
-    updateAt = map["updateAt"];
+    createAt = map["createAt"] == null ? null : DateTime.parse(map["createAt"]);
+    updateAt = map["updateAt"] == null ? null : DateTime.parse(map["updateAt"]);
     phoneNumber = map["phoneNumber"] == null ? null : PhoneNumber.fromMap(map["phoneNumber"]);
   }
 
@@ -56,8 +56,8 @@ class BaseUser implements BaseModel<BaseUser> {
     map["email"] = email;
     map["emailVerified"] = emailVerified;
     map["password"] = password;
-    map["createAt"] = createAt;
-    map["updateAt"] = updateAt;
+    map["createAt"] = createAt == null ? null : createAt.toString();
+    map["updateAt"] = updateAt == null ? null : updateAt.toString();
     map["phoneNumber"] = phoneNumber == null ? null : phoneNumber.toMap();
     return map;
   }
@@ -77,6 +77,7 @@ class BaseUser implements BaseModel<BaseUser> {
 class NotificationToken {
   String token;
   bool active;
+  List<String> topics;
 
   NotificationToken(this.token) {
     active = true;
@@ -85,12 +86,14 @@ class NotificationToken {
   NotificationToken.fromMap(Map<dynamic, dynamic> map) {
     token = map["token"];
     active = map["active"] as bool;
+    //topics = List.from(map["topics"]);
   }
 
   toMap() {
     var map = new Map<String, dynamic>();
     map["token"] = token;
     map["active"] = active;
+    //map["topics"] = topics.toString();
     return map;
   }
 }

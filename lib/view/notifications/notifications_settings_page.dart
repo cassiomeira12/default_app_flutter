@@ -1,3 +1,7 @@
+import 'package:default_app_flutter/contract/user/user_contract.dart';
+import 'package:default_app_flutter/model/base_user.dart';
+import 'package:default_app_flutter/model/singleton/singleton_user.dart';
+import 'package:default_app_flutter/presenter/user/user_presenter.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -7,10 +11,18 @@ class NotificationsSettingsPage extends StatefulWidget {
   State<StatefulWidget> createState() => _NotificationsSettingsState();
 }
 
-class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
+class _NotificationsSettingsState extends State<NotificationsSettingsPage> implements UserContractView {
   final _formKey = new GlobalKey<FormState>();
 
-  bool notifications = true;
+  bool notifications = SingletonUser.instance.notificationToken.active;
+
+  UserContractPresenter presenter;
+
+  @override
+  void initState() {
+    super.initState();
+    presenter = UserPresenter(this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +48,16 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
     );
   }
 
+  @override
+  onFailure(String error) {
+
+  }
+
+  @override
+  onSuccess(BaseUser user) {
+
+  }
+
   Widget notificacoesButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 0.0),
@@ -53,7 +75,7 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  "Receber Notificações",
+                  RECEBER_NOTIFICACOES,
                   style: Theme.of(context).textTheme.body2,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -75,6 +97,8 @@ class _NotificationsSettingsState extends State<NotificationsSettingsPage> {
           onPressed: () {
             setState(() {
               notifications = !notifications;
+              SingletonUser.instance.notificationToken.active = notifications;
+              presenter.update(SingletonUser.instance);
             });
           },
         ),
