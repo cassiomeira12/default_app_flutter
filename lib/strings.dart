@@ -1,5 +1,4 @@
 const APP_NAME = "Default App Flutter";
-const PACKAGE_NAME = "com.android.defaultappflutter";
 
 const HOME = "Mapa";
 const NOTIFICATIONS = "Notificações";
@@ -86,3 +85,8 @@ const DELETAR = "Deletar";
 const CONFIGURAR = "Configurar";
 const SEM_NOTIFICACOES = "Você ainda não tem notificações";
 const RECEBER_NOTIFICACOES = "Receber Notificações";
+
+const UPDATE_APP = "Atualize seu aplicativo!";
+const VERSION_OLDER = "Sua versão é muito antiga, atualize e confira as novidades!";
+const NOT_NOW = "Agora não";
+const UPDATE = "Atualizar";

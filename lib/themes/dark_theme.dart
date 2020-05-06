@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 const brightness = Brightness.dark;
 
-const primaryColor = const Color(0xFF00796B);
-const primaryColorDark = const Color(0xFF004D40);
-const accentColor = const Color(0xFFFCA639);
+const primaryColor = Color(0xFF00796B);
+const primaryColorLight = Color(0xFF4FAA84);
+const primaryColorDark = Color(0xFF004D40);
+const accentColor = Color(0xFFFCA639);
 
-const backgroundColor = const Color(0xFFF5F5F5);
+const backgroundColor = Color(0xFFF5F5F5);
 const errorColor = Colors.redAccent;
 
 ThemeData darkTheme() {
@@ -78,9 +79,11 @@ ThemeData darkTheme() {
     // primaryIconTheme:
     // primaryTextTheme:
     // sliderTheme:
+    cardColor: Colors.white70,
     hintColor: Colors.white30,
     errorColor: errorColor,
     primaryColor: primaryColor,
+    primaryColorLight: primaryColorLight,
     primaryColorDark: primaryColorDark,
     accentColor: accentColor,
     // fontFamily: 'Montserrat',

@@ -1,23 +1,31 @@
 import 'package:default_app_flutter/contract/user/user_contract.dart';
 import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
+import 'package:default_app_flutter/model/version_app.dart';
 import 'package:default_app_flutter/presenter/user/user_presenter.dart';
+import 'package:default_app_flutter/presenter/version_app_presenter.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/themes/my_themes.dart';
 import 'package:default_app_flutter/themes/custom_theme.dart';
 import 'package:default_app_flutter/utils/preferences_util.dart';
 import 'package:default_app_flutter/view/tabs_page.dart';
+import 'package:default_app_flutter/view/widgets/primary_button.dart';
+import 'package:default_app_flutter/view/widgets/secondary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'login/login_page.dart';
 import 'login/verified_email_page.dart';
+import 'widgets/background_card.dart';
 
 enum AuthStatus {
   NOT_DETERMINED,
   NOT_LOGGED_IN,
   EMAIL_NOT_VERIFIED,
   LOGGED_IN,
+  UPDATE_APP,
 }
 
 class RootPage extends StatefulWidget {
@@ -30,6 +38,9 @@ class _RootPageState extends State<RootPage> implements UserContractView {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
 
   UserContractPresenter presenter;
+
+  VersionApp versionApp;
+  bool minimumUpdate = true;
 
   @override
   void initState() {
@@ -58,6 +69,10 @@ class _RootPageState extends State<RootPage> implements UserContractView {
         break;
       case AuthStatus.EMAIL_NOT_VERIFIED:
         return VerifiedEmailPage(logoutCallback: logoutCallback,);
+        break;
+      case AuthStatus.UPDATE_APP:
+        return updateAppScreen();
+        break;
       default:
         return buildWaitingScreen();
     }
@@ -90,6 +105,113 @@ class _RootPageState extends State<RootPage> implements UserContractView {
     );
   }
 
+  void checkLastVersionApp() async {
+    var last = await PreferencesUtil.getLastCheckUpdate();
+    if (last == null) {//First check
+      checkCurrentVersion();
+    } else {
+      var now = DateTime.now();
+      var dif = now.difference(last);
+      if (dif.inDays > 3) {//Check update
+        checkCurrentVersion();
+      }
+      checkCurrentVersion();
+    }
+  }
+
+  void checkCurrentVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String packageName = packageInfo.packageName;
+    int buildNumber = int.parse(packageInfo.buildNumber);
+    versionApp = await VersionAppPresenter().checkCurrentVersion(packageName);
+    if (versionApp != null) {
+      if (versionApp.currentCode > buildNumber) {
+        setState(() => authStatus = AuthStatus.UPDATE_APP);
+      }
+      if (versionApp.minimumCode > buildNumber) {
+        setState(() {
+          minimumUpdate = false;
+        });
+      }
+    }
+    PreferencesUtil.setLastCheckUpdate(DateTime.now());//Atualizando ultimo check de versao
+  }
+
+  Widget updateAppScreen() {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              BackgroundCard(height: 200,),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: 130,),
+                height: 120,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(
+                    width: 1,
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+                child: Icon(
+                  Icons.system_update,
+                  size: 100,
+                  color: Colors.lightBlue,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            UPDATE_APP,
+            style: Theme.of(context).textTheme.subtitle,
+            textAlign: TextAlign.center,
+          ),
+          minimumUpdate ?
+          Container()
+              :
+          Text(
+            VERSION_OLDER,
+            style: Theme.of(context).textTheme.body1,
+            textAlign: TextAlign.center,
+          ),
+          Row(
+            children: <Widget>[
+              minimumUpdate ?
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: SecondaryButton(
+                    text: NOT_NOW,
+                    onPressed: () => setState(() => authStatus = AuthStatus.LOGGED_IN),
+                  ),
+                ),
+              )
+                  :
+              Container(),
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: PrimaryButton(
+                    text: UPDATE,
+                    onPressed: () async {
+                      if (await canLaunch(versionApp.url)) {
+                        launch(versionApp.url);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   void loginCallback() {
     if (SingletonUser.instance.emailVerified) {
       setState(() {
@@ -117,12 +239,13 @@ class _RootPageState extends State<RootPage> implements UserContractView {
   }
 
   @override
-  onSuccess(BaseUser user) {
+  onSuccess(BaseUser user) async {
     SingletonUser.instance.update(user);
     if (user.emailVerified) {
       setState(() {
         authStatus = AuthStatus.LOGGED_IN;
       });
+      checkLastVersionApp();
     } else {
       setState(() {
         authStatus = AuthStatus.EMAIL_NOT_VERIFIED;

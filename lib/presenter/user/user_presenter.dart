@@ -12,7 +12,7 @@ class UserPresenter implements UserContractPresenter, Crud<BaseUser> {
   final UserContractView _view;
   UserPresenter(this._view);
 
-  UserContractService service = FirebaseUserService();
+  UserContractService service = FirebaseUserService("users");
 
   @override
   Future<BaseUser> create(BaseUser item) async {

@@ -1,6 +1,10 @@
+import 'package:default_app_flutter/model/version_app.dart';
+import 'package:default_app_flutter/presenter/version_app_presenter.dart';
 import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutAppPage extends StatefulWidget {
 
@@ -9,47 +13,135 @@ class AboutAppPage extends StatefulWidget {
 }
 
 class _AboutAppState extends State<AboutAppPage> {
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+
+  String statusVersionApp = "Procurando atualização...", currentVersion = "...";
+  bool loading = true;
+
+  VersionApp versionApp;
+  var icon = Icons.check_circle;
+  var colorIcon = Colors.green;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentVersion();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       //key: _scaffoldKey,
       appBar: AppBar(
         title: Text(ABOUT, style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
-        child: Stack(
+        child: Column(
           children: <Widget>[
-            Column(
+            Stack(
+              alignment: Alignment.center,
               children: <Widget>[
                 BackgroundCard(height: 200,),
-                txtAboutApp(),
+                _showForm(),
               ],
             ),
-            SingleChildScrollView(
-              child: _showForm(),
-            ),
+            versionAppWidget(),
+            txtAboutApp(),
           ],
         ),
       ),
     );
   }
 
+  void getCurrentVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    String packageName = packageInfo.packageName;
+    String version = packageInfo.version;
+    int buildNumber = int.parse(packageInfo.buildNumber);
+
+    versionApp = await VersionAppPresenter().checkCurrentVersion(packageName);
+
+    if (versionApp == null) {
+      setState(() {
+        statusVersionApp = "Tente novamente mais tarde";
+        icon = Icons.info;
+        colorIcon = Colors.grey;
+      });
+    } else {
+      if (buildNumber == versionApp.currentCode) {
+        setState(() {
+          statusVersionApp = "Última versão";
+        });
+      } else if (buildNumber >= versionApp.minimumCode) {
+        setState(() {
+          statusVersionApp = "Click e baixe a nova versão!";
+          icon = Icons.system_update;
+          colorIcon = Colors.blue;
+        });
+      }
+    }
+    setState(() {
+      currentVersion = "Versão atual: $version";
+      loading = false;
+    });
+  }
+
+  Widget versionAppWidget() {
+    return Card(
+      child: MaterialButton(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
+          child: Row(
+            children: <Widget>[
+              loading ?
+              Padding(
+                padding: EdgeInsets.fromLTRB(5, 5, 10, 5),
+                child: CircularProgressIndicator(),
+              )
+                :
+              Icon(
+                icon,
+                color: colorIcon,
+                size: 50,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      statusVersionApp,
+                      style: Theme.of(context).textTheme.body1,
+                    ),
+                    Text(
+                      currentVersion,
+                      style: Theme.of(context).textTheme.body1,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        onPressed: () async {
+          if (await canLaunch(versionApp.url)) {
+            launch(versionApp.url);
+          }
+        },
+      ),
+    );
+  }
+
   Widget _showForm() {
-    return new Container(
-      padding: EdgeInsets.all(12.0),
-      child: new Form(
+    return Container(
+      child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
             imgApp(),
             txtAppName(),
-            //textTitle(),
-            //emailInput(),
-            //textMensagem(),
-            //_isLoading ? showCircularProgress() : sendButton()
           ],
         ),
       ),

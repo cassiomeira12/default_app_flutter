@@ -1,12 +1,8 @@
 import 'package:default_app_flutter/model/status.dart';
-
 import 'base_model.dart';
 import 'phone_number.dart';
 
-class BaseUser implements BaseModel<BaseUser> {
-  static getCollection() => "users";
-
-  String _uId;
+class BaseUser extends BaseModel<BaseUser> {
   NotificationToken notificationToken;
   String avatarURL;
   Status status;
@@ -20,8 +16,21 @@ class BaseUser implements BaseModel<BaseUser> {
 
   BaseUser();
 
+  BaseUser.fromMap(Map<dynamic, dynamic>  map) {
+    id = map["_id"];
+    notificationToken = map["notificationToken"] == null ? null : NotificationToken.fromMap(map["notificationToken"]);
+    avatarURL = map["avatarURL"];
+    name = map["name"];
+    email = map["email"];
+    emailVerified = map["emailVerified"];
+    password = map["password"];
+    createAt = map["createAt"] == null ? null : DateTime.parse(map["createAt"]);
+    updateAt = map["updateAt"] == null ? null : DateTime.parse(map["updateAt"]);
+    phoneNumber = map["phoneNumber"] == null ? null : PhoneNumber.fromMap(map["phoneNumber"]);
+  }
+
   update(BaseUser user) {
-    _uId = user.getUid();
+    id = user.id;
     notificationToken = user.notificationToken;
     avatarURL = user.avatarURL;
     status = user.status;
@@ -34,22 +43,9 @@ class BaseUser implements BaseModel<BaseUser> {
     phoneNumber = user.phoneNumber;
   }
 
-  BaseUser.fromMap(Map<dynamic, dynamic>  map) {
-    _uId = map["uId"];
-    notificationToken = map["notificationToken"] == null ? null : NotificationToken.fromMap(map["notificationToken"]);
-    avatarURL = map["avatarURL"];
-    name = map["name"];
-    email = map["email"];
-    emailVerified = map["emailVerified"];
-    password = map["password"];
-    createAt = map["createAt"] == null ? null : DateTime.parse(map["createAt"]);
-    updateAt = map["updateAt"] == null ? null : DateTime.parse(map["updateAt"]);
-    phoneNumber = map["phoneNumber"] == null ? null : PhoneNumber.fromMap(map["phoneNumber"]);
-  }
-
   toMap() {
-    var map = new Map<String, dynamic>();
-    map["uId"] = _uId;
+    var map = Map<String, dynamic>();
+    map["_id"] = id;
     map["notificationToken"] = notificationToken == null ? null : notificationToken.toMap();
     map["avatarURL"] = avatarURL;
     map["name"] = name;
@@ -60,16 +56,6 @@ class BaseUser implements BaseModel<BaseUser> {
     map["updateAt"] = updateAt == null ? null : updateAt.toString();
     map["phoneNumber"] = phoneNumber == null ? null : phoneNumber.toMap();
     return map;
-  }
-
-  @override
-  String getUid() {
-    return _uId;
-  }
-
-  @override
-  void setUid(String uId) {
-    this._uId = uId;
   }
 
 }

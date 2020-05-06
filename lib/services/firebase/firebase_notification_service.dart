@@ -1,64 +1,68 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:default_app_flutter/contract/user/notification_contract.dart';
-import 'package:default_app_flutter/model/base_user.dart';
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
 import 'package:default_app_flutter/model/user_notification.dart';
-import 'package:default_app_flutter/strings.dart';
+import 'package:default_app_flutter/services/firebase/base_firebase_service.dart';
+import 'package:default_app_flutter/utils/log_util.dart';
+import 'package:package_info/package_info.dart';
 
-class FirebaseNotificationService extends NotificationContractService {
-  CollectionReference _collection = Firestore.instance
-    .collection(BaseUser.getCollection())
-    .document(SingletonUser.instance.getUid())
-    .collection(UserNotification.getCollection());
+class FirebaseNotificationService implements NotificationContractService {
+  CollectionReference _collection;
+  BaseFirebaseService _firebaseCrud;
+
+  FirebaseNotificationService(String path) {
+    _firebaseCrud = BaseFirebaseService("users/${SingletonUser.instance.id}/$path");
+    _collection = _firebaseCrud.collection;
+  }
 
   @override
-  Future<UserNotification> create(UserNotification item) async {
-    String uId = _collection.document().documentID;
-
-    item.setUid(uId);
-
-    return await _collection.document(uId).setData(item.toMap()).then((result) {
-      return item;
-    }).catchError((error) {
-      print("Erro ${error.toString()}");
-      return null;
+  Future<UserNotification> create(UserNotification item) {
+    return _firebaseCrud.create(item).then((response) {
+      return UserNotification.fromMap(response);
     });
   }
 
   @override
   Future<UserNotification> read(UserNotification item) {
-    // TODO: implement read
-    return null;
+    return _firebaseCrud.read(item).then((response) {
+      return UserNotification.fromMap(response);
+    }).catchError((error) {
+      Log.e("Document ${item.id} not found");
+    });
   }
 
   @override
   Future<UserNotification> update(UserNotification item) {
-    return _collection.document(item.getUid()).updateData(item.toMap()).then((value) {
-      return item;
+    return _firebaseCrud.update(item).then((response) {
+      return UserNotification.fromMap(response);
     }).catchError((error) {
-      print(error.message);
-      return null;
+      Log.e("Document ${item.id} not found");
     });
   }
 
   @override
   Future<UserNotification> delete(UserNotification item) {
-    return _collection.document(item.getUid()).delete().timeout(Duration(seconds: 5)).then((value) {
-      return item;
+    return _firebaseCrud.delete(item).then((response) {
+      return UserNotification.fromMap(response);
     }).catchError((error) {
-      print(error.message);
-      return item;
+      Log.e("Document ${item.id} not found");
     });
   }
 
   @override
   Future<List<UserNotification>> findBy(String field, value) {
-    // TODO: implement findBy
-    return null;
+    return _firebaseCrud.findBy(field, value).then((response) {
+      return response.map<UserNotification>((item) => UserNotification.fromMap(item)).toList();
+    });
   }
 
   @override
   Future<List<UserNotification>> list() async {
+//    return _service.list().then((response) {
+//      return response.map<UserNotification>((item) => UserNotification.fromMap(item)).toList();
+//    });
+
     List<UserNotification> list = List();
 
     var usersNotifications = await _collection.limit(20).getDocuments().timeout(Duration(seconds: 10)).then((value) {
@@ -66,14 +70,17 @@ class FirebaseNotificationService extends NotificationContractService {
     });
     list.addAll(usersNotifications);
 
-    var geral = Firestore.instance.collection(UserNotification.getCollection());
+    var geral = Firestore.instance.collection("notifications");
 
-    var notificationsDestinationUser = await geral.limit(20).where("destinationUser", isEqualTo: SingletonUser.instance.getUid()).getDocuments().then((value) {
+    var notificationsDestinationUser = await geral.limit(20).where("destinationUser", isEqualTo: SingletonUser.instance.id).getDocuments().then((value) {
       return value.documentChanges.map<UserNotification>((doc) => UserNotification.fromMap(doc.document.data)).toList();
     });
     list.addAll(notificationsDestinationUser);
 
-    List<String> topics = ["ALL", PACKAGE_NAME];
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String packageName = packageInfo.packageName + "-" + Platform.operatingSystem;
+
+    List<String> topics = ["ALL", packageName];
 
     for (String topic in topics) {
       var notificationsTopic = await geral.limit(20).where("topic", isEqualTo: topic).getDocuments().then((value) {

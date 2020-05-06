@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> implements LoginContractView {
 
   @override
   hideProgress() {
-    pr.dismiss();
+    pr.hide();
   }
 
   @override

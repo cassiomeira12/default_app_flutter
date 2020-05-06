@@ -13,6 +13,7 @@ import 'package:default_app_flutter/view/settings/termos_app_page.dart';
 import 'package:default_app_flutter/view/settings/user_page.dart';
 import 'package:default_app_flutter/view/widgets/background_card.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({this.logoutCallback});
@@ -161,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.person_outline, color: Theme.of(context).iconTheme.color,),
+                child: FaIcon(FontAwesomeIcons.userAlt, color: Theme.of(context).iconTheme.color,),
               ),
               Expanded(
                 child: Text(
@@ -201,7 +202,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.notifications_none, color: Theme.of(context).iconTheme.color,),
+                child: FaIcon(FontAwesomeIcons.solidBell, color: Theme.of(context).iconTheme.color,),
               ),
               Expanded(
                 child: Text(
@@ -241,7 +242,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.color_lens, color: Theme.of(context).iconTheme.color,),
+                child: FaIcon(FontAwesomeIcons.palette, color: Theme.of(context).iconTheme.color,),
               ),
               Expanded(
                 child: Text(
@@ -301,7 +302,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.info_outline, color: Theme.of(context).iconTheme.color,),
+                child: FaIcon(FontAwesomeIcons.infoCircle, color: Theme.of(context).iconTheme.color,),
               ),
               Expanded(
                 child: Text(
@@ -341,7 +342,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.help_outline, color: Theme.of(context).iconTheme.color,),
+                child: FaIcon(FontAwesomeIcons.solidQuestionCircle, color: Theme.of(context).iconTheme.color,),
               ),
               Expanded(
                 child: Text(
@@ -381,7 +382,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.delete, color: Theme.of(context).iconTheme.color,),
+                child: FaIcon(FontAwesomeIcons.userTimes, color: Theme.of(context).iconTheme.color,),
               ),
               Expanded(
                 child: Text(
@@ -421,7 +422,7 @@ class _SettingsPageState extends State<SettingsPage> implements UserContractView
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 0.0, 20.0, 0.0),
-                child: Icon(Icons.exit_to_app, color: Theme.of(context).iconTheme.color,),
+                child: FaIcon(FontAwesomeIcons.signOutAlt, color: Theme.of(context).iconTheme.color,),
               ),
               Expanded(
                 child: Text(

@@ -15,12 +15,12 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50.0,
+      height: 50,
       child: RaisedButton(
-        elevation: 0.0,
+        elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          //side: BorderSide(color: Colors.white),
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: Theme.of(context).hintColor),
         ),
         color: Theme.of(context).backgroundColor,
         child: child == null ?

@@ -1,9 +1,6 @@
 import 'base_model.dart';
 
 class UserNotification extends BaseModel<UserNotification> {
-  static getCollection() => "notifications";
-
-  String _uId;
   String title;
   String message;
   String observacao;
@@ -14,18 +11,8 @@ class UserNotification extends BaseModel<UserNotification> {
 
   UserNotification();
 
-  @override
-  String getUid() {
-    return _uId;
-  }
-
-  @override
-  setUid(String uId) {
-    this._uId = uId;
-  }
-
-  UserNotification.fromMap(Map<dynamic, dynamic>  map) {
-    _uId = map["uId"];
+  UserNotification.fromMap(Map map) {
+    id = map["uId"];
     title = map["title"];
     message = map["message"];
     observacao = map["observacao"];
@@ -36,9 +23,21 @@ class UserNotification extends BaseModel<UserNotification> {
   }
 
   @override
+  update(UserNotification item) {
+    id = item.id;
+    title = item.title;
+    message = item.message;
+    observacao = item.observacao;
+    read = item.read;
+    createAt = item.createAt;
+    avatarURL = item.avatarURL;
+    type = item.type;
+  }
+
+  @override
   toMap() {
     var map = new Map<String, dynamic>();
-    map["uId"] = _uId;
+    map["uId"] = id;
     map["title"] = title;
     map["message"] = message;
     map["observacao"] = observacao;
@@ -48,18 +47,6 @@ class UserNotification extends BaseModel<UserNotification> {
     map["avatarURL"] = avatarURL;
     map["type"] = type;
     return map;
-  }
-
-  @override
-  update(UserNotification item) {
-    _uId = item.getUid();
-    title = item.title;
-    message = item.message;
-    observacao = item.observacao;
-    read = item.read;
-    createAt = item.createAt;
-    avatarURL = item.avatarURL;
-    type = item.type;
   }
 
 }

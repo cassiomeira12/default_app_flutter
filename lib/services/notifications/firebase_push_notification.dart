@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:default_app_flutter/model/singleton/singleton_user.dart';
-import 'package:default_app_flutter/strings.dart';
 import 'package:default_app_flutter/services/notifications/local_notifications.dart';
 import 'package:default_app_flutter/utils/preferences_util.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:package_info/package_info.dart';
 
 class FirebaseNotifications {
   FirebaseMessaging _firebaseMessaging;
@@ -29,7 +29,9 @@ class FirebaseNotifications {
     var topics = Topics.values.map<String>((t) {
       return t.toString().split('.').last;
     }).toList();
-    topics.add(PACKAGE_NAME);
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String packageName = packageInfo.packageName + "-" + Platform.operatingSystem;
+    topics.add(packageName);
     subscriveTopicsList(topics);
   }
 

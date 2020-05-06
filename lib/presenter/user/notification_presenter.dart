@@ -6,7 +6,7 @@ class NotificationPresenter extends NotificationContractPresenter {
   NotificationContractService service;
 
   NotificationPresenter(NotificationContractView view) : super(view) {
-    service = FirebaseNotificationService();
+    service = FirebaseNotificationService("notifications");
   }
 
   @override
@@ -37,9 +37,13 @@ class NotificationPresenter extends NotificationContractPresenter {
   @override
   Future<List<UserNotification>> list() async {
     await service.list().then((value) {
-      view.listNotifications(value);
+      if (view != null) {
+        view.listNotifications(value);
+      }
     }).catchError((error) {
-      view.onFailure(error.message);
+      if (view != null) {
+        view.onFailure(error.message);
+      }
     });
   }
 
