@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:default_app_flutter/model/version_app.dart';
-import 'package:default_app_flutter/utils/log_util.dart';
+import '../../models/version_app.dart';
+import '../../utils/log_util.dart';
 
 class FirebaseVersionsAppService {
   CollectionReference _collection = Firestore.instance.collection("versions");

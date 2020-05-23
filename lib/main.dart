@@ -1,10 +1,9 @@
-import 'package:default_app_flutter/themes/my_themes.dart';
-import 'package:default_app_flutter/themes/custom_theme.dart';
 import 'package:flutter/material.dart';
-
+import 'themes/my_themes.dart';
+import 'themes/custom_theme.dart';
 import 'services/notifications/firebase_push_notification.dart';
 import 'strings.dart';
-import 'view/root_page.dart';
+import 'views/root_page.dart';
 
 void main() {
   runApp(

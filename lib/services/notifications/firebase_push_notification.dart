@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:default_app_flutter/model/singleton/singleton_user.dart';
-import 'package:default_app_flutter/services/notifications/local_notifications.dart';
-import 'package:default_app_flutter/utils/preferences_util.dart';
+import '../../models/singleton/singleton_user.dart';
+import '../../services/notifications/local_notifications.dart';
+import '../../utils/preferences_util.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

@@ -27,6 +27,7 @@ const LOGAR_COM_GOOGLE = "Logar com Google";
 const SALVAR = "Salvar";
 const ENVIAR = "Enviar";
 const FORGOT_PASSWORD_TEXT = "Será enviado um e-mail para recuperar a sua senha, verifique sua caixa de entrada e spam.";
+const OBSERVACAO_ENVIAR_EMAIL = "Será enviando um e-mail de confirmação!\nVerifique sua caixa de entrada e spam.";
 const EMAIL_VERIFICACAO_ENVIADO = "Email de verificação enviado com sucesso!";
 const ERROR_ENVIAR_EMAIL = "Erro ao enviar email de verificação";
 const EMAIL_VERIFICACAO = "Email de verificação";

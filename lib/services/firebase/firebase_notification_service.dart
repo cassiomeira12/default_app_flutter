@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:default_app_flutter/contract/user/notification_contract.dart';
-import 'package:default_app_flutter/model/singleton/singleton_user.dart';
-import 'package:default_app_flutter/model/user_notification.dart';
-import 'package:default_app_flutter/services/firebase/base_firebase_service.dart';
-import 'package:default_app_flutter/utils/log_util.dart';
+import '../../contracts/user/notification_contract.dart';
+import '../../models/singleton/singleton_user.dart';
+import '../../models/user_notification.dart';
+import '../../services/firebase/base_firebase_service.dart';
+import '../../utils/log_util.dart';
 import 'package:package_info/package_info.dart';
 
 class FirebaseNotificationService implements NotificationContractService {

@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:default_app_flutter/contract/user/verified_sms_contract.dart';
+import '../../contracts/user/verified_sms_contract.dart';
 
 class FirebaseVerifiedSMSService extends VerifiedSMSContractService {
   FirebaseVerifiedSMSService(VerifiedSMSContractPresenter presenter) : super(presenter);

@@ -1,11 +1,12 @@
-import 'package:default_app_flutter/contract/login/login_contract.dart';
-import 'package:default_app_flutter/model/base_user.dart';
-import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
+import '../../contracts/login/login_contract.dart';
+import '../../models/base_user.dart';
+import '../../services/firebase/firebase_user_service.dart';
+import '../../utils/log_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../strings.dart';
-import '../../contract/crud.dart';
+import '../../contracts/crud.dart';
 
 class FirebaseLoginService extends LoginContractService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -42,12 +43,22 @@ class FirebaseLoginService extends LoginContractService {
 
   @override
   signInWithGoogle() async {
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      idToken: googleSignInAuthentication.accessToken,
-      accessToken: googleSignInAuthentication.idToken,
-    );
+    GoogleSignInAccount googleSignInAccount;
+    GoogleSignInAuthentication googleSignInAuthentication;
+    AuthCredential credential;
+    try {
+      googleSignInAccount = await googleSignIn.signIn();
+      googleSignInAuthentication = await googleSignInAccount.authentication;
+      credential = GoogleAuthProvider.getCredential(
+        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication.accessToken,
+      );
+    } catch (exception) {
+      Log.e(exception);
+      Log.e("Verifique a chave SHA1 no Firebase");
+      presenter.onFailure(exception.message);
+      return;
+    }
     await _firebaseAuth.signInWithCredential(credential).then((AuthResult result) async {
       Crud<BaseUser> crud = FirebaseUserService("users");
       List<BaseUser> list =  await crud.findBy("email", result.user.email);

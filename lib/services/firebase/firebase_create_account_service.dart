@@ -1,10 +1,10 @@
-import 'package:default_app_flutter/contract/login/create_account_contract.dart';
-import 'package:default_app_flutter/model/base_user.dart';
-import 'package:default_app_flutter/services/firebase/firebase_user_service.dart';
+import '../../contracts/login/create_account_contract.dart';
+import '../../models/base_user.dart';
+import '../../services/firebase/firebase_user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../strings.dart';
-import '../../contract/crud.dart';
+import '../../contracts/crud.dart';
 
 class FirebaseCreateAccountService extends CreateAccountContractService {
   FirebaseCreateAccountService(CreateAccountContractPresenter presenter) : super(presenter);

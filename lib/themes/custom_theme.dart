@@ -1,4 +1,4 @@
-import 'package:default_app_flutter/utils/preferences_util.dart';
+import '../utils/preferences_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:default_app_flutter/utils/log_util.dart';
+import '../../utils/log_util.dart';
 import 'package:path/path.dart' as Path;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:default_app_flutter/contract/user/user_contract.dart';
-import 'package:default_app_flutter/model/base_user.dart';
-import 'package:default_app_flutter/model/singleton/singleton_user.dart';
+import '../../contracts/user/user_contract.dart';
+import '../../models/base_user.dart';
+import '../../models/singleton/singleton_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 

@@ -1,4 +1,4 @@
-import 'package:default_app_flutter/model/base_model.dart';
+import '../../models/base_model.dart';
 import 'package:dio/dio.dart';
 
 class BaseApiService {

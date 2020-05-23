@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:default_app_flutter/model/base_model.dart';
+import '../../models/base_model.dart';
 
 class BaseFirebaseService {
   CollectionReference collection;

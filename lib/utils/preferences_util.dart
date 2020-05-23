@@ -4,6 +4,7 @@ class PreferencesUtil {
   static String _THEME = "theme";
   static String _NOTIFICATION_TOKEN = "notification_token";
   static String _LAST_CHECK_UPDATE = "last_check_update";
+  static String _INTRO_DONE = "intro_done";
 
   static Future<SharedPreferences> getInstance() {
     return SharedPreferences.getInstance();
@@ -39,6 +40,16 @@ class PreferencesUtil {
     var milisSeconds = prefs.getInt(_LAST_CHECK_UPDATE);
     if (milisSeconds == null) return null;
     return DateTime.fromMillisecondsSinceEpoch(milisSeconds);
+  }
+
+  static void setIntroDone(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(_INTRO_DONE, value);
+  }
+
+  static Future<bool> getIntroDone() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_INTRO_DONE);
   }
 
 }
