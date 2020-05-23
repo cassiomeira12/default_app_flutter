@@ -1,3 +1,5 @@
+import 'package:default_app_flutter/widgets/tabs.dart';
+
 import '../views/comanda/comanda_page.dart';
 import '../views/historico/historico_page.dart';
 import '../views/home/home_page.dart';
@@ -18,9 +20,11 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   final PageStorageBucket bucket = PageStorageBucket();
-  int currentTab;
+
+  TabsView tabsView;
+
+  int currentTab = 0;
   List<Widget> screens;
-  Widget currentScreen;
 
   @override
   void initState() {
@@ -32,25 +36,21 @@ class _TabsPageState extends State<TabsPage> {
       HistoricoPage(),
       SettingsPage(logoutCallback: widget.logoutCallback,),
     ];
-    currentTab = 0;
-    currentScreen = screens[0];
+    tabsView = TabsView(currentTab: currentTab, screens: screens,);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageStorage(
-        child: currentScreen,
-        bucket: bucket,
-      ),
+      body: tabsView,
       floatingActionButton: FloatingActionButton(
         //backgroundColor: currentTab == 2 ? Theme.of(context).primaryColor : Theme.of(context).backgroundColor,
         backgroundColor: Theme.of(context).backgroundColor,
         splashColor: Theme.of(context).backgroundColor,
         onPressed: () {
           setState(() {
-            currentScreen = screens[2];
             currentTab = 2;
+            tabsView.setPage(currentTab);
           });
         },
         child: Stack(
@@ -92,8 +92,8 @@ class _TabsPageState extends State<TabsPage> {
                   clipBehavior: Clip.hardEdge,
                   onPressed: () {
                     setState(() {
-                      currentScreen = screens[0];
                       currentTab = 0;
+                      tabsView.setPage(currentTab);
                     });
                   },
                   child: Stack(
@@ -126,8 +126,8 @@ class _TabsPageState extends State<TabsPage> {
                       clipBehavior: Clip.hardEdge,
                       onPressed: () {
                         setState(() {
-                          currentScreen = screens[1];
                           currentTab = 1;
+                          tabsView.setPage(currentTab);
                         });
                       },
                       child: Stack(
@@ -164,8 +164,8 @@ class _TabsPageState extends State<TabsPage> {
                   clipBehavior: Clip.hardEdge,
                   onPressed: () {
                     setState(() {
-                      currentScreen = screens[3];
                       currentTab = 3;
+                      tabsView.setPage(currentTab);
                     });
                   },
                   child: Stack(
@@ -195,8 +195,8 @@ class _TabsPageState extends State<TabsPage> {
                   clipBehavior: Clip.hardEdge,
                   onPressed: () {
                     setState(() {
-                      currentScreen = screens[4];
                       currentTab = 4;
+                      tabsView.setPage(currentTab);
                     });
                   },
                   child: Stack(
